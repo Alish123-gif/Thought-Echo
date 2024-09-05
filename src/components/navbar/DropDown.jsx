@@ -20,10 +20,46 @@ const DropDown = ({ children }) => {
                 </button>
                 {isDropdownOpen && (
                     <div className={styles.dropdownContent}>
-                        <a href="www.facebook.com"><Image src="/x.png" alt="x" width={24} height={24} /><span>X</span></a>
-                        <a herf="instagram.com"><Image src="/instagram.png" alt="instagram" width={24} height={24} /><span>instagram</span></a>
-                        <a herf="linkedin.com"><Image src="/linkedin.png" alt="linkedin" width={24} height={24} /><span>linkdIn</span></a>
-                        <a herf="tiktok.com"><Image src="/tiktok.png" alt="tiktok" width={24} height={24} /><span>tiktok</span></a>
+                        <a
+                            className={styles.dropdownItem}
+                            passHref={true}
+                            href={`/`}>
+                            <Image
+                                src="/x.png"
+                                alt="x"
+                                width={24} height={24}
+                            /><span>X</span>
+                        </a>
+                        <a
+                            className={styles.dropdownItem}
+                            passHref={true}
+                            herf={`/`}>
+                            <Image
+                                src="/instagram.png"
+                                alt="instagram"
+                                width={24} height={24}
+                            /><span>instagram</span>
+                        </a>
+                        <a
+                            className={styles.dropdownItem}
+                            passHref={true}
+                            herf={`/`}>
+                            <Image
+                                src="/linkedin.png"
+                                alt="linkedin"
+                                width={24} height={24}
+                            /><span>linkdIn</span>
+                        </a>
+                        <a
+                            className={styles.dropdownItem}
+                            passHref={true}
+                            herf={`/`}>
+                            <Image
+                                src="/tiktok.png"
+                                alt="tiktok"
+                                width={24} height={24}
+                            /><span>tiktok</span>
+                        </a>
                     </div>
                 )}
             </div>
@@ -37,11 +73,11 @@ const DropDown = ({ children }) => {
                 </button>
                 {isDropdownOpen && (
                     <div className={`${styles.dropdownContent} ${styles.right}`}>
-                        <ThemeToggle />
-                        <Link href="/">Home</Link>
-                        <Link href="/about">About</Link>
-                        <Link href="/contact">Contact</Link>
-                        <AuthLinks />
+                        <ThemeToggle className={styles.dropdownItem} />
+                        <Link className={styles.dropdownItem} href="/">Home</Link>
+                        <Link className={styles.dropdownItem} href="/about">About</Link>
+                        <Link className={styles.dropdownItem} href="/contact">Contact</Link>
+                        <AuthLinks className={styles.dropdownItem} />
                     </div>
                 )}
 

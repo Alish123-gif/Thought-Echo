@@ -26,13 +26,22 @@ a {
     color: inherit;
 }
 
-.light {
+.dark {
     --bg: #0d1018;
     --textColor: white;
     --softBg: #333;
     --softTextColor: #a6a6a6;
-    --shadowOcpacity: 0.5;
+    --shadowOcpacity: 0.2;
     --ballPosition: 22px;
+}
+
+.light {
+    --bg: white;
+    --textColor: black;
+    --softBg: #f0f0f0;
+    --softTextColor: #626262;
+    --shadowOcpacity: 0.1;
+    --ballPosition: 1px;
 }
 
 .container {

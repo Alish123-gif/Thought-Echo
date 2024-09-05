@@ -2,8 +2,10 @@
     width: 40px;
     height: 20px;
     border-radius: 50px;
+    margin-bottom: 4px;
     cursor: pointer;
     display: flex;
+    align-self: center;
     align-items: center;
     justify-content: space-between;
     background-color: var(--textColor);
