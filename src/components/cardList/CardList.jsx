@@ -9,11 +9,11 @@ const CardList = () => {
             <div className={styles.posts}>
                 <div className={styles.post}>
                     <div className={styles.imageContainer}>
-                        <Image
+                        {/* <Image
                             src="/p1.jpeg"
                             alt=""
                             width={2000}
-                            height={2000} />
+                            height={2000} /> */}
                     </div>
                 </div>
             </div>
