@@ -3,6 +3,7 @@
 }
 
 .title {
+    user-select: none;
     font-size: 96px;
     font-weight: 400;
 }
