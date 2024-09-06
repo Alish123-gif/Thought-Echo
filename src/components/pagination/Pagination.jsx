@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Pagination.module.css'
+import styles from './pagination.module.css'
 const Pagination = () => {
     return (
         <div className={styles.container}>Pagination</div>
