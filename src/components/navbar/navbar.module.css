@@ -5,7 +5,7 @@
     background-color: var(--bg);
     height: 70px;
     padding: 0 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, var(--shadowOcpacity));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, var(--opacity));
 }
 
 /* Social Media Icons */
@@ -13,6 +13,7 @@
     display: flex;
     flex: 1;
     gap: 10px;
+    color: var(--textColor);
 }
 
 /* Logo */
@@ -54,7 +55,7 @@
     right: -95px;
     padding: 10px;
     background-color: var(--bg);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, var(--shadowOcpacity));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, var(--opacity));
     z-index: 1000;
 }
 

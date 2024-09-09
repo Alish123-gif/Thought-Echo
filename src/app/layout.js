@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ThemeContextProvider>
           <ThemeProvider>
-            <ParticleBg /> {/* Ensure ParticleBg is rendered here */}
+            <ParticleBg />
             <div className="container">
               <div className="wrapper">
                 <Navbar />

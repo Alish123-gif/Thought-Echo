@@ -3,7 +3,7 @@ export const options = (theme) => ({
     autoPlay: true,
     background: {
         color: {
-            value: theme === "dark" ? "#000000" : "#ffffff" // Background color based on theme
+            value: theme === "dark" ? "#000000" : "rgb(233, 233, 233)" // Background color based on theme
         },
         image: "",
         position: "50% 50%",
@@ -113,7 +113,7 @@ export const options = (theme) => ({
             push: {
                 default: true,
                 groups: [],
-                quantity: 4
+                quantity: 1
             },
             remove: {
                 quantity: 2
@@ -146,67 +146,75 @@ export const options = (theme) => ({
 
     // Particle settings
     particles: {
-        bounce: {
-            horizontal: {
-                value: 1
-            },
-            vertical: {
-                value: 1
-            }
-        },
-        collisions: {
-            absorb: {
-                speed: 2
-            },
-            bounce: {
-                horizontal: {
-                    value: 1
-                },
-                vertical: {
-                    value: 1
-                }
-            },
-            enable: true,
-            maxSpeed: 2,
-            mode: "bounce",
-            overlap: {
+        number: {
+            density: {
                 enable: true,
-                retries: 0
+                width: 1920,
+                height: 1080
+            },
+            limit: {
+                mode: "delete",
+                value: 500
+            },
+            value: 20 // Lower the particle count
+        },
+        size: {
+            value: {
+                min: 20,
+                max: 50 // Increase the size range
+            },
+            animation: {
+                count: 0,
+                enable: false,
+                speed: 5,
+                decay: 0,
+                delay: 0,
+                sync: false,
+                mode: "auto",
+                startValue: "random",
+                destroy: "none"
             }
         },
-        color: {
-            value: theme === "dark" ? "#ffffff" : "#000000", // Particle color based on theme
+        opacity: {
+            value: 0.3, // Lower the opacity
             animation: {
-                h: {
-                    count: 0,
-                    enable: false,
-                    speed: 1,
-                    decay: 0,
-                    delay: 0,
-                    sync: true,
-                    offset: 0
-                },
-                s: {
-                    count: 0,
-                    enable: false,
-                    speed: 1,
-                    decay: 0,
-                    delay: 0,
-                    sync: true,
-                    offset: 0
-                },
-                l: {
-                    count: 0,
-                    enable: false,
-                    speed: 1,
-                    decay: 0,
-                    delay: 0,
-                    sync: true,
-                    offset: 0
-                }
+                count: 0,
+                enable: false,
+                speed: 2,
+                decay: 0,
+                delay: 0,
+                sync: false,
+                mode: "auto",
+                startValue: "random",
+                destroy: "none"
             }
+        },
+        links: { // Enable and configure links between particles
+            blink: false,
+            color: {
+                value: theme === "dark" ? "#ffffff" : "#000000" // Link color based on theme
+            },
+            consent: false,
+            distance: 150, // Adjust the distance for links
+            enable: true, // Enable links
+            frequency: 1,
+            opacity: 0.2, // Subtle connections
+            shadow: {
+                blur: 5,
+                color: {
+                    value: "#000"
+                },
+                enable: false
+            },
+            triangles: {
+                enable: false,
+                frequency: 1
+            },
+            width: 1,
+            warp: false
         },
         move: {
+            speed: 2, // Lower the speed
             angle: {
                 offset: 0,
                 value: 90
@@ -253,7 +261,6 @@ export const options = (theme) => ({
             },
             random: false,
             size: false,
-            speed: 6,
             spin: {
                 acceleration: 0,
                 enable: false
@@ -267,30 +274,66 @@ export const options = (theme) => ({
             vibrate: false,
             warp: false
         },
-        number: {
-            density: {
-                enable: true,
-                width: 1920,
-                height: 1080
+        bounce: {
+            horizontal: {
+                value: 1
             },
-            limit: {
-                mode: "delete",
-                value: 500
-            },
-            value: 40
+            vertical: {
+                value: 1
+            }
         },
-        opacity: {
-            value: 0.5,
+        collisions: {
+            absorb: {
+                speed: 2
+            },
+            bounce: {
+                horizontal: {
+                    value: 1
+                },
+                vertical: {
+                    value: 1
+                }
+            },
+            enable: true,
+            maxSpeed: 2,
+            mode: "bounce",
+            overlap: {
+                enable: true,
+                retries: 0
+            }
+        },
+        color: {
+            value: theme === "dark"
+                ? ["#ff2600", "#008cff", "#00ff00", "#00f7ff", "#ffff00"] // Colors for dark theme
+                : ["rgba(255, 38, 0, 0.5)", "rgba(0, 140, 255, 0.5)", "rgba(0, 255, 0, 0.5)", "rgba(0, 247, 255, 0.5)", "rgba(255, 255, 0, 0.5)"], // Colors with lower opacity for light theme
             animation: {
-                count: 0,
-                enable: false,
-                speed: 2,
-                decay: 0,
-                delay: 0,
-                sync: false,
-                mode: "auto",
-                startValue: "random",
-                destroy: "none"
+                h: {
+                    count: 0,
+                    enable: false,
+                    speed: 1,
+                    decay: 0,
+                    delay: 0,
+                    sync: true,
+                    offset: 0
+                },
+                s: {
+                    count: 0,
+                    enable: false,
+                    speed: 1,
+                    decay: 0,
+                    delay: 0,
+                    sync: true,
+                    offset: 0
+                },
+                l: {
+                    count: 0,
+                    enable: false,
+                    speed: 1,
+                    decay: 0,
+                    delay: 0,
+                    sync: true,
+                    offset: 0
+                }
             }
         },
         reduceDuplicates: false,
@@ -310,58 +353,6 @@ export const options = (theme) => ({
             fill: true,
             options: {},
             type: "circle"
-        },
-        size: {
-            value: {
-                min: 1,
-                max: 10
-            },
-            animation: {
-                count: 0,
-                enable: false,
-                speed: 5,
-                decay: 0,
-                delay: 0,
-                sync: false,
-                mode: "auto",
-                startValue: "random",
-                destroy: "none"
-            }
-        },
-        stroke: {
-            width: 1,
-            color: {
-                value: "#fff",
-                animation: {
-                    h: {
-                        count: 0,
-                        enable: false,
-                        speed: 1,
-                        decay: 0,
-                        delay: 0,
-                        sync: true,
-                        offset: 0
-                    },
-                    s: {
-                        count: 0,
-                        enable: false,
-                        speed: 1,
-                        decay: 0,
-                        delay: 0,
-                        sync: true,
-                        offset: 0
-                    },
-                    l: {
-                        count: 0,
-                        enable: false,
-                        speed: 1,
-                        decay: 0,
-                        delay: 0,
-                        sync: true,
-                        offset: 0
-                    }
-                }
-            }
         },
         zIndex: {
             value: 0,
@@ -468,30 +459,6 @@ export const options = (theme) => ({
                 value: 45
             },
             width: 1
-        },
-        links: { // Enable and configure links between particles
-            blink: false,
-            color: {
-                value: theme === "dark" ? "#ffffff" : "#000000" // Link color based on theme
-            },
-            consent: false,
-            distance: 400,
-            enable: true, // Enable links
-            frequency: 1,
-            opacity: 0.4,
-            shadow: {
-                blur: 5,
-                color: {
-                    value: "#000"
-                },
-                enable: false
-            },
-            triangles: {
-                enable: false,
-                frequency: 1
-            },
-            width: 1,
-            warp: false
         },
         repulse: {
             value: 0,

@@ -3,7 +3,7 @@
     --textColor: black;
     --softBg: #f0f0f0;
     --softTextColor: #626262;
-    --shadowOcpacity: 0.1;
+    --opacity: 0.1;
     --ballPosition: 1px;
 }
 
@@ -30,16 +30,18 @@ a {
     --textColor: white;
     --softBg: #333;
     --softTextColor: #a6a6a6;
-    --shadowOcpacity: 0.2;
+    --opacity: 0.2;
+    --oppOpacity: 0.8;
     --ballPosition: 22px;
 }
 
 .light {
-    --bg: white;
+    --bg: rgb(233, 233, 233);
     --textColor: black;
     --softBg: #f0f0f0;
     --softTextColor: #626262;
-    --shadowOcpacity: 0.1;
+    --opacity: 0.1;
+    --oppOpacity: 0.9;
     --ballPosition: 1px;
 }
 
