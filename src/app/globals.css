@@ -38,7 +38,7 @@ a {
 .light {
     --bg: rgb(233, 233, 233);
     --textColor: black;
-    --softBg: #f0f0f0;
+    --softBg: rgb(100, 100, 100);
     --softTextColor: #626262;
     --opacity: 0.1;
     --oppOpacity: 0.9;
