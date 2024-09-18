@@ -18,7 +18,6 @@ const Navbar = () => {
             <DropDown>
                 <div className={styles.logo}>ThoughtEcho</div>
             </DropDown>
-
             <div className={styles.links}>
                 <ThemeToggle />
                 <Link href="/">Home</Link>
