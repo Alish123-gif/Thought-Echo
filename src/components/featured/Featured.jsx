@@ -13,8 +13,7 @@ const Featured = () => {
                         className={`${styles.image}`}
                         src="/p1.jpeg"
                         alt="Featured Image"
-                        width={2000}
-                        height={2000}
+                        fill
                     />
                 </div>
                 <div className={styles.textContainer}>
