@@ -37,49 +37,45 @@
 /* Dropdown Menu */
 .dropdown {
     display: none;
-    position: relative;
-}
-
-.dropdown button {
-    background-color: transparent;
-    border-color: transparent;
-    text-align: center;
-    cursor: pointer;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 80%;
+    background-color: var(--bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, var(--opacity));
+    z-index: 1000;
+    flex-direction: column;
+    padding: 20px;
 }
 
 .dropdownContent {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 70px;
-    right: -95px;
-    padding: 10px;
-    background-color: var(--bg);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, var(--opacity));
-    z-index: 1000;
-}
-
-.dropdownContent a {
-    display: flex;
-    min-width: 80px;
-    border-radius: 20px;
-    align-items: center;
+    font-size: xx-large;
+    font-weight: 500;
     gap: 10px;
-    padding: 10px 5px;
-    text-decoration: none;
-    color: var(--textColor);
-}
-
-.dropdownContent a:hover {
-    background-color: var(--softBg);
 }
 
 .dropdownItem {
+    padding: 10px;
+    color: var(--textColor);
     display: flex;
     align-items: center;
-    margin-top: 2px;
     gap: 10px;
-    padding: 10px 0;
+    text-decoration: none;
+}
+
+.dropdownSocail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: medium;
+    gap: 10px;
+    color: var(--textColor);
+}
+
+.dropdownItem:hover {
+    background-color: var(--softBg);
 }
 
 /* Menu Button */
@@ -96,9 +92,20 @@
     transform: rotate(90deg);
 }
 
-/* Responsive Styles */
+/* Container for icons and children */
+.iconContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
 
-@media screen and (max-width:1280px) {
+.iconContainer button {
+    display: none;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 1280px) {
     .logo {
         font-size: 1.4rem;
     }
@@ -109,7 +116,7 @@
     }
 }
 
-@media screen and (max-width:1024px) {
+@media screen and (max-width: 1024px) {
     .logo {
         font-size: 1.1rem;
     }
@@ -123,20 +130,17 @@
 @media screen and (max-width: 768px) {
     .links {
         display: none;
-        flex-direction: column;
     }
 
     .social {
         display: none;
-        flex-direction: column;
     }
 
     .dropdown {
         display: flex;
     }
-}
 
-
-.right {
-    right: -20px;
+    .iconContainer button {
+        display: flex;
+    }
 }
