@@ -1,0 +1,38 @@
+.categoryList {
+    margin-top: 35px;
+    margin-bottom: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.categoryItem {
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+
+.categoryItem.style {
+    background-color: rgba(255, 38, 0, 0.5);
+    /* Tomato */
+}
+
+.categoryItem.coding {
+    background-color: rgba(0, 140, 255, 0.5);
+    /* SteelBlue */
+}
+
+.categoryItem.culture {
+    background-color: rgba(0, 255, 0, 0.5);
+    /* LimeGreen */
+}
+
+.categoryItem.travel {
+    background-color: rgba(0, 247, 255, 0.5);
+    /* OrangeRed */
+}
+
+.categoryItem.food {
+    background-color: rgba(255, 255, 0, 0.5);
+}

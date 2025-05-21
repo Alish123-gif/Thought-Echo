@@ -1,0 +1,12 @@
+.container {
+    width: 26px;
+    height: 26px;
+    border-radius: 50px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--softBg);
+    border: 1px solid var(--textColor);
+}
