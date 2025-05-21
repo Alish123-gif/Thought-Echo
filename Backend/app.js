@@ -4,6 +4,7 @@ const path = require('path');
 require('dotenv').config();
 const sequelize = require(path.join(__dirname, 'config', 'database'));
 const authRoutes = require(path.join(__dirname, 'routes', 'auth'));
+const postRoutes = require(path.join(__dirname, 'routes', 'posts'));
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -11,8 +12,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Only use the auth routes
+// Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
 
 
 app.get('/', (req, res) => {
