@@ -13,6 +13,10 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: true  // Making it optional to maintain compatibility with existing data
     },
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
