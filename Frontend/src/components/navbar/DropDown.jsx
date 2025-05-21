@@ -1,18 +1,39 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styles from './navbar.module.css'
 import { FaBars, FaTimes } from 'react-icons/fa';
-import { TbSocial } from "react-icons/tb";
-import { AuthLinks, ThemeToggle } from '..';
+import { HiHome, HiInformationCircle, HiMail, HiUser, HiShieldCheck, HiPencilAlt, HiViewList, HiUserGroup, HiChartBar } from "react-icons/hi";
+import { AuthLinks, ThemeToggle, AdminLinks, UserLinks } from '..';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from '@/context/AuthContext';
+import { useSession } from 'next-auth/react';
+import ThemeContext from '@/context/ThemeContext';
 
 const DropDown = ({ children }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const { isAuthenticated } = useAuth();
+    const { data: session } = useSession();
+    const pathname = usePathname();
 
-    const toggleDropdown = () => {
+    // Get windowWidth from ThemeContext instead of tracking it locally
+    const { windowWidth } = useContext(ThemeContext);
+
+    useEffect(() => {
+        if (!isDropdownOpen) return;
+
+        const handleClickOutside = (event) => {
+            if (!event.target.closest(`.${styles.iconContainer}`) &&
+                !event.target.closest(`.${styles.dropdown}`)) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [isDropdownOpen, styles.iconContainer, styles.dropdown]);
+
+    const toggleDropdown = (e) => {
+        e.stopPropagation();
         setIsDropdownOpen(!isDropdownOpen);
     };
 
@@ -20,7 +41,7 @@ const DropDown = ({ children }) => {
         <>
             <div className={styles.iconContainer}>
                 <button onClick={toggleDropdown} className={`${styles.menuButton} ${isDropdownOpen ? styles.open : ''}`}>
-                    <TbSocial />
+                    {isDropdownOpen ? <FaTimes /> : <FaBars />}
                 </button>
                 {children}
                 <button
@@ -32,28 +53,77 @@ const DropDown = ({ children }) => {
             </div>
 
             {isDropdownOpen && (
-                <div className={styles.dropdown}>
-                    <div className={styles.dropdownContent}>
-                        <ThemeToggle className={styles.dropdownItem} />                        <Link className={styles.dropdownItem} href="/">Home</Link>
-                        <Link className={styles.dropdownItem} href="/about">About</Link>
-                        <Link className={styles.dropdownItem} href="/contact">Contact</Link>
-                        {isAuthenticated && (
-                            <Link className={styles.dropdownItem} href="/profile">Profile</Link>
-                        )}
-                        <AuthLinks className={styles.dropdownItem} />
-                    </div>
+                <div className={styles.dropdown}>                    <div className={styles.dropdownContent}>
+                    <ThemeToggle className={styles.dropdownItem} />
+
+                    {/* Show different items based on route */}
+                    {session?.user?.isAdmin && pathname?.startsWith('/admin') ? (
+                        <>
+                            <Link className={styles.dropdownItem} href="/admin">
+                                <HiShieldCheck /> Dashboard
+                            </Link>
+                            <Link className={styles.dropdownItem} href="/admin/write">
+                                <HiPencilAlt /> Write Post
+                            </Link>
+                            <Link className={styles.dropdownItem} href="/admin/posts">
+                                <HiViewList /> All Posts
+                            </Link>
+                            <Link className={styles.dropdownItem} href="/admin/users">
+                                <HiUserGroup /> Users
+                            </Link>
+                            <Link className={styles.dropdownItem} href="/">
+                                <HiHome /> Back to Site
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            <Link className={styles.dropdownItem} href="/">
+                                <HiHome /> Home
+                            </Link>
+                            <Link className={styles.dropdownItem} href="/about">
+                                <HiInformationCircle /> About
+                            </Link>
+                            <Link className={styles.dropdownItem} href="/contact">
+                                <HiMail /> Contact
+                            </Link>
+                            {session?.user?.isAdmin && (
+                                <>
+                                    <Link className={styles.dropdownItem} href="/admin">
+                                        <HiShieldCheck /> Admin Dashboard
+                                    </Link>
+                                    <div className={`${styles.dropdownSubMenu}`}>
+                                        <AdminLinks className={styles.dropdownItem} />
+                                    </div>
+                                </>
+                            )}
+
+                            {session?.user && !session?.user?.isAdmin && (
+                                <>
+                                    <Link className={styles.dropdownItem} href="/profile">
+                                        <HiUser /> Profile
+                                    </Link>
+                                    <div className={`${styles.dropdownSubMenu}`}>
+                                        <UserLinks className={styles.dropdownItem} />
+                                    </div>
+                                </>
+                            )}
+                        </>
+                    )}
+
+                    <AuthLinks className={styles.dropdownItem} />
+                </div>
                     <div className={styles.dropdownSocail}>
-                        <a className={styles.dropdownItem} href="https://www.facebook.com">
-                            <Image src="/x.png" alt="x" width={24} height={24} /><span>X</span>
+                        <a className={styles.dropdownItem} href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                            <Image src="/x.png" alt="X" width={22} height={22} /><span>{windowWidth <= 640 ? "" : "X"}</span>
                         </a>
-                        <a className={styles.dropdownItem} href="https://www.instagram.com">
-                            <Image src="/instagram.png" alt="instagram" width={24} height={24} /><span>Instagram</span>
+                        <a className={styles.dropdownItem} href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                            <Image src="/instagram.png" alt="Instagram" width={22} height={22} /><span>{windowWidth <= 640 ? "" : "Instagram"}</span>
                         </a>
-                        <a className={styles.dropdownItem} href="https://www.linkedin.com">
-                            <Image src="/linkedin.png" alt="linkedin" width={24} height={24} /><span>LinkedIn</span>
+                        <a className={styles.dropdownItem} href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                            <Image src="/linkedin.png" alt="LinkedIn" width={22} height={22} /><span>{windowWidth <= 640 ? "" : "LinkedIn"}</span>
                         </a>
-                        <a className={styles.dropdownItem} href="https://www.tiktok.com">
-                            <Image src="/tiktok.png" alt="tiktok" width={24} height={24} /><span>TikTok</span>
+                        <a className={styles.dropdownItem} href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">
+                            <Image src="/tiktok.png" alt="TikTok" width={22} height={22} /><span>{windowWidth <= 640 ? "" : "TikTok"}</span>
                         </a>
                     </div>
                 </div>

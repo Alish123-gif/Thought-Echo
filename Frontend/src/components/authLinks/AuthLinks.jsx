@@ -7,14 +7,13 @@ import { useAuth } from '@/context/AuthContext';
 
 const AuthLinks = () => {
     const { isAuthenticated, user, logout } = useAuth();
-
+    console.log(user);
     return (
         <>
             {!isAuthenticated ? (
                 <Link className={navbarStyles.dropdownItem} href="/login">Login</Link>
             ) : (
                 <>
-                    <Link className={navbarStyles.dropdownItem} href="/write">Write</Link>
                     <span className={navbarStyles.dropdownItem} onClick={logout}>Logout</span>
                 </>
             )}
