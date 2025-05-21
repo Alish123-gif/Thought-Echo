@@ -30,13 +30,12 @@ export const options = {
                         }),
                     });
 
-                    const data = await res.json();
-
-                    if (res.ok && data.user) {
+                    const data = await res.json(); if (res.ok && data.user) {
                         // Return the user object and token
                         return {
                             id: data.user.id,
                             email: data.user.email,
+                            isAdmin: data.user.isAdmin,
                             token: data.token
                         };
                     }
@@ -58,6 +57,7 @@ export const options = {
                 // Store the user id and token in the JWT token
                 token.id = user.id;
                 token.email = user.email;
+                token.isAdmin = user.isAdmin;
                 // Save the auth token from your backend
                 token.accessToken = user.token;
             }
@@ -68,6 +68,7 @@ export const options = {
                 // Pass the token data to the client
                 session.user.id = token.id;
                 session.user.email = token.email;
+                session.user.isAdmin = token.isAdmin;
                 session.accessToken = token.accessToken;
             }
             return session;
