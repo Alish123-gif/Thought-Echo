@@ -7,7 +7,6 @@ import { useAuth } from '@/context/AuthContext';
 
 const AuthLinks = () => {
     const { isAuthenticated, user, logout } = useAuth();
-    console.log(user);
     return (
         <>
             {!isAuthenticated ? (

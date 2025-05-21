@@ -9,3 +9,4 @@ export { default as ThemeToggle } from './themeToggle/ThemeToggle.jsx';
 export { default as AuthLinks } from './authLinks/AuthLinks.jsx';
 export { default as AdminLinks } from './adminLinks/AdminLinks.jsx';
 export { default as UserLinks } from './userLinks/UserLinks.jsx';
+export { default as WriteBlogForm } from './writeBlogForm/WriteBlogForm.jsx';
