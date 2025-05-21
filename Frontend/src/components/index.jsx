@@ -7,3 +7,5 @@ export { default as CategoryList } from './categoryList/CategoryList.jsx';
 export { default as CardList } from './cardList/CardList.jsx';
 export { default as ThemeToggle } from './themeToggle/ThemeToggle.jsx';
 export { default as AuthLinks } from './authLinks/AuthLinks.jsx';
+export { default as AdminLinks } from './adminLinks/AdminLinks.jsx';
+export { default as UserLinks } from './userLinks/UserLinks.jsx';
