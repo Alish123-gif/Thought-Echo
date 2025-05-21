@@ -1,22 +1,21 @@
 "use client";
-import { useAuth } from '@/context/AuthContext';
 import styles from './auth.module.css';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { credentialsLogin, socialLogin } from '@/utils/api';
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const { login } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             setError("");
-            const res = await login("credentials", { email, password });
+            const res = await credentialsLogin({ email, password });
 
             if (res?.error) {
                 setError("Invalid email or password");
@@ -32,7 +31,7 @@ const LoginForm = () => {
 
     const handleSocialLogin = async (provider) => {
         try {
-            await login(provider);
+            await socialLogin(provider);
         } catch (err) {
             console.error(err);
         }

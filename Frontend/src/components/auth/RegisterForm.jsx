@@ -4,6 +4,7 @@ import styles from './auth.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { registerUser, socialLogin } from '@/utils/api';
 
 const RegisterForm = () => {
     const [name, setName] = useState("");
@@ -11,22 +12,15 @@ const RegisterForm = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
-    const { login } = useAuth(); const handleSubmit = async (e) => {
+    const { login } = useAuth();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            setError("");            // Use the backend API for registration
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/auth/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Registration failed');
-            }
+            setError("");
+            // Use the API utility function for registration
+            await registerUser(name, email, password);
 
             // Registration successful, redirect to login
             alert("Registration successful! Please log in.");
@@ -36,11 +30,9 @@ const RegisterForm = () => {
             setError(err.message || "Something went wrong during registration");
             console.error(err);
         }
-    };
-
-    const handleSocialLogin = async (provider) => {
+    }; const handleSocialLogin = async (provider) => {
         try {
-            await login(provider);
+            await socialLogin(provider);
         } catch (err) {
             console.error(err);
         }
