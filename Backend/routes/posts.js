@@ -9,6 +9,7 @@ router.get('/', postController.getAllPosts);
 router.get('/featured', postController.getFeaturedPosts);
 router.get('/category/:category', postController.getPostsByCategory);
 router.get('/:slug', postController.getPostBySlug);
+router.get('/id/:id', postController.getPostById);
 
 // Protected routes
 router.post('/', isAuthenticated, upload.single('image'), postController.createPost);
