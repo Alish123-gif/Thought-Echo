@@ -29,19 +29,21 @@ const CATEGORIES = [
 const AUTOSAVE_INTERVAL = 30000; // 30 seconds
 const LOCAL_STORAGE_KEY = 'blogPostDraft';
 
-const WriteBlogForm = () => {
+const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
     const { data: session } = useSession();
     const router = useRouter();
     const fileInputRef = useRef(null);
-    const [imageUrl, setImageUrl] = useState('');
-    const [previewUrl, setPreviewUrl] = useState('');
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [content, setContent] = useState('');
-    const [category, setCategory] = useState('');
-    const [tags, setTags] = useState([]);
-    const [isFeatured, setIsFeatured] = useState(false);
-    const [isPublished, setIsPublished] = useState(true);
+    const [imageUrl, setImageUrl] = useState(initialData.imageUrl || '');
+    const [previewUrl, setPreviewUrl] = useState(initialData.imageUrl || '');
+    const [title, setTitle] = useState(initialData.title || '');
+    const [description, setDescription] = useState(initialData.description || '');
+    const [content, setContent] = useState(initialData.content || '');
+    const [category, setCategory] = useState(initialData.category || '');
+    const [tags, setTags] = useState(initialData.tags || []);
+    const [isFeatured, setIsFeatured] = useState(initialData.isFeatured || false);
+    const [isPublished, setIsPublished] = useState(
+        typeof initialData.isPublished === 'boolean' ? initialData.isPublished : true
+    );
     const [currentTag, setCurrentTag] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [previewMode, setPreviewMode] = useState(false);
@@ -143,6 +145,23 @@ const WriteBlogForm = () => {
             }
         }
     }, []);
+
+    // Update state if initialData changes (for edit mode)
+    useEffect(() => {
+        if (initialData && mode === 'edit') {
+            setTitle(initialData.title || '');
+            setDescription(initialData.description || '');
+            setContent(initialData.content || '');
+            setCategory(initialData.category || '');
+            setTags(initialData.tags || []);
+            setIsFeatured(initialData.isFeatured || false);
+            setIsPublished(
+                typeof initialData.isPublished === 'boolean' ? initialData.isPublished : true
+            );
+            setImageUrl(initialData.imageUrl || '');
+            setPreviewUrl(initialData.imageUrl || '');
+        }
+    }, [initialData, mode]);
 
     // Save draft to localStorage
     const saveDraft = () => {
@@ -252,7 +271,16 @@ const WriteBlogForm = () => {
             // Get the user's token from the session
             const token = session.accessToken;
 
-            // Send the post data to the API
+            if (onSubmit) {
+                await onSubmit(formData, token);
+                setSuccessMessage(mode === 'edit' ? 'Post updated successfully!' : 'Post created successfully!');
+                setTimeout(() => {
+                    router.push('/admin/posts');
+                }, 1500);
+                return;
+            }
+
+            // Default: create post
             const response = await createPost(formData, token);
 
             // Set success message based on post status
