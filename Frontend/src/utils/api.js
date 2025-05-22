@@ -179,6 +179,26 @@ export const getPostBySlug = async (slug) => {
 };
 
 /**
+ * Get a single blog post by ID
+ * @param {string} id - The post ID
+ * @returns {Promise<Object>} - Post data
+ */
+export const getPostById = async (id) => {
+    try {
+        // Use the new backend route for fetching by UUID
+        const response = await fetch(`${API_BASE_URL}/posts/id/${id}`);
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to fetch post');
+        }
+        return data;
+    } catch (error) {
+        console.error('Error fetching post:', error);
+        throw error;
+    }
+};
+
+/**
  * Get featured blog posts
  * @param {number} limit - Number of featured posts to fetch
  * @returns {Promise<Array>} - Array of featured posts
