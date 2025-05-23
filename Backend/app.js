@@ -2,9 +2,23 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
+
+// Validate required environment variables
+const requiredEnvVars = [
+  'DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASS', 'JWT_SECRET',
+  'IMAGEKIT_PUBLIC_KEY', 'IMAGEKIT_PRIVATE_KEY', 'IMAGEKIT_URL_ENDPOINT'
+];
+
+const missingEnvVars = requiredEnvVars.filter(env => !process.env[env]);
+if (missingEnvVars.length > 0) {
+  console.error(`Error: Missing required environment variables: ${missingEnvVars.join(', ')}`);
+  process.exit(1);
+}
+
 const sequelize = require(path.join(__dirname, 'config', 'database'));
 const authRoutes = require(path.join(__dirname, 'routes', 'auth'));
 const postRoutes = require(path.join(__dirname, 'routes', 'posts'));
+const categoryRoutes = require(path.join(__dirname, 'routes', 'categories'));
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,7 +29,16 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api', categoryRoutes);
 
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    message: err.message || 'Something went wrong!',
+    error: process.env.NODE_ENV === 'development' ? err : {}
+  });
+});
 
 app.get('/', (req, res) => {
   res.json({ message: 'API is running...' });
@@ -33,6 +56,21 @@ const startServer = async () => {
     });
 
     await sequelize.authenticate();
+
+    // Initialize model associations
+    const models = {
+      Post: require('./models/Post'),
+      User: require('./models/User'),
+      Category: require('./models/Category')
+    };
+
+    // Call associate method on each model
+    Object.keys(models).forEach(modelName => {
+      if (models[modelName].associate) {
+        models[modelName].associate(models);
+      }
+    });
+
     await sequelize.sync({ alter: true });
     console.log('Database connected and synced');
     app.listen(PORT, () => {
