@@ -15,16 +15,7 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 });
 import 'react-quill/dist/quill.snow.css';
 import './previewStyles.css'; // Import global styles for preview content
-
-const CATEGORIES = [
-    { value: 'style', label: 'Style & Fashion' },
-    { value: 'food', label: 'Food & Cooking' },
-    { value: 'travel', label: 'Travel & Adventure' },
-    { value: 'culture', label: 'Culture & Arts' },
-    { value: 'coding', label: 'Coding & Technology' },
-    { value: 'science', label: 'Science & Education' },
-    { value: 'health', label: 'Health & Wellness' },
-];
+import { getCategories } from '@/utils/categoryService';
 
 const AUTOSAVE_INTERVAL = 30000; // 30 seconds
 const LOCAL_STORAGE_KEY = 'blogPostDraft';
@@ -63,6 +54,18 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
         }
     };
 
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await getCategories();
+                setCategories(response);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+        fetchCategories();
+    }, []);
     const removeImage = () => {
         setImageUrl('');
         setPreviewUrl('');
@@ -259,7 +262,7 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
             formData.append('title', title);
             formData.append('description', description);
             formData.append('content', content);
-            formData.append('category', category);
+            formData.append('categoryId', category);
             formData.append('tags', JSON.stringify(tags));
             formData.append('isFeatured', isFeatured);
             formData.append('isPublished', isPublished);
@@ -337,7 +340,7 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
     ];
     // Get the category label from the value
     const getCategoryLabel = (value) => {
-        const category = CATEGORIES.find(cat => cat.value === value);
+        const category = categories.find(cat => cat.value === value);
         return category ? category.label : '';
     };
 
@@ -474,9 +477,9 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
                                         className={`${styles.select} ${errors.category ? styles.errorInput : ''}`}
                                     >
                                         <option value="">Select a category</option>
-                                        {CATEGORIES.map((cat) => (
-                                            <option key={cat.value} value={cat.value}>
-                                                {cat.label}
+                                        {categories.map((cat) => (
+                                            <option key={cat.id} value={cat.id}>
+                                                {cat.name}
                                             </option>
                                         ))}
                                     </select>

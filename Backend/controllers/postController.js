@@ -130,14 +130,12 @@ exports.createPost = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' });
-        }
-
-        // Extract form data
-        const { title, description, content, category, tags, isFeatured, isPublished } = req.body;
+        }        // Extract form data
+        const { title, description, content, categoryId, tags, isFeatured, isPublished } = req.body;
         const parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags;
 
         // Validation
-        if (!title || !description || !content || !category) {
+        if (!title || !description || !content) {
             return res.status(400).json({ message: 'Required fields missing' });
         }
 
@@ -179,15 +177,13 @@ exports.createPost = async (req, res) => {
         } catch (uploadError) {
             console.error('Error uploading image:', uploadError);
             return res.status(500).json({ message: 'Failed to upload image', error: uploadError.message });
-        }
-
-        // Create post record
+        }        // Create post record
         const post = await Post.create({
             title,
             description,
             content,
             slug,
-            category,
+            categoryId,
             tags: parsedTags || [],
             imageUrl: imageUploadResponse.url,
             isFeatured: isFeatured === 'true' || isFeatured === true,
@@ -225,10 +221,8 @@ exports.updatePost = async (req, res) => {
         // Check if user is the author or admin
         if (post.authorId !== req.user.id && !req.user.isAdmin) {
             return res.status(403).json({ message: 'Forbidden - you can only edit your own posts' });
-        }
-
-        // Extract form data
-        const { title, description, content, category, tags, isFeatured, isPublished } = req.body;
+        }        // Extract form data
+        const { title, description, content, categoryId, tags, isFeatured, isPublished } = req.body;
         const parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags;
 
         // Update slug only if title changed
@@ -274,15 +268,13 @@ exports.updatePost = async (req, res) => {
                 console.error('Error uploading image:', uploadError);
                 return res.status(500).json({ message: 'Failed to upload image', error: uploadError.message });
             }
-        }
-
-        // Update post
+        }        // Update post
         await post.update({
             title: title || post.title,
             description: description || post.description,
             content: content || post.content,
             slug,
-            category: category || post.category,
+            categoryId: categoryId || post.categoryId,
             tags: parsedTags || post.tags,
             imageUrl,
             isFeatured: isFeatured === 'true' || isFeatured === true || (isFeatured === undefined && post.isFeatured),

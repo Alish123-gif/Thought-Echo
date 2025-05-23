@@ -25,14 +25,17 @@ const Post = sequelize.define('Post', {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-    },
-    imageUrl: {
+    }, imageUrl: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    category: {
-        type: DataTypes.STRING,
-        allowNull: false
+    categoryId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        references: {
+            model: 'Categories',
+            key: 'id'
+        }
     },
     tags: {
         type: DataTypes.JSONB, // Store tags as JSON array
@@ -57,5 +60,13 @@ Post.belongsTo(User, {
     foreignKey: 'authorId',
     as: 'author'
 });
+
+// Define association with Category model (to be added after Category model is created)
+Post.associate = (models) => {
+    Post.belongsTo(models.Category, {
+        foreignKey: 'categoryId',
+        as: 'category'
+    });
+};
 
 module.exports = Post;

@@ -26,10 +26,8 @@ export async function middleware(req) {
     // Allow access to public paths without authentication
     if (isPublicPath) {
         return NextResponse.next();
-    }
-
-    // Protected routes that require authentication
-    const protectedPaths = ["/write", "/profile", "/dashboard"];
+    }    // Protected routes that require authentication
+    const protectedPaths = ["/write", "/profile", "/dashboard", "/admin"];
 
     const isProtectedPath = protectedPaths.some(path =>
         req.nextUrl.pathname === path ||
@@ -41,6 +39,13 @@ export async function middleware(req) {
         const loginUrl = new URL("/login", req.url);
         loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
         return NextResponse.redirect(loginUrl);
+    }    // Special protection for admin routes
+    const isAdminPath = req.nextUrl.pathname.startsWith('/admin');
+    if (isAdminPath && (!session || !session.user.isAdmin)) {
+        // If not an admin, redirect to home page with a clear message
+        const homeUrl = new URL("/", req.url);
+        homeUrl.searchParams.set("error", "adminAccess");
+        return NextResponse.redirect(homeUrl);
     }
 
     return NextResponse.next();
@@ -55,5 +60,6 @@ export const config = {
         "/write/:path*",
         "/profile/:path*",
         "/dashboard/:path*",
+        "/admin/:path*",
     ],
 };

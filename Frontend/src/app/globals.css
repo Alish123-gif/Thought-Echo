@@ -49,13 +49,16 @@ a {
     min-height: 100vh;
     /* background-color: var(--bg); */
     color: var(--textColor);
+    width: 100%;
 }
 
 .wrapper {
-    max-width: 1536px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     padding: 0 80px;
+    max-width: 82vw;
+    box-sizing: border-box;
 }
 
 @media screen and (max-width: 768px) {
