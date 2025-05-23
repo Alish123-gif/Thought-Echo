@@ -41,7 +41,7 @@ export async function middleware(req) {
         return NextResponse.redirect(loginUrl);
     }    // Special protection for admin routes
     const isAdminPath = req.nextUrl.pathname.startsWith('/admin');
-    if (isAdminPath && (!session || !session.isAdmin)) {
+    if (isAdminPath && (!session || !session.user.isAdmin)) {
         // If not an admin, redirect to home page with a clear message
         const homeUrl = new URL("/", req.url);
         homeUrl.searchParams.set("error", "adminAccess");
