@@ -11,12 +11,16 @@ async function createDatabaseIfNotExists() {
         database: 'postgres' // Connect to default postgres database first
     });
 
+    console.log('Attempting to connect to PostgreSQL server...');
+
     try {
         await client.connect();
+        console.log('Connected to PostgreSQL server');
+
         // Check if our database exists
         const checkResult = await client.query(`
-            SELECT 1 FROM pg_database WHERE datname = '${process.env.DB_NAME}'
-        `);
+            SELECT 1 FROM pg_database WHERE datname = $1
+        `, [process.env.DB_NAME]);
 
         if (checkResult.rowCount === 0) {
             console.log(`Database ${process.env.DB_NAME} does not exist, creating it now...`);
@@ -28,13 +32,17 @@ async function createDatabaseIfNotExists() {
         }
     } catch (error) {
         console.error('Error creating database:', error);
+        throw error; // Re-throw to handle it in the calling function
     } finally {
         await client.end();
     }
 }
 
 // Call the function to create the database
-createDatabaseIfNotExists();
+createDatabaseIfNotExists().catch(err => {
+    console.error('Failed to setup database:', err);
+    process.exit(1);
+});
 
 // Then create the Sequelize connection
 const sequelize = new Sequelize(
@@ -47,6 +55,6 @@ const sequelize = new Sequelize(
         dialect: 'postgres',
         logging: false,
     }
-);
+);;
 
 module.exports = sequelize;
