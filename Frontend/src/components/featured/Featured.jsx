@@ -70,7 +70,7 @@ const Featured = () => {
                 {posts.length > 1 && (
                     <button
                         className={styles.arrowButton}
-                        onClick={() => handleChangePosts('left')}
+                        onClick={() => handleChangePosts('right')}
                         aria-label="Previous featured post"
                         type="button"
                     >
@@ -99,7 +99,7 @@ const Featured = () => {
                 {posts.length > 1 && (
                     <button
                         className={styles.arrowButton}
-                        onClick={() => handleChangePosts('right')}
+                        onClick={() => handleChangePosts('left')}
                         aria-label="Next featured post"
                         type="button"
                     >
