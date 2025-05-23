@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './settings_components.module.css';
-import { HiPlus, HiPencil, HiTrash, HiX, HiCheck, HiSearch } from 'react-icons/hi';
+import { HiPlus, HiPencil, HiTrash, HiX, HiCheck, HiSearch, HiPhotograph, HiUpload } from 'react-icons/hi';
 import LoadingSpinner from '../ui/LoadingSpinner';
-import { getCategories, createCategory, updateCategory, deleteCategory } from '@/utils/categoryService';
+import { getCategories, createCategory, updateCategory, deleteCategory, uploadCategoryImage } from '@/utils/categoryService';
 
 const CategoriesSettings = () => {
     const [categories, setCategories] = useState([]);
@@ -15,9 +15,14 @@ const CategoriesSettings = () => {
         name: '',
         slug: '',
         color: '#3B82F6',
-        description: ''
+        description: '',
+        imageFile: null
     });
     const [searchQuery, setSearchQuery] = useState('');
+    const [imagePreview, setImagePreview] = useState('');
+    const [showImageModal, setShowImageModal] = useState(false);
+    const [modalImage, setModalImage] = useState('');
+    const fileInputRef = useRef(null);
 
     // Fetch categories on initial load
     useEffect(() => {
@@ -36,7 +41,6 @@ const CategoriesSettings = () => {
 
         fetchCategoriesData();
     }, []);
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
@@ -49,15 +53,33 @@ const CategoriesSettings = () => {
         }
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFormData({ ...formData, imageFile: file });
+
+            // Create preview URL
+            const previewUrl = URL.createObjectURL(file);
+            setImagePreview(previewUrl);
+        }
+    };
+
     const resetForm = () => {
         setFormData({
             name: '',
             slug: '',
             color: '#3B82F6',
-            description: ''
+            description: '',
+            imageFile: null
         });
+        setImagePreview('');
         setEditingCategoryId(null);
         setShowForm(false);
+
+        // Reset file input
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -100,15 +122,16 @@ const CategoriesSettings = () => {
             console.error(err);
         }
     };
-
     const handleEdit = (category) => {
         setFormData({
             name: category.name,
             slug: category.slug,
             color: category.color,
-            description: category.description || ''
+            description: category.description || '',
+            imageFile: null
         });
         setEditingCategoryId(category.id);
+        setImagePreview(category.imageUrl || '');
         setShowForm(true);
     };
 
@@ -210,7 +233,6 @@ const CategoriesSettings = () => {
                             />
                         </div>
                     </div>
-
                     <div className={styles.formGroup}>
                         <label htmlFor="description">Description</label>
                         <textarea
@@ -221,6 +243,36 @@ const CategoriesSettings = () => {
                             placeholder="Brief description of this category"
                             rows="3"
                         />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                        <label htmlFor="image">Category Image</label>
+                        <div className={styles.imageUploadContainer}>
+                            {imagePreview && (
+                                <div className={styles.imagePreview}>
+                                    <img src={imagePreview} alt="Category preview" />
+                                </div>
+                            )}
+                            <div className={styles.fileInputWrapper}>
+                                <input
+                                    type="file"
+                                    id="image"
+                                    name="image"
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                    ref={fileInputRef}
+                                    className={styles.fileInput}
+                                />
+                                <button
+                                    type="button"
+                                    className={styles.fileInputButton}
+                                    onClick={() => fileInputRef.current?.click()}
+                                >
+                                    <HiUpload /> {imagePreview ? 'Change Image' : 'Upload Image'}
+                                </button>
+                            </div>
+                        </div>
+                        <small>Recommended size: 300x200 pixels, max 5MB</small>
                     </div>
 
                     <div className={styles.formPreview}>
@@ -274,6 +326,7 @@ const CategoriesSettings = () => {
                 <div className={styles.categoryTable}>
                     <div className={styles.tableHeader}>
                         <div className={styles.tableCell}>Name</div>
+                        <div className={styles.tableCell}>Image</div>
                         <div className={styles.tableCell}>Slug</div>
                         <div className={styles.tableCell}>Color</div>
                         <div className={styles.tableCell}>Posts</div>
@@ -289,6 +342,25 @@ const CategoriesSettings = () => {
                                 >
                                     {category.name}
                                 </span>
+                            </div>
+                            <div className={styles.tableCell}>
+                                {category.imageUrl ? (
+                                    <div className={styles.imageWrapper}>
+                                        <img
+                                            src={category.imageUrl}
+                                            alt={category.name}
+                                            className={styles.categoryThumbnail}
+                                            onClick={() => {
+                                                setModalImage(category.imageUrl);
+                                                setShowImageModal(true);
+                                            }}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className={styles.noImage}>
+                                        <HiPhotograph />
+                                    </div>
+                                )}
                             </div>
                             <div className={styles.tableCell}>{category.slug}</div>
                             <div className={styles.tableCell}>
@@ -317,6 +389,17 @@ const CategoriesSettings = () => {
                             {searchQuery ? 'No categories match your search' : 'No categories found. Create your first one!'}
                         </div>
                     )}
+                </div>
+            )}
+
+            {showImageModal && (
+                <div className={styles.imageModal}>
+                    <div className={styles.modalContent}>
+                        <span className={styles.closeModal} onClick={() => setShowImageModal(false)}>
+                            &times;
+                        </span>
+                        <img src={modalImage} alt="Category" className={styles.modalImage} />
+                    </div>
                 </div>
             )}
         </div>
