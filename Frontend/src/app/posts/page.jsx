@@ -6,10 +6,11 @@ import styles from './posts.module.css';
 import { FaSearch, FaFilter, FaTh, FaList, FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { IoIosRefresh } from 'react-icons/io';
 import Link from 'next/link';
-import { CATEGORIES, SEARCH_DEBOUNCE_DELAY } from '@/utils/constants';
+import { SEARCH_DEBOUNCE_DELAY } from '@/utils/constants';
 import useDebounce from '@/hooks/useDebounce';
 import DataMessage from '@/components/ui/DataMessage';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { getCategories } from '@/utils/categoryService';
 
 const PostsPage = () => {
     const router = useRouter();
@@ -43,6 +44,19 @@ const PostsPage = () => {
 
     // Debounce search term to avoid too many requests
     const debouncedSearchTerm = useDebounce(searchTerm, SEARCH_DEBOUNCE_DELAY);
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await getCategories();
+                setCategories(response);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+        fetchCategories();
+    }, []);
+    console.log('categories', categories);
     // Fetch posts based on filters
     const fetchPosts = useCallback(async () => {
         try {
@@ -420,9 +434,9 @@ const PostsPage = () => {
                                 className={styles.filterSelect}
                             >
                                 <option value="">All Categories</option>
-                                {CATEGORIES.map(category => (
-                                    <option key={category.value} value={category.value}>
-                                        {category.label}
+                                {categories.map(category => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
                                     </option>
                                 ))}
                             </select>
