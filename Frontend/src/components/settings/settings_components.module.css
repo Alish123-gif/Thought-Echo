@@ -1,0 +1,358 @@
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: var(--bgSoft);
+    border-radius: 10px;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sidebarList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebarItem {
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--textSoft);
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.sidebarItem:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--textColor);
+}
+
+.sidebarItem.active {
+    border-left-color: var(--primary);
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.sidebarIcon {
+    margin-right: 12px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+/* Common Section Styles */
+.settingsSection,
+.categorySection {
+    padding-bottom: 20px;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--textColor);
+}
+
+.placeholderText {
+    color: var(--textSoft);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.comingSoon {
+    background-color: var(--bgSoft);
+    color: var(--textSoft);
+    padding: 40px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border: 2px dashed var(--border);
+}
+
+/* Category Management Styles */
+.addButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.addButton:hover {
+    background-color: var(--primaryDark, #2563eb);
+}
+
+.errorMessage {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.closeError {
+    background: none;
+    border: none;
+    color: #b91c1c;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.categoryForm {
+    background-color: var(--bgSoft);
+    padding: 24px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+}
+
+.categoryForm h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--textColor);
+}
+
+.formGroup {
+    margin-bottom: 16px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--textColor);
+}
+
+.formGroup input,
+.formGroup textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background-color: var(--bg);
+    color: var(--textColor);
+    font-size: 1rem;
+}
+
+.formGroup small {
+    display: block;
+    color: var(--textSoft);
+    margin-top: 4px;
+    font-size: 0.875rem;
+}
+
+.colorPickerWrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.colorPickerWrapper input[type="color"] {
+    width: 50px;
+    height: 42px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.formPreview {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--textSoft);
+}
+
+.categoryBadge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.cancelButton,
+.saveButton {
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cancelButton {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--textColor);
+}
+
+.saveButton {
+    background-color: var(--primary);
+    border: none;
+    color: white;
+}
+
+.saveButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.searchBox {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.searchBox input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background-color: var(--bg);
+    color: var(--textColor);
+    font-size: 1rem;
+}
+
+.searchIcon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: var(--textSoft);
+    font-size: 1.2rem;
+}
+
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.categoryTable {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.tableHeader {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 0.5fr 1fr;
+    background-color: var(--bg);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+}
+
+.tableRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 0.5fr 1fr;
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.2s;
+}
+
+.tableRow:last-child {
+    border-bottom: none;
+}
+
+.tableRow:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.tableCell {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+}
+
+.colorPreview {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.actionButton {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--textSoft);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionButton:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--textColor);
+}
+
+.deleteButton:hover {
+    color: #dc2626;
+}
+
+.emptyState {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--textSoft);
+    font-style: italic;
+}
+
+@media screen and (max-width: 768px) {
+
+    .tableHeader,
+    .tableRow {
+        grid-template-columns: 2fr 1fr 1fr auto;
+    }
+
+    .tableCell:nth-child(4) {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .tableHeader,
+    .tableRow {
+        grid-template-columns: 1fr auto;
+    }
+
+    .tableCell:nth-child(2),
+    .tableCell:nth-child(3) {
+        display: none;
+    }
+}
