@@ -1,0 +1,28 @@
+.adminLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.adminLink {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--textColor);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.adminLink:hover {
+    color: var(--softTextColor);
+}
+
+/* When used in dropdown menu */
+:global(.dropdown) .adminLink {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+:global(.dropdown) .adminLink:hover {
+    background-color: var(--softBg);
+}

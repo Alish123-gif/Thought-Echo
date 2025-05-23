@@ -1,0 +1,830 @@
+.writeBlogForm {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1200px;
+}
+
+.formSection {
+    background-color: var(--bg);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.formSection h2 {
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--textColor);
+}
+
+.sectionTitle {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--textColor);
+}
+
+/* Image Upload */
+.imageUploadSection {
+    margin-bottom: 30px;
+}
+
+.imageUpload {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    background-color: var(--softBg);
+    border: 2px dashed var(--softTextColor);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.imageUpload:hover {
+    border-color: #6366F1;
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+.uploadPrompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--softTextColor);
+}
+
+.uploadIcon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.uploadSubtext {
+    font-size: 12px;
+    margin-top: 6px;
+    opacity: 0.7;
+}
+
+.fileInput {
+    display: none;
+}
+
+.previewContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.removeImageBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.removeImageBtn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Form Layout */
+.topFormLayout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+    margin-bottom: 30px;
+}
+
+.leftColumn {
+    grid-column: 1;
+}
+
+.rightColumn {
+    grid-column: 2;
+}
+
+@media screen and (max-width: 992px) {
+    .topFormLayout {
+        grid-template-columns: 1fr;
+        grid-gap: 20px;
+    }
+
+    .leftColumn,
+    .rightColumn {
+        grid-column: 1;
+    }
+}
+
+/* Form Elements */
+.formGroup {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--textColor);
+}
+
+.input,
+.textarea,
+.select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: var(--bg);
+    color: var(--textColor);
+    transition: border-color 0.2s ease;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+    outline: none;
+    border-color: #6366F1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+/* Using :global to properly reach the dark theme class */
+:global(.dark) .input,
+:global(.dark) .textarea,
+:global(.dark) .select,
+:global(.dark) .tagsInput {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.charCount {
+    position: absolute;
+    bottom: -22px;
+    right: 0;
+    font-size: 12px;
+    color: var(--softTextColor);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* Ensure dropdown arrow is visible in dark mode */
+:global(.dark) .select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+/* Tags Input */
+.tagsInputContainer {
+    margin-bottom: 20px;
+}
+
+.tagsInput {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    background-color: var(--bg);
+}
+
+/* Make sure tag input container has appropriate border in dark mode */
+:global(.dark) .tagsInput {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.tagsDisplay {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.tag {
+    display: flex;
+    align-items: center;
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Improve tag visibility in dark mode */
+:global(.dark) .tag {
+    background-color: rgba(99, 102, 241, 0.2);
+    color: #8B90FF;
+    /* Slightly lighter blue for better contrast in dark mode */
+}
+
+.removeTag {
+    background: none;
+    border: none;
+    color: #6366F1;
+    cursor: pointer;
+    font-size: 16px;
+    padding-left: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tagInputWrapper {
+    display: flex;
+}
+
+.tagInput {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    padding: 6px 10px;
+    color: var(--textColor);
+}
+
+.tagInput:focus {
+    outline: none;
+}
+
+.addTagBtn {
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Improve add tag button visibility in dark mode */
+:global(.dark) .addTagBtn {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.addTagBtn:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+}
+
+:global(.dark) .addTagBtn:hover {
+    background-color: rgba(99, 102, 241, 0.2);
+    color: #8B90FF;
+}
+
+.helperText {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--softTextColor);
+}
+
+/* Toggle Switches */
+.togglesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.toggleGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggleLabel {
+    font-weight: 500;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.toggleHelp {
+    font-size: 12px;
+    color: var(--softTextColor);
+    margin-top: 2px;
+    font-weight: normal;
+}
+
+/* Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .3s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #6366F1;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #6366F1;
+}
+
+input:checked+.slider:before {
+    transform: translateX(24px);
+}
+
+
+.editor {
+    height: 400px;
+    max-height: 600px;
+}
+
+.editorStats {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 2px;
+    font-size: 12px;
+    color: var(--softTextColor);
+    margin-top: 5px;
+}
+
+.wordCount,
+.readingTime {
+    padding: 2px 8px;
+    background-color: var(--softBg);
+    border-radius: 12px;
+    font-size: 11px;
+}
+
+.editorLoading {
+    height: 400px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--softBg);
+    color: var(--softTextColor);
+    font-size: 16px;
+}
+
+/* Form Actions */
+.formActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.submitButtons {
+    display: flex;
+    gap: 15px;
+}
+
+.previewButton {
+    background-color: var(--softBg);
+    color: var(--textColor);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.previewButton:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+}
+
+.previewButton:before {
+    content: "👁️";
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.cancelButton {
+    background-color: transparent;
+    color: var(--textColor);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+    background-color: var(--softBg);
+}
+
+.submitButton {
+    background: linear-gradient(to right, #6366F1, #8B5CF6);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submitButton:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.submitButton:disabled,
+.cancelButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Error Styles */
+.errorInput,
+.errorBorder {
+    border-color: #dc2626;
+}
+
+.errorMessage {
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.submitError {
+    color: #dc2626;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.successMessage {
+    color: #10b981;
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: rgba(16, 185, 129, 0.1);
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* Draft Info and Autosave */
+.draftInfo {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.lastSavedInfo {
+    font-size: 12px;
+    color: var(--softTextColor);
+    margin-right: auto;
+}
+
+.saveButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--softBg);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Make save button text and icon white in dark mode */
+:global(.dark) .saveButton {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.saveButton:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+}
+
+:global(.dark) .saveButton:hover {
+    background-color: rgba(99, 102, 241, 0.2);
+    color: #8B90FF;
+}
+
+.savedNotification {
+    position: absolute;
+    right: 0;
+    bottom: -25px;
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.savedNotification span {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .formSection {
+        padding: 20px;
+    }
+
+    .imageUpload {
+        height: 200px;
+    }
+
+    .togglesContainer {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .editor {
+        height: 300px;
+    }
+}
+
+/* Dark mode adjustments for the editor */
+.writeBlogForm :global(.dark-mode) .editor {
+    background-color: var(--bg);
+}
+
+.editorContainer :global(.dark-mode) .ql-toolbar {
+    background-color: var(--softBg);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.editorContainer :global(.dark-mode) .ql-editor {
+    color: var(--textColor);
+}
+
+.editorContainer :global(.dark-mode) .ql-container {
+    border-color: rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.editorContainer :global(.dark-mode) .ql-editor.ql-blank::before {
+    color: var(--softTextColor);
+}
+
+/* Specific adjustments for Quill Editor */
+.editor :global(.ql-container) {
+    font-family: inherit !important;
+    font-size: 16px !important;
+}
+
+.editor :global(.ql-toolbar) {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Preview Mode Styles */
+.previewSection {
+    padding: 20px 0;
+}
+
+.previewFeaturedImage {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.previewNoImage {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: var(--softBg);
+    border-radius: 12px;
+    color: var(--softTextColor);
+}
+
+.noImageIcon {
+    font-size: 72px;
+    margin-bottom: 12px;
+    opacity: 0.6;
+}
+
+.previewTitle {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--textColor);
+}
+
+.previewDescription {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--softTextColor);
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 4px solid rgba(99, 102, 241, 0.5);
+}
+
+.previewMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+    align-items: center;
+}
+
+.previewCategory {
+    background: linear-gradient(to right, #6366F1, #8B5CF6);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.previewTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.previewTag {
+    font-size: 14px;
+    color: #6366F1;
+    background-color: rgba(99, 102, 241, 0.1);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.previewReadingTime {
+    font-size: 14px;
+    color: var(--softTextColor);
+    margin-left: auto;
+}
+
+.previewContent {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--textColor);
+}
+
+/* Style the rendered HTML content */
+.previewContent :global(h1),
+.previewContent :global(h2),
+.previewContent :global(h3),
+.previewContent :global(h4),
+.previewContent :global(h5),
+.previewContent :global(h6) {
+    margin: 1.5em 0 0.5em;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--textColor);
+}
+
+.previewContent :global(h1) {
+    font-size: 2em;
+}
+
+.previewContent :global(h2) {
+    font-size: 1.75em;
+}
+
+.previewContent :global(h3) {
+    font-size: 1.5em;
+}
+
+.previewContent :global(h4) {
+    font-size: 1.25em;
+}
+
+.previewContent :global(h5) {
+    font-size: 1.1em;
+}
+
+.previewContent :global(h6) {
+    font-size: 1em;
+}
+
+.previewContent :global(p) {
+    margin-bottom: 1.5em;
+}
+
+.previewContent :global(blockquote) {
+    margin-left: 0;
+    padding-left: 20px;
+    border-left: 4px solid rgba(99, 102, 241, 0.5);
+    font-style: italic;
+    color: var(--softTextColor);
+}
+
+.previewContent :global(ul),
+.previewContent :global(ol) {
+    margin-bottom: 1.5em;
+    padding-left: 20px;
+}
+
+.previewContent :global(li) {
+    margin-bottom: 0.5em;
+}
+
+.previewContent :global(a) {
+    color: #6366F1;
+    text-decoration: none;
+}
+
+.previewContent :global(a:hover) {
+    text-decoration: underline;
+}
+
+.previewContent :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+@media screen and (max-width: 768px) {
+    .previewFeaturedImage {
+        height: 250px;
+    }
+
+    .previewTitle {
+        font-size: 28px;
+    }
+
+    .previewContent {
+        font-size: 16px;
+    }
+}

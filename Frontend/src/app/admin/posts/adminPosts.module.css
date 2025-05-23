@@ -1,0 +1,546 @@
+/* Admin Posts Page Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header Section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: #1a202c;
+    margin: 0;
+}
+
+.createButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+.createButton:hover {
+    background-color: #1d4ed8;
+}
+
+.createButton:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+}
+
+/* Controls Section */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+}
+
+.searchContainer {
+    flex-grow: 1;
+    max-width: 500px;
+}
+
+.searchInput {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    padding: 0 1rem;
+}
+
+.searchIcon {
+    color: #6b7280;
+    margin-right: 0.5rem;
+}
+
+.searchInput input {
+    flex-grow: 1;
+    border: none;
+    padding: 0.75rem 0;
+    outline: none;
+    font-size: 0.875rem;
+}
+
+.filterButtons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filterButton,
+.resetButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filterButton {
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    color: #4b5563;
+}
+
+.filterButton:hover {
+    background-color: #e5e7eb;
+}
+
+.resetButton {
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+}
+
+.resetButton:hover {
+    background-color: #fecaca;
+}
+
+/* Filter Panel */
+.filterPanel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filterGroup label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.filterGroup select {
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    color: #1f2937;
+    background-color: white;
+    min-width: 150px;
+}
+
+.sortOptions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.sortButton {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sortButton:hover {
+    background-color: #f3f4f6;
+}
+
+.sortButton.active {
+    background-color: #eff6ff;
+    border-color: #93c5fd;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+/* Posts Count Info */
+.postsCountInfo {
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* Posts Table */
+.tableContainer {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.postsTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.postsTable th {
+    background-color: #f9fafb;
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4b5563;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.postsTable th.sortableColumn {
+    cursor: pointer;
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.postsTable th.sortableColumn:hover {
+    background-color: #f3f4f6;
+}
+
+.sortIcon {
+    margin-left: 0.25rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.postsTable td {
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.postsTable tr:last-child td {
+    border-bottom: none;
+}
+
+/* Table columns */
+.imageColumn {
+    width: 80px;
+}
+
+.titleColumn {
+    width: 35%;
+}
+
+.dateColumn {
+    width: 15%;
+}
+
+.actionsColumn {
+    width: 120px;
+}
+
+/* Table cells */
+.imageCell {
+    width: 80px;
+}
+
+.postImageContainer {
+    width: 60px;
+    height: 60px;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.postImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.titleCell {
+    width: 35%;
+}
+
+.postTitle {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #1a202c;
+}
+
+.postExcerpt {
+    font-size: 0.75rem;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.categoryBadge {
+    display: inline-block;
+    background-color: #e0f2fe;
+    color: #0284c7;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    text-transform: capitalize;
+}
+
+.statusBadge {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.published {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.draft {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+
+.dateCell {
+    width: 15%;
+}
+
+.actionsCell {
+    width: 120px;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.actionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    text-decoration: none;
+}
+
+.viewButton {
+    background-color: #2563eb;
+}
+
+.viewButton:hover {
+    background-color: #1d4ed8;
+}
+
+.editButton {
+    background-color: #0284c7;
+}
+
+.editButton:hover {
+    background-color: #0369a1;
+}
+
+.deleteButton {
+    background-color: #dc2626;
+}
+
+.deleteButton:hover {
+    background-color: #b91c1c;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.paginationButton {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background-color: white;
+    color: #4b5563;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.paginationButton:hover:not(:disabled) {
+    background-color: #f9fafb;
+}
+
+.paginationButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pageNumbers {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.pageNumber {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background-color: white;
+    font-size: 0.875rem;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pageNumber:hover {
+    background-color: #f9fafb;
+}
+
+.pageNumber.currentPage {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+/* Delete Confirmation Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modal h3 {
+    margin-top: 0;
+    color: #b91c1c;
+}
+
+.modal p {
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+}
+
+.modalButtons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.cancelButton,
+.confirmDeleteButton {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancelButton {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    color: #4b5563;
+}
+
+.cancelButton:hover:not(:disabled) {
+    background-color: #f9fafb;
+}
+
+.confirmDeleteButton {
+    background-color: #dc2626;
+    border: 1px solid #dc2626;
+    color: white;
+}
+
+.confirmDeleteButton:hover:not(:disabled) {
+    background-color: #b91c1c;
+}
+
+.cancelButton:disabled,
+.confirmDeleteButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Error State */
+.errorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background-color: #fef2f2;
+    border: 1px solid #fee2e2;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.errorContainer h2 {
+    color: #b91c1c;
+    margin-top: 0;
+}
+
+.errorContainer p {
+    color: #ef4444;
+    margin-bottom: 1.5rem;
+}
+
+.retryButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: white;
+    border: 1px solid #fee2e2;
+    color: #b91c1c;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.retryButton:hover {
+    background-color: #fef2f2;
+}
+
+/* Loading State */
+.loadingState {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

@@ -1,23 +1,28 @@
 {
-  "name": "starter",
-  "version": "0.1.0",
-  "private": true,
+  "name": "blog-app",
+  "version": "1.0.0",
+  "description": "Blog application with React frontend and Node.js backend",
+  "main": "index.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "concurrently \"npm run backend-nodemon\" \"npm run frontend\"",
+    "backend-nodemon": "cd Backend && npx nodemon || npm run backend",
+    "backend": "cd Backend && npm start",
+    "frontend": "cd Frontend && npm run dev",
+    "install-deps": "npm install && npm run install-backend && npm run install-frontend",
+    "install-backend": "cd Backend && npm install",
+    "install-frontend": "cd Frontend && npm install"
   },
+  "keywords": [
+    "blog",
+    "react",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "@tsparticles/preset-fountain": "^3.1.0",
-    "@tsparticles/react": "^3.0.0",
-    "@tsparticles/slim": "^3.5.0",
-    "eslint": "8.48.0",
-    "eslint-config-next": "13.4.19",
-    "lucide-react": "^0.441.0",
-    "next": "13.4.19",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-icons": "^5.3.0"
+    "concurrently": "^8.2.2",
+    "imagekit": "^6.0.0",
+    "multer": "^2.0.0",
+    "react-quill": "^2.0.0"
   }
 }

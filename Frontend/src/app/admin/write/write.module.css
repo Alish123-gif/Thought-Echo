@@ -1,0 +1,47 @@
+.container {
+    width: 100%;
+    padding: 30px 20px;
+    min-height: calc(100vh - 100px);
+    /* Adjust based on navbar height */
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--softTextColor);
+    text-decoration: none;
+    width: fit-content;
+    transition: all 0.2s ease;
+}
+
+.backLink:hover {
+    color: var(--textColor);
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--textColor);
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+}

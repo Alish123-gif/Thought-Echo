@@ -1,0 +1,74 @@
+.container {
+    display: flex;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+.title {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.message {
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+}
+
+.action {
+    margin-top: 1rem;
+}
+
+/* Message types */
+.info {
+    background-color: #eff6ff;
+    border: 1px solid #dbeafe;
+    color: #1e40af;
+}
+
+.info .icon {
+    color: #3b82f6;
+}
+
+.warning {
+    background-color: #fffbeb;
+    border: 1px solid #fef3c7;
+    color: #92400e;
+}
+
+.warning .icon {
+    color: #f59e0b;
+}
+
+.error {
+    background-color: #fef2f2;
+    border: 1px solid #fee2e2;
+    color: #b91c1c;
+}
+
+.error .icon {
+    color: #ef4444;
+}
+
+.success {
+    background-color: #f0fdf4;
+    border: 1px solid #dcfce7;
+    color: #166534;
+}
+
+.success .icon {
+    color: #22c55e;
+}

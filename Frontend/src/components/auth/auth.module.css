@@ -1,0 +1,127 @@
+.auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 30px;
+    color: var(--textColor);
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input {
+    padding: 20px;
+    border: 2px solid var(--softBg);
+    border-radius: 5px;
+    background-color: var(--bg);
+    color: var(--textColor);
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+}
+
+.button {
+    padding: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--textColor);
+    color: var(--bg);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.social {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.socialButton {
+    padding: 15px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.socialButton:hover {
+    opacity: 0.8;
+}
+
+.google {
+    background-color: #db4437;
+    color: white;
+}
+
+.github {
+    background-color: #333;
+    color: white;
+}
+
+.or {
+    margin: 20px 0;
+    color: var(--softTextColor);
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+.or::before,
+.or::after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 45%;
+    background-color: var(--softBg);
+    top: 50%;
+}
+
+.or::before {
+    left: 0;
+}
+
+.or::after {
+    right: 0;
+}
+
+.link {
+    margin-top: 20px;
+    color: var(--textColor);
+    text-align: center;
+}
+
+.linkText {
+    color: crimson;
+    cursor: pointer;
+    font-weight: 500;
+}
