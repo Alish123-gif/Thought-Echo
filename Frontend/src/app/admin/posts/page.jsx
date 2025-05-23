@@ -14,7 +14,7 @@ const AdminPostsPage = () => {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [posts, setPosts] = useState([]);
-    const [allPosts, setAllPosts] = useState([]); // Store all fetched posts
+    const [allPosts, setAllPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
