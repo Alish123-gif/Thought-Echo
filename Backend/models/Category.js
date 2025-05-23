@@ -46,6 +46,14 @@ const Category = sequelize.define('Category', {
                 msg: 'Description cannot exceed 200 characters'
             }
         }
+    },
+    imageUrl: {
+        type: DataTypes.STRING,
+        validate: {
+            isUrl: {
+                msg: 'Please provide a valid URL for the image'
+            }
+        }
     }
 }, {
     timestamps: true,

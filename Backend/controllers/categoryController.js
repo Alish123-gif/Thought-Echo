@@ -2,6 +2,8 @@ const Category = require('../models/Category');
 const Post = require('../models/Post');
 const { Op } = require('sequelize');
 const slugify = require('slugify');
+const imagekit = require('../config/imagekit');
+const crypto = require('crypto');
 
 // Get all categories
 exports.getAllCategories = async (req, res) => {
@@ -75,11 +77,30 @@ exports.createCategory = async (req, res) => {
             });
         }
 
+        let imageUrl = null;
+
+        // Upload image to ImageKit if provided
+        if (req.file) {
+            const fileName = `category_${crypto.randomBytes(8).toString('hex')}`;
+            const fileType = req.file.mimetype;
+
+            const uploadResponse = await imagekit.upload({
+                file: req.file.buffer.toString('base64'),
+                fileName: fileName,
+                folder: '/categories',
+                useUniqueFileName: true,
+                fileType: fileType
+            });
+
+            imageUrl = uploadResponse.url;
+        }
+
         const category = await Category.create({
             name,
             slug,
             color,
-            description
+            description,
+            imageUrl
         });
 
         res.status(201).json(category);
@@ -130,12 +151,31 @@ exports.updateCategory = async (req, res) => {
             }
         }
 
+        let imageUrl = category.imageUrl;
+
+        // Upload new image to ImageKit if provided
+        if (req.file) {
+            const fileName = `category_${crypto.randomBytes(8).toString('hex')}`;
+            const fileType = req.file.mimetype;
+
+            const uploadResponse = await imagekit.upload({
+                file: req.file.buffer.toString('base64'),
+                fileName: fileName,
+                folder: '/categories',
+                useUniqueFileName: true,
+                fileType: fileType
+            });
+
+            imageUrl = uploadResponse.url;
+        }
+
         // Update the category
         await category.update({
             name,
             slug,
             color,
-            description
+            description,
+            imageUrl
         });
 
         res.status(200).json(category);
@@ -173,6 +213,20 @@ exports.deleteCategory = async (req, res) => {
             });
         }
 
+        // Try to delete the image from ImageKit if it exists
+        if (category.imageUrl) {
+            try {
+                // Extract the file ID from the URL
+                const fileId = category.imageUrl.split('/').pop().split('.')[0];
+
+                // Delete the file from ImageKit (this will silently fail if the file doesn't exist)
+                await imagekit.deleteFile(fileId);
+            } catch (error) {
+                console.error('Failed to delete image from ImageKit:', error);
+                // Continue with category deletion even if image deletion fails
+            }
+        }
+
         // Delete the category
         await category.destroy();
 
@@ -180,5 +234,63 @@ exports.deleteCategory = async (req, res) => {
     } catch (error) {
         console.error('Error deleting category:', error);
         res.status(500).json({ error: 'Failed to delete category' });
+    }
+};
+
+// Upload category image
+exports.uploadCategoryImage = async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+
+        // Find the category
+        const category = await Category.findByPk(categoryId);
+
+        if (!category) {
+            return res.status(404).json({ error: 'Category not found' });
+        }
+
+        // Check if image file is provided
+        if (!req.file) {
+            return res.status(400).json({ error: 'No image file provided' });
+        }
+
+        // Try to delete the old image from ImageKit if it exists
+        if (category.imageUrl) {
+            try {
+                // Extract the file ID from the URL
+                const fileId = category.imageUrl.split('/').pop().split('.')[0];
+
+                // Delete the file from ImageKit (this will silently fail if the file doesn't exist)
+                await imagekit.deleteFile(fileId);
+            } catch (error) {
+                console.error('Failed to delete old image from ImageKit:', error);
+                // Continue with new image upload even if old image deletion fails
+            }
+        }
+
+        // Upload new image to ImageKit
+        const fileName = `category_${crypto.randomBytes(8).toString('hex')}`;
+        const fileType = req.file.mimetype;
+
+        const uploadResponse = await imagekit.upload({
+            file: req.file.buffer.toString('base64'),
+            fileName: fileName,
+            folder: '/categories',
+            useUniqueFileName: true,
+            fileType: fileType
+        });
+
+        // Update the category with the new image URL
+        await category.update({
+            imageUrl: uploadResponse.url
+        });
+
+        res.status(200).json({
+            message: 'Category image updated successfully',
+            category
+        });
+    } catch (error) {
+        console.error('Error uploading category image:', error);
+        res.status(500).json({ error: 'Failed to upload category image' });
     }
 };
