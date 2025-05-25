@@ -329,7 +329,7 @@ const PostsPage = () => {
 
         return posts.map(post => (
             <div key={post.id} className={viewMode === 'grid' ? styles.postCard : styles.postListItem}>
-                <Link href={`/posts/${post.slug}`} className={styles.postLink}>
+                <Link href={`/post/${post.id}`} className={styles.postLink}>
                     <div className={viewMode === 'grid' ? styles.postCardImageContainer : styles.postListImageContainer}>
                         <img
                             src={post.imageUrl}
