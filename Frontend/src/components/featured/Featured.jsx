@@ -1,5 +1,6 @@
 "use client"
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import styles from './featured.module.css'
 import Image from 'next/image'
 import { getFeaturedPosts } from "@/utils/api";
@@ -12,7 +13,10 @@ const Featured = () => {
     const [error, setError] = useState(null);
     const [postIndex, setPostIndex] = useState(0);
     const [animationDirection, setAnimationDirection] = useState(null);
-
+    const router = useRouter();
+    const navigate = (id) => {
+        router.push(`/post/${id}`);
+    }
     const handleChangePosts = (direction) => {
         // First remove animation to reset it
         setAnimationDirection(null);
@@ -92,7 +96,7 @@ const Featured = () => {
                         <div className={styles.textContainer}>
                             <h2 className={styles.postTitle}>{posts[postIndex].title}</h2>
                             <p className={styles.postDesc}>{posts[postIndex].description}</p>
-                            <button className={styles.button}>Read More</button>
+                            <button onClick={() => navigate(posts[postIndex].id)} className={styles.button}>Read More</button>
                         </div>
                     </React.Fragment>
                 </div>

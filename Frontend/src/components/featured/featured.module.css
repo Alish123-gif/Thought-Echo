@@ -95,6 +95,7 @@
     max-width: fit-content;
     outline-style: solid;
     outline-width: 1px;
+    cursor: pointer;
 }
 
 .arrowButton {
