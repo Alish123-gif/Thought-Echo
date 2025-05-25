@@ -363,7 +363,7 @@ const AdminPostsPage = () => {
                                     <td className={styles.actionsCell}>
                                         <div className={styles.actionButtons}>
                                             <Link
-                                                href={`/posts/${post.slug}`}
+                                                href={`/posts/${post.id}`}
                                                 className={`${styles.actionButton} ${styles.viewButton}`}
                                                 title="View post"
                                             >
