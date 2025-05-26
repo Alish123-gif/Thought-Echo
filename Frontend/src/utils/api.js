@@ -20,10 +20,10 @@ const handleApiResponse = async (response) => {
         throw new Error('Session expired. Please log in again.');
     }
 
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.message || `HTTP ${response.status}: ${response.statusText}`);
+    const data = await response.json(); if (!response.ok) {
+        // Try to get the most specific error message available
+        const errorMessage = data.error || data.message || `HTTP ${response.status}: ${response.statusText}`;
+        throw new Error(errorMessage);
     }
 
     return data;
@@ -45,10 +45,9 @@ export const loginUser = async (email, password) => {
             body: JSON.stringify({ email, password }),
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Login failed');
+        const data = await response.json(); if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Login failed';
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -75,10 +74,9 @@ export const registerUser = async (name, email, password) => {
             body: JSON.stringify({ name, email, password }),
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Registration failed');
+        const data = await response.json(); if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Registration failed';
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -165,10 +163,10 @@ export const getPosts = async (options = {}) => {
         const queryString = params.toString() ? `?${params.toString()}` : '';
         const response = await fetch(`${API_BASE_URL}/posts${queryString}`);
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch posts');
+        const data = await response.json(); if (!response.ok) {
+            // Try to get the most specific error message available
+            const errorMessage = data.error || data.message || `HTTP ${response.status}: ${response.statusText}`;
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -190,7 +188,8 @@ export const getPostBySlug = async (slug) => {
         const data = await response.json();
 
         if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch post');
+            const errorMessage = data.error || data.message || 'Failed to fetch post';
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -211,7 +210,8 @@ export const getPostById = async (id) => {
         const response = await fetch(`${API_BASE_URL}/posts/id/${id}`);
         const data = await response.json();
         if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch post');
+            const errorMessage = data.error || data.message || 'Failed to fetch post';
+            throw new Error(errorMessage);
         }
         return data;
     } catch (error) {
@@ -229,10 +229,9 @@ export const getFeaturedPosts = async (limit = 5) => {
     try {
         const response = await fetch(`${API_BASE_URL}/posts/featured?limit=${limit}`);
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch featured posts');
+        const data = await response.json(); if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Failed to fetch featured posts';
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -255,10 +254,9 @@ export const getPostsByCategory = async (category, page = 1, limit = 10) => {
             `${API_BASE_URL}/posts/category/${category}?page=${page}&limit=${limit}`
         );
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch category posts');
+        const data = await response.json(); if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Failed to fetch category posts';
+            throw new Error(errorMessage);
         }
 
         return data;
