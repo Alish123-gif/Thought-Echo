@@ -26,17 +26,17 @@ export default function ProfilePage() {
                 {user && (
                     <div className={styles.userInfo}>
                         <div className={styles.userHeader}>                            <div className={styles.avatar}>
-                                {user.image ? (
-                                    <Image 
-                                        src={user.image} 
-                                        alt={user.name} 
-                                        width={80}
-                                        height={80}
-                                    />
-                                ) : (
-                                    <span>{user.name?.charAt(0) || 'U'}</span>
-                                )}
-                            </div>
+                            {user.image ? (
+                                <Image
+                                    src={user.image}
+                                    alt={user.name}
+                                    width={80}
+                                    height={80}
+                                />
+                            ) : (
+                                <span>{user.name?.charAt(0) || 'U'}</span>
+                            )}
+                        </div>
                             <h2>{user.name || 'User'}</h2>
                         </div>
                         <div className={styles.userDetails}>

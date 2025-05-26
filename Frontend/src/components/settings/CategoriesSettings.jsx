@@ -249,15 +249,15 @@ const CategoriesSettings = () => {
                     <div className={styles.formGroup}>
                         <label htmlFor="image">Category Image</label>
                         <div className={styles.imageUploadContainer}>                            {imagePreview && (
-                                <div className={styles.imagePreview}>
-                                    <Image 
-                                        src={imagePreview} 
-                                        alt="Category preview" 
-                                        width={100}
-                                        height={100}
-                                    />
-                                </div>
-                            )}
+                            <div className={styles.imagePreview}>
+                                <Image
+                                    src={imagePreview}
+                                    alt="Category preview"
+                                    width={100}
+                                    height={100}
+                                />
+                            </div>
+                        )}
                             <div className={styles.fileInputWrapper}>
                                 <input
                                     type="file"
@@ -349,24 +349,24 @@ const CategoriesSettings = () => {
                                 </span>
                             </div>
                             <div className={styles.tableCell}>                                {category.imageUrl ? (
-                                    <div className={styles.imageWrapper}>
-                                        <Image
-                                            src={category.imageUrl}
-                                            alt={category.name}
-                                            className={styles.categoryThumbnail}
-                                            width={50}
-                                            height={50}
-                                            onClick={() => {
-                                                setModalImage(category.imageUrl);
-                                                setShowImageModal(true);
-                                            }}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className={styles.noImage}>
-                                        <HiPhotograph />
-                                    </div>
-                                )}
+                                <div className={styles.imageWrapper}>
+                                    <Image
+                                        src={category.imageUrl}
+                                        alt={category.name}
+                                        className={styles.categoryThumbnail}
+                                        width={50}
+                                        height={50}
+                                        onClick={() => {
+                                            setModalImage(category.imageUrl);
+                                            setShowImageModal(true);
+                                        }}
+                                    />
+                                </div>
+                            ) : (
+                                <div className={styles.noImage}>
+                                    <HiPhotograph />
+                                </div>
+                            )}
                             </div>
                             <div className={styles.tableCell}>{category.slug}</div>
                             <div className={styles.tableCell}>
@@ -404,9 +404,9 @@ const CategoriesSettings = () => {
                         <span className={styles.closeModal} onClick={() => setShowImageModal(false)}>
                             &times;
                         </span>
-                        <Image 
-                            src={modalImage} 
-                            alt="Category" 
+                        <Image
+                            src={modalImage}
+                            alt="Category"
                             className={styles.modalImage}
                             width={400}
                             height={300}

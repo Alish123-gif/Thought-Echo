@@ -38,7 +38,8 @@ const AdminPostsPage = () => {
     useEffect(() => {
         if (status === 'unauthenticated') {
             router.push('/login?callbackUrl=/admin/posts');
-        }    }, [status, router]);
+        }
+    }, [status, router]);
 
     // Extract fetch logic into a separate function for reuse
     const fetchPosts = useCallback(async () => {
@@ -337,16 +338,16 @@ const AdminPostsPage = () => {
                         <tbody>
                             {posts.map(post => (
                                 <tr key={post.id}>                                    <td className={styles.imageCell}>
-                                        <div className={styles.postImageContainer}>
-                                            <Image
-                                                src={post.imageUrl}
-                                                alt={post.title}
-                                                className={styles.postImage}
-                                                width={80}
-                                                height={60}
-                                            />
-                                        </div>
-                                    </td>
+                                    <div className={styles.postImageContainer}>
+                                        <Image
+                                            src={post.imageUrl}
+                                            alt={post.title}
+                                            className={styles.postImage}
+                                            width={80}
+                                            height={60}
+                                        />
+                                    </div>
+                                </td>
                                     <td className={styles.titleCell}>
                                         <div className={styles.postTitle}>{post.title}</div>
                                         <div className={styles.postExcerpt}>

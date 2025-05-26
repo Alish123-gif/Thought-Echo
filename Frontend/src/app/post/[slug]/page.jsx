@@ -35,7 +35,7 @@ const PostDetailsPage = () => {
 
     useEffect(() => {
         fetchPost();
-    }, [fetchPost]);if (loading) return <LoadingSpinner />;
+    }, [fetchPost]); if (loading) return <LoadingSpinner />;
     if (error) return <DataMessage type="error" title="Error Loading Post" message={error} showRetry={true} onRetry={handleRetry} />;
     if (!post) return null; return (
         <div className={styles.container}>

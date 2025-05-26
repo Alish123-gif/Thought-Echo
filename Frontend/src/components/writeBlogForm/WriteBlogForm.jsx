@@ -189,7 +189,8 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
             setShowSavedNotification(true);
             setTimeout(() => {
                 setShowSavedNotification(false);
-            }, 3000);        } catch (error) {
+            }, 3000);
+        } catch (error) {
             console.error('Error saving draft to localStorage:', error);
         }
     }, [title, description, content, category, tags, isFeatured, isPublished, previewUrl]);
