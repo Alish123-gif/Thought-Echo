@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
-import { getSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 
 export const getAuthSession = async () => {
     const session = await getServerSession(options);
@@ -15,6 +15,42 @@ export const getCurrentUser = async () => {
         console.error("Error getting current user:", error);
         return null;
     }
+};
+
+/**
+ * Handle authentication errors globally
+ * @param {Response} response - Fetch response
+ * @returns {Promise<boolean>} - Returns true if error was handled, false otherwise
+ */
+export const handleAuthError = async (response) => {
+    if (response.status === 401) {
+        try {
+            const data = await response.clone().json();
+            
+            // Check if it's a token expiration error
+            if (data.tokenExpired || data.error === 'TokenExpiredError') {
+                console.warn('Token expired. Signing out user.');
+                await signOut({ 
+                    redirect: true, 
+                    callbackUrl: '/login?message=session-expired' 
+                });
+                return true;
+            }
+            
+            // Check if it's an invalid token error
+            if (data.tokenInvalid || data.error === 'JsonWebTokenError') {
+                console.warn('Invalid token. Signing out user.');
+                await signOut({ 
+                    redirect: true, 
+                    callbackUrl: '/login?message=invalid-session' 
+                });
+                return true;
+            }
+        } catch (parseError) {
+            console.error('Error parsing auth error response:', parseError);
+        }
+    }
+    return false;
 };
 
 /**
@@ -38,9 +74,14 @@ export const fetchWithAuth = async (url, options = {}) => {
         console.warn('No access token available for authenticated request');
     }
 
-    // Return the fetch promise
-    return fetch(url, {
+    // Make the fetch request
+    const response = await fetch(url, {
         ...options,
         headers,
     });
+
+    // Handle authentication errors
+    await handleAuthError(response);
+
+    return response;
 };

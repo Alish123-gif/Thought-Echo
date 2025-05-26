@@ -1,0 +1,166 @@
+/* Modern Recent Posts Styling */
+.container {
+    flex: 5;
+    border-radius: 16px;
+    background-color: var(--bg);
+    height: fit-content;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, var(--opacity));
+    margin: 50px 0;
+    border: 1px solid var(--softBg);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, calc(var(--opacity) * 1.5));
+    transform: translateY(-2px);
+}
+
+.title {
+    padding: 25px 25px 15px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--textColor);
+    background: linear-gradient(135deg, var(--bg) 0%, var(--softBg) 100%);
+    border-bottom: 1px solid var(--softBg);
+    position: relative;
+}
+
+.title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25px;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.posts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 25px;
+    min-height: 200px;
+}
+
+/* Loading and Error States */
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 25px;
+    gap: 20px;
+}
+
+.errorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 25px;
+    gap: 15px;
+}
+
+/* Empty State */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 25px;
+    text-align: center;
+    color: var(--softTextColor);
+}
+
+.emptyState h3 {
+    color: var(--textColor);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.emptyState p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .container {
+        margin: 30px 0;
+        border-radius: 12px;
+    }
+
+    .title {
+        padding: 20px 20px 12px;
+        font-size: 1.9rem;
+    }
+
+    .title::after {
+        left: 20px;
+        width: 50px;
+        height: 2px;
+    }
+
+    .posts {
+        padding: 20px;
+        gap: 18px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, var(--opacity));
+    }
+
+    .container:hover {
+        transform: none;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, var(--opacity));
+    }
+
+    .title {
+        padding: 18px 15px 10px;
+        font-size: 1.6rem;
+    }
+
+    .title::after {
+        left: 15px;
+        width: 40px;
+    }
+
+    .posts {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .loadingContainer,
+    .errorContainer {
+        padding: 40px 15px;
+    }
+
+    .emptyState {
+        padding: 40px 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .title {
+        font-size: 1.4rem;
+        padding: 15px 12px 8px;
+    }
+
+    .title::after {
+        left: 12px;
+        width: 35px;
+    }
+
+    .posts {
+        padding: 12px;
+        gap: 12px;
+    }
+}

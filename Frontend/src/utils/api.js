@@ -1,11 +1,33 @@
 // API utility functions for interacting with the backend
 import { signIn, signOut } from "next-auth/react";
+import { fetchWithAuth, handleAuthError } from "./auth";
 
 /**
  * Base URL for the API
  * In production this would come from environment variables
  */
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
+/**
+ * Generic error handler for API responses
+ * @param {Response} response - Fetch response
+ * @returns {Promise<Object>} - Parsed response data
+ */
+const handleApiResponse = async (response) => {
+    // Handle authentication errors first
+    const authErrorHandled = await handleAuthError(response);
+    if (authErrorHandled) {
+        throw new Error('Session expired. Please log in again.');
+    }
+
+    const data = await response.json(); if (!response.ok) {
+        // Try to get the most specific error message available
+        const errorMessage = data.error || data.message || `HTTP ${response.status}: ${response.statusText}`;
+        throw new Error(errorMessage);
+    }
+
+    return data;
+};
 
 /**
  * Login a user with email and password
@@ -23,10 +45,9 @@ export const loginUser = async (email, password) => {
             body: JSON.stringify({ email, password }),
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Login failed');
+        const data = await response.json(); if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Login failed';
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -53,10 +74,9 @@ export const registerUser = async (name, email, password) => {
             body: JSON.stringify({ name, email, password }),
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Registration failed');
+        const data = await response.json(); if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Registration failed';
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -143,10 +163,10 @@ export const getPosts = async (options = {}) => {
         const queryString = params.toString() ? `?${params.toString()}` : '';
         const response = await fetch(`${API_BASE_URL}/posts${queryString}`);
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch posts');
+        const data = await response.json(); if (!response.ok) {
+            // Try to get the most specific error message available
+            const errorMessage = data.error || data.message || `HTTP ${response.status}: ${response.statusText}`;
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -168,7 +188,8 @@ export const getPostBySlug = async (slug) => {
         const data = await response.json();
 
         if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch post');
+            const errorMessage = data.error || data.message || 'Failed to fetch post';
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -189,7 +210,8 @@ export const getPostById = async (id) => {
         const response = await fetch(`${API_BASE_URL}/posts/id/${id}`);
         const data = await response.json();
         if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch post');
+            const errorMessage = data.error || data.message || 'Failed to fetch post';
+            throw new Error(errorMessage);
         }
         return data;
     } catch (error) {
@@ -207,10 +229,9 @@ export const getFeaturedPosts = async (limit = 5) => {
     try {
         const response = await fetch(`${API_BASE_URL}/posts/featured?limit=${limit}`);
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch featured posts');
+        const data = await response.json(); if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Failed to fetch featured posts';
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -233,10 +254,9 @@ export const getPostsByCategory = async (category, page = 1, limit = 10) => {
             `${API_BASE_URL}/posts/category/${category}?page=${page}&limit=${limit}`
         );
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch category posts');
+        const data = await response.json(); if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Failed to fetch category posts';
+            throw new Error(errorMessage);
         }
 
         return data;
@@ -254,21 +274,12 @@ export const getPostsByCategory = async (category, page = 1, limit = 10) => {
  */
 export const createPost = async (formData, token) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/posts`, {
+        const response = await fetchWithAuth(`${API_BASE_URL}/posts`, {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
             body: formData
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to create post');
-        }
-
-        return data;
+        return await handleApiResponse(response);
     } catch (error) {
         console.error('Error creating post:', error);
         throw error;
@@ -284,21 +295,12 @@ export const createPost = async (formData, token) => {
  */
 export const updatePost = async (id, formData, token) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
+        const response = await fetchWithAuth(`${API_BASE_URL}/posts/${id}`, {
             method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
             body: formData
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to update post');
-        }
-
-        return data;
+        return await handleApiResponse(response);
     } catch (error) {
         console.error('Error updating post:', error);
         throw error;
@@ -313,21 +315,14 @@ export const updatePost = async (id, formData, token) => {
  */
 export const deletePost = async (id, token) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
+        const response = await fetchWithAuth(`${API_BASE_URL}/posts/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to delete post');
-        }
-
-        return data;
+        return await handleApiResponse(response);
     } catch (error) {
         console.error('Error deleting post:', error);
         throw error;
@@ -353,19 +348,9 @@ export const getUserPosts = async (token, options = {}) => {
 
         const queryString = params.toString() ? `?${params.toString()}` : '';
 
-        const response = await fetch(`${API_BASE_URL}/posts/user/posts${queryString}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const response = await fetchWithAuth(`${API_BASE_URL}/posts/user/posts${queryString}`);
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch user posts');
-        }
-
-        return data;
+        return await handleApiResponse(response);
     } catch (error) {
         console.error('Error fetching user posts:', error);
         throw error;

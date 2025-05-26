@@ -63,6 +63,17 @@
     background-color: #789cff;
 }
 
+.default {
+    background-color: #6c757d;
+}
+
+.noPostsMessage {
+    text-align: center;
+    color: var(--softTextColor);
+    font-style: italic;
+    padding: 20px;
+}
+
 .postTitle {
     font-size: 18px;
     font-weight: 500;

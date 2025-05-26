@@ -23,6 +23,27 @@ export const getCategories = async () => {
 };
 
 /**
+ *  Fetch a category by ID
+ * @returns {Promise<Object>} Category object
+ * @param {string} id - Category ID
+**/
+export const getCategoryById = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}/categories/${id}`);
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to fetch category');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching category:', error);
+        throw error;
+    }
+}
+
+/**
  * Create a new category
  * @param {Object} categoryData - Category data including image file
  * @returns {Promise<Object>} Created category
