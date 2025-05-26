@@ -1,11 +1,33 @@
 // API utility functions for interacting with the backend
 import { signIn, signOut } from "next-auth/react";
+import { fetchWithAuth, handleAuthError } from "./auth";
 
 /**
  * Base URL for the API
  * In production this would come from environment variables
  */
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
+/**
+ * Generic error handler for API responses
+ * @param {Response} response - Fetch response
+ * @returns {Promise<Object>} - Parsed response data
+ */
+const handleApiResponse = async (response) => {
+    // Handle authentication errors first
+    const authErrorHandled = await handleAuthError(response);
+    if (authErrorHandled) {
+        throw new Error('Session expired. Please log in again.');
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || `HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    return data;
+};
 
 /**
  * Login a user with email and password
@@ -254,21 +276,12 @@ export const getPostsByCategory = async (category, page = 1, limit = 10) => {
  */
 export const createPost = async (formData, token) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/posts`, {
+        const response = await fetchWithAuth(`${API_BASE_URL}/posts`, {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
             body: formData
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to create post');
-        }
-
-        return data;
+        return await handleApiResponse(response);
     } catch (error) {
         console.error('Error creating post:', error);
         throw error;
@@ -284,21 +297,12 @@ export const createPost = async (formData, token) => {
  */
 export const updatePost = async (id, formData, token) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
+        const response = await fetchWithAuth(`${API_BASE_URL}/posts/${id}`, {
             method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
             body: formData
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to update post');
-        }
-
-        return data;
+        return await handleApiResponse(response);
     } catch (error) {
         console.error('Error updating post:', error);
         throw error;
@@ -313,21 +317,14 @@ export const updatePost = async (id, formData, token) => {
  */
 export const deletePost = async (id, token) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
+        const response = await fetchWithAuth(`${API_BASE_URL}/posts/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to delete post');
-        }
-
-        return data;
+        return await handleApiResponse(response);
     } catch (error) {
         console.error('Error deleting post:', error);
         throw error;
@@ -353,19 +350,9 @@ export const getUserPosts = async (token, options = {}) => {
 
         const queryString = params.toString() ? `?${params.toString()}` : '';
 
-        const response = await fetch(`${API_BASE_URL}/posts/user/posts${queryString}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const response = await fetchWithAuth(`${API_BASE_URL}/posts/user/posts${queryString}`);
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch user posts');
-        }
-
-        return data;
+        return await handleApiResponse(response);
     } catch (error) {
         console.error('Error fetching user posts:', error);
         throw error;
