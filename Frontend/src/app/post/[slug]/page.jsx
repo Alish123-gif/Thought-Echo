@@ -14,21 +14,31 @@ const PostDetailsPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Extract fetch logic into a separate function for reuse
+    const fetchPost = async () => {
+        if (!slug) return;
+        try {
+            setLoading(true);
+            setError(null);
+            const data = await getPostBySlug(slug);
+            setPost(data);
+        } catch (err) {
+            console.error('Error fetching post:', err);
+            setError(err.message || "Failed to load post details");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Retry function that only re-fetches data
+    const handleRetry = () => {
+        fetchPost();
+    };
+
     useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                setLoading(true);
-                const data = await getPostBySlug(slug);
-                setPost(data);
-            } catch (err) {
-                setError("Failed to load post details");
-            } finally {
-                setLoading(false);
-            }
-        };
-        if (slug) fetchPost();
+        fetchPost();
     }, [slug]); if (loading) return <LoadingSpinner />;
-    if (error) return <DataMessage type="warning" title="Error" message={error} />;
+    if (error) return <DataMessage type="error" title="Error Loading Post" message={error} showRetry={true} onRetry={handleRetry} />;
     if (!post) return null; return (
         <div className={styles.container}>
             {post.imageUrl && (
