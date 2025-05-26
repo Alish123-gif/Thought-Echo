@@ -6,6 +6,7 @@ import styles from './posts.module.css';
 import { FaSearch, FaFilter, FaTh, FaList, FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { IoIosRefresh } from 'react-icons/io';
 import Link from 'next/link';
+import Image from 'next/image';
 import { SEARCH_DEBOUNCE_DELAY } from '@/utils/constants';
 import useDebounce from '@/hooks/useDebounce';
 import DataMessage from '@/components/ui/DataMessage';
@@ -327,13 +328,14 @@ const PostsPage = () => {
             );
         }
 
-        return posts.map(post => (<div key={post.id} className={viewMode === 'grid' ? styles.postCard : styles.postListItem}>
-            <Link href={`/post/${post.slug}`} className={styles.postLink}>
+        return posts.map(post => (<div key={post.id} className={viewMode === 'grid' ? styles.postCard : styles.postListItem}>            <Link href={`/post/${post.slug}`} className={styles.postLink}>
                 <div className={viewMode === 'grid' ? styles.postCardImageContainer : styles.postListImageContainer}>
-                    <img
+                    <Image
                         src={post.imageUrl}
                         alt={post.title}
                         className={viewMode === 'grid' ? styles.postCardImage : styles.postListImage}
+                        width={viewMode === 'grid' ? 300 : 150}
+                        height={viewMode === 'grid' ? 200 : 100}
                     />
                 </div>
                 <div className={viewMode === 'grid' ? styles.postCardContent : styles.postListContent}>

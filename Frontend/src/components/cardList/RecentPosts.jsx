@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Pagination from '../pagination/Pagination'
 import styles from './recentPosts.module.css'
 import Card from '../card/Card'
@@ -19,10 +19,8 @@ const RecentPosts = ({
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const [totalPosts, setTotalPosts] = useState(0);
-
-    // Extract fetch logic into a separate function for reuse
-    const fetchPosts = async () => {
+    const [totalPosts, setTotalPosts] = useState(0);    // Extract fetch logic into a separate function for reuse
+    const fetchPosts = useCallback(async () => {
         try {
             setLoading(true);
             setError(null);
@@ -38,7 +36,6 @@ const RecentPosts = ({
             }
 
             const data = await getPosts(params);
-
             // Use the utility function to enrich posts with category data
             const postsWithCategories = await enrichPostsWithCategoriesOptimized(data.posts || []);
 
@@ -51,39 +48,41 @@ const RecentPosts = ({
         } finally {
             setLoading(false);
         }
-    };
+    }, [currentPage, limit, category]);
 
     useEffect(() => {
         fetchPosts();
-    }, [currentPage, limit, category]);
+    }, [fetchPosts]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
-    };
-
-    // Retry function that only re-fetches data
+    };    // Retry function that only re-fetches data
     const handleRetry = () => {
         fetchPosts();
-    }; if (loading) {
+    };
+
+    if (loading) {
         return (
             <div className={styles.container}>
                 <h1 className={styles.title}>{title}</h1>
                 <div className={styles.loadingContainer}>
                     <LoadingSpinner />
-                </div>
-            </div>
+                </div>        </div>
         );
-    } if (error) {
+    }
+
+    if (error) {
         return (
             <div className={styles.container}>
                 <h1 className={styles.title}>{title}</h1>
-                <div className={styles.errorContainer}>                    <DataMessage
-                    type="error"
-                    title="Error Loading Posts"
-                    message={error}
-                    showRetry={true}
-                    onRetry={handleRetry}
-                />
+                <div className={styles.errorContainer}>
+                    <DataMessage
+                        type="error"
+                        title="Error Loading Posts"
+                        message={error}
+                        showRetry={true}
+                        onRetry={handleRetry}
+                    />
                 </div>
             </div>
         );
@@ -91,7 +90,8 @@ const RecentPosts = ({
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>{title}</h1>            <div className={styles.posts}>
+            <h1 className={styles.title}>{title}</h1>
+            <div className={styles.posts}>
                 {posts.length > 0 ? (
                     posts.map((post) => (
                         <Card key={post.id} post={post} />

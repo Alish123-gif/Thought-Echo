@@ -2,6 +2,7 @@
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Image from 'next/image';
 import styles from './profile.module.css';
 
 export default function ProfilePage() {
@@ -24,10 +25,14 @@ export default function ProfilePage() {
                 <h1 className={styles.title}>Your Profile</h1>
                 {user && (
                     <div className={styles.userInfo}>
-                        <div className={styles.userHeader}>
-                            <div className={styles.avatar}>
+                        <div className={styles.userHeader}>                            <div className={styles.avatar}>
                                 {user.image ? (
-                                    <img src={user.image} alt={user.name} />
+                                    <Image 
+                                        src={user.image} 
+                                        alt={user.name} 
+                                        width={80}
+                                        height={80}
+                                    />
                                 ) : (
                                     <span>{user.name?.charAt(0) || 'U'}</span>
                                 )}

@@ -17,9 +17,7 @@ const DropDown = ({ children }) => {
     const pathname = usePathname();
 
     // Get windowWidth from ThemeContext instead of tracking it locally
-    const { windowWidth } = useContext(ThemeContext);
-
-    useEffect(() => {
+    const { windowWidth } = useContext(ThemeContext);    useEffect(() => {
         if (!isDropdownOpen) return;
 
         const handleClickOutside = (event) => {
@@ -31,7 +29,7 @@ const DropDown = ({ children }) => {
 
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
-    }, [isDropdownOpen, styles.iconContainer, styles.dropdown]);
+    }, [isDropdownOpen]);
 
     const toggleDropdown = (e) => {
         e.stopPropagation();

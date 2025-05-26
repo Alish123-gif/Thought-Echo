@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { getPostById, updatePost } from "@/utils/api";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -11,10 +11,8 @@ const EditPostPage = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    // Extract fetch logic into a separate function for reuse
-    const fetchPost = async () => {
+    const [error, setError] = useState(null);    // Extract fetch logic into a separate function for reuse
+    const fetchPost = useCallback(async () => {
         if (!postId) return;
         try {
             setLoading(true);
@@ -27,7 +25,7 @@ const EditPostPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [postId]);
 
     // Retry function that only re-fetches data
     const handleRetry = () => {
@@ -36,15 +34,16 @@ const EditPostPage = () => {
 
     useEffect(() => {
         fetchPost();
-    }, [postId]);
+    }, [postId, fetchPost]);
 
     if (loading) {
         return (
             <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
                 <LoadingSpinner size="large" color="#8B5CF6" />
-            </div>
-        );
-    } if (error) {
+            </div>        );
+    }
+
+    if (error) {
         return (
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 40 }}>
                 <DataMessage

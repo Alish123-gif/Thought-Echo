@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { getPosts, deletePost, getUserPosts } from '@/utils/api';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaEye, FaEdit, FaTrashAlt, FaPlus, FaSearch, FaFilter, FaSort } from 'react-icons/fa';
 import { IoIosRefresh } from 'react-icons/io';
 import styles from './adminPosts.module.css';
@@ -37,9 +38,10 @@ const AdminPostsPage = () => {
     useEffect(() => {
         if (status === 'unauthenticated') {
             router.push('/login?callbackUrl=/admin/posts');
-        }
-    }, [status, router]);    // Extract fetch logic into a separate function for reuse
-    const fetchPosts = async () => {
+        }    }, [status, router]);
+
+    // Extract fetch logic into a separate function for reuse
+    const fetchPosts = useCallback(async () => {
         if (status !== 'authenticated') return;
         try {
             setLoading(true);
@@ -65,17 +67,17 @@ const AdminPostsPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [session?.accessToken, status, currentPage, postsPerPage]);
 
     // Retry function that only re-fetches data
     const handleRetry = () => {
         fetchPosts();
-    };
-
-    // Fetch posts
+    };    // Fetch posts
     useEffect(() => {
         fetchPosts();
-    }, [session, status, currentPage, postsPerPage]);// Filter and sort posts
+    }, [fetchPosts]);
+
+    // Filter and sort posts
     useEffect(() => {
         if (loading || !allPosts.length) return;
 
@@ -121,12 +123,12 @@ const AdminPostsPage = () => {
         });
 
         setPosts(filteredPosts);
-    }, [debouncedSearchTerm, selectedCategory, selectedStatus, sortField, sortDirection, allPosts, loading]);
-
-    // Handle page change
+    }, [debouncedSearchTerm, selectedCategory, selectedStatus, sortField, sortDirection, allPosts, loading]);    // Handle page change
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
-    };    // Handle delete post
+    };
+
+    // Handle delete post
     const handleDeletePost = async (id) => {
         if (!session?.accessToken) return;
 
@@ -334,13 +336,14 @@ const AdminPostsPage = () => {
                         </thead>
                         <tbody>
                             {posts.map(post => (
-                                <tr key={post.id}>
-                                    <td className={styles.imageCell}>
+                                <tr key={post.id}>                                    <td className={styles.imageCell}>
                                         <div className={styles.postImageContainer}>
-                                            <img
+                                            <Image
                                                 src={post.imageUrl}
                                                 alt={post.title}
                                                 className={styles.postImage}
+                                                width={80}
+                                                height={60}
                                             />
                                         </div>
                                     </td>

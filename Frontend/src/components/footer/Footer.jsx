@@ -17,9 +17,8 @@ const Footer = () => {
                         <div className={styles.logo}>
                             <Image src="/logo.png" alt="ThoughtEcho" width={50} height={50} />
                             <h2 className={styles.logoText}>ThoughtEcho</h2>
-                        </div>
-                        <p className={styles.brandDescription}>
-                            A full-stack developer's journey through code, creativity, and innovation.
+                        </div>                        <p className={styles.brandDescription}>
+                            A full-stack developer&apos;s journey through code, creativity, and innovation.
                             Sharing insights from Lebanon to the world.
                         </p>
                         <div className={styles.contactInfo}>
@@ -56,7 +55,7 @@ const Footer = () => {
                         </nav>
                     </div>
 
-                    {/* Social & Newsletter */}
+                    {/* Social and Newsletter */}
                     <div className={styles.socialSection}>
                         <h3 className={styles.sectionTitle}>Connect</h3>
                         <div className={styles.socialLinks}>
@@ -68,8 +67,7 @@ const Footer = () => {
                                 aria-label="GitHub"
                             >
                                 <FaGithub />
-                            </a>
-                            <a
+                            </a>                            <a
                                 href="https://linkedin.com/in/ali"
                                 target="_blank"
                                 rel="noopener noreferrer"

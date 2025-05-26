@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import styles from './settings_components.module.css';
 import { HiPlus, HiPencil, HiTrash, HiX, HiCheck, HiSearch, HiPhotograph, HiUpload } from 'react-icons/hi';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -247,10 +248,14 @@ const CategoriesSettings = () => {
 
                     <div className={styles.formGroup}>
                         <label htmlFor="image">Category Image</label>
-                        <div className={styles.imageUploadContainer}>
-                            {imagePreview && (
+                        <div className={styles.imageUploadContainer}>                            {imagePreview && (
                                 <div className={styles.imagePreview}>
-                                    <img src={imagePreview} alt="Category preview" />
+                                    <Image 
+                                        src={imagePreview} 
+                                        alt="Category preview" 
+                                        width={100}
+                                        height={100}
+                                    />
                                 </div>
                             )}
                             <div className={styles.fileInputWrapper}>
@@ -343,13 +348,14 @@ const CategoriesSettings = () => {
                                     {category.name}
                                 </span>
                             </div>
-                            <div className={styles.tableCell}>
-                                {category.imageUrl ? (
+                            <div className={styles.tableCell}>                                {category.imageUrl ? (
                                     <div className={styles.imageWrapper}>
-                                        <img
+                                        <Image
                                             src={category.imageUrl}
                                             alt={category.name}
                                             className={styles.categoryThumbnail}
+                                            width={50}
+                                            height={50}
                                             onClick={() => {
                                                 setModalImage(category.imageUrl);
                                                 setShowImageModal(true);
@@ -398,7 +404,13 @@ const CategoriesSettings = () => {
                         <span className={styles.closeModal} onClick={() => setShowImageModal(false)}>
                             &times;
                         </span>
-                        <img src={modalImage} alt="Category" className={styles.modalImage} />
+                        <Image 
+                            src={modalImage} 
+                            alt="Category" 
+                            className={styles.modalImage}
+                            width={400}
+                            height={300}
+                        />
                     </div>
                 </div>
             )}
