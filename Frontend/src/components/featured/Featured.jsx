@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import styles from './featured.module.css'
 import Image from 'next/image'
 import { getFeaturedPosts } from "@/utils/api";
+import { enrichPostsWithCategoriesOptimized } from "@/utils/postHelpers";
 import LoadingSpinner from '../ui/LoadingSpinner';
 import DataMessage from '../ui/DataMessage';
 import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
@@ -34,12 +35,11 @@ const Featured = () => {
                 }
             });
         }, 10);
-    };
-
-    const fetchFeaturedPosts = async () => {
+    }; const fetchFeaturedPosts = async () => {
         try {
             const response = await getFeaturedPosts();
-            setPosts(response);
+            const enrichedPosts = await enrichPostsWithCategoriesOptimized(response);
+            setPosts(enrichedPosts);
             setLoading(false);
         } catch (error) {
             setError(error);
@@ -83,16 +83,19 @@ const Featured = () => {
                 <div
                     className={`${styles.post} ${animationDirection === 'left' ? styles.slideRight : animationDirection === 'right' ? styles.slideLeft : ''}`}
                 >
-                    <React.Fragment key={posts[postIndex].id}>
-                        <div className={styles.imgContainer}>
-                            <Image
-                                className={styles.image}
-                                src={posts[postIndex].imageUrl}
-                                alt="Featured Image"
-                                fill
-                            />
-                        </div>                        <div className={styles.textContainer}>
+                    <React.Fragment key={posts[postIndex].id}>                        <div className={styles.imgContainer}>
+                        <Image
+                            className={styles.image}
+                            src={posts[postIndex].image || posts[postIndex].imageUrl || '/p1.jpeg'}
+                            alt="Featured Image"
+                            fill
+                        />
+                    </div>
+                        <div className={styles.textContainer}>
                             <h2 className={styles.postTitle}>{posts[postIndex].title}</h2>
+                            {posts[postIndex].categoryName && (
+                                <span className={styles.category}>{posts[postIndex].categoryName}</span>
+                            )}
                             <p className={styles.postDesc}>{posts[postIndex].description}</p>
                             <button onClick={() => navigate(posts[postIndex].slug)} className={styles.button}>Read More</button>
                         </div>
