@@ -12,10 +12,9 @@ const Featured = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [postIndex, setPostIndex] = useState(0);
-    const [animationDirection, setAnimationDirection] = useState(null);
-    const router = useRouter();
-    const navigate = (id) => {
-        router.push(`/post/${id}`);
+    const [animationDirection, setAnimationDirection] = useState(null); const router = useRouter();
+    const navigate = (slug) => {
+        router.push(`/post/${slug}`);
     }
     const handleChangePosts = (direction) => {
         // First remove animation to reset it
@@ -92,11 +91,10 @@ const Featured = () => {
                                 alt="Featured Image"
                                 fill
                             />
-                        </div>
-                        <div className={styles.textContainer}>
+                        </div>                        <div className={styles.textContainer}>
                             <h2 className={styles.postTitle}>{posts[postIndex].title}</h2>
                             <p className={styles.postDesc}>{posts[postIndex].description}</p>
-                            <button onClick={() => navigate(posts[postIndex].id)} className={styles.button}>Read More</button>
+                            <button onClick={() => navigate(posts[postIndex].slug)} className={styles.button}>Read More</button>
                         </div>
                     </React.Fragment>
                 </div>
