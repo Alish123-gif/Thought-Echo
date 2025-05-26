@@ -72,8 +72,8 @@ const Navbar = () => {
                     <>
                         {/* Regular navigation */}
                         <Link href="/" className={pathname === '/' ? styles.activeLink : ''}>Home</Link>
-                        <Link href="/about" className={pathname === '/about' ? styles.activeLink : ''}>About</Link>
-                        <Link href="/contact" className={pathname === '/contact' ? styles.activeLink : ''}>Contact</Link>
+                        <Link href="/posts" className={pathname === '/posts' ? styles.activeLink : ''}>All Posts</Link>
+                        <Link href="/about" className={pathname === '/about' ? styles.activeLink : ''}>About Us</Link>
 
                         {/* Admin dropdown for non-admin pages */}
                         {session?.user?.isAdmin && (
