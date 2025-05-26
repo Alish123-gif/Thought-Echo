@@ -13,11 +13,8 @@ const AdminLinks = ({ className = '' }) => {
             <Link href="/admin/posts" className={styles.adminLink}>
                 <HiViewList /> All Posts
             </Link>
-            <Link href="/admin/users" className={styles.adminLink}>
-                <HiUserGroup /> Manage Users
-            </Link>
             <Link href="/admin/analytics" className={styles.adminLink}>
-                <HiChartBar /> Analytics
+                <HiChartBar /> Dashboard
             </Link>
             <Link href="/admin/settings" className={styles.adminLink}>
                 <HiCog /> Settings

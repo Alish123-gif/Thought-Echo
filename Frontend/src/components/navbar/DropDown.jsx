@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import ThemeContext from '@/context/ThemeContext';
+import { Settings } from 'lucide-react';
 
 const DropDown = ({ children }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -68,8 +69,8 @@ const DropDown = ({ children }) => {
                             <Link className={styles.dropdownItem} href="/admin/posts">
                                 <HiViewList /> All Posts
                             </Link>
-                            <Link className={styles.dropdownItem} href="/admin/users">
-                                <HiUserGroup /> Users
+                            <Link className={styles.dropdownItem} href="/admin/settings">
+                                <Settings /> Settings
                             </Link>
                             <Link className={styles.dropdownItem} href="/">
                                 <HiHome /> Back to Site

@@ -60,8 +60,8 @@ const Navbar = () => {
                         <Link href="/admin/posts" className={pathname === '/admin/posts' ? styles.activeLink : ''}>
                             All Posts
                         </Link>
-                        <Link href="/admin/users" className={pathname === '/admin/users' ? styles.activeLink : ''}>
-                            Users
+                        <Link href="/admin/settings" className={pathname === '/admin/settings' ? styles.activeLink : ''}>
+                            Settings
                         </Link>
                         <Link href="/" className={styles.homeLink}>
                             <HiHome />
