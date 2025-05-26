@@ -205,22 +205,26 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
         }, AUTOSAVE_INTERVAL);
 
         return () => clearInterval(intervalId);
-    }, [title, description, content, category, tags, isFeatured, isPublished, previewUrl]);
-
-    // Discard draft
+    }, [title, description, content, category, tags, isFeatured, isPublished, previewUrl]);    // Discard draft
     const discardDraft = () => {
         if (window.confirm('Are you sure you want to discard this draft? All changes will be lost.')) {
-            localStorage.removeItem(LOCAL_STORAGE_KEY);
-            setTitle('');
-            setDescription('');
-            setContent('');
-            setCategory('');
-            setTags([]);
-            setIsFeatured(false);
-            setIsPublished(true);
-            removeImage();
-            setLastSaved(null);
+            clearForm();
         }
+    };
+
+    // Helper function to clear the form and draft
+    const clearForm = () => {
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        setTitle('');
+        setDescription('');
+        setContent('');
+        setCategory('');
+        setTags([]);
+        setIsFeatured(false);
+        setIsPublished(true);
+        removeImage();
+        setLastSaved(null);
+        setErrors({});
     };
 
     // Warn before closing tab/window if there are unsaved changes
@@ -273,17 +277,24 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
 
             // Get the user's token from the session
             const token = session.accessToken;
-
             if (onSubmit) {
                 await onSubmit(formData, token);
                 setSuccessMessage(mode === 'edit' ? 'Post updated successfully!' : 'Post created successfully!');
+
+                // Clear the autosave draft and form when editing as well
+                if (mode === 'create') {
+                    clearForm();
+                } else {
+                    // For edit mode, just clear the draft but keep the form data
+                    localStorage.removeItem(LOCAL_STORAGE_KEY);
+                    setLastSaved(null);
+                }
+
                 setTimeout(() => {
                     router.push('/admin/posts');
                 }, 1500);
                 return;
-            }
-
-            // Default: create post
+            }// Default: create post
             const response = await createPost(formData, token);
 
             // Set success message based on post status
@@ -292,9 +303,8 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
                 : 'Your post has been saved as a draft.';
             setSuccessMessage(message);
 
-            // Clear the autosave draft
-            localStorage.removeItem(LOCAL_STORAGE_KEY);
-            setLastSaved(null);
+            // Clear the form and autosave draft after successful creation
+            clearForm();
 
             // Redirect to the admin posts page after a short delay
             setTimeout(() => {
