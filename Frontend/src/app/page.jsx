@@ -1,6 +1,6 @@
 
 "use client";
-import { CardList, CategoryList, Featured, Menu } from "@/components";
+import { RecentPosts, Featured, Menu } from "@/components";
 import styles from "./homepage.module.css";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -35,9 +35,8 @@ export default function Home() {
         </div>
       )}
       <Featured />
-      <CategoryList />
       <div className={styles.content}>
-        <CardList />
+        <RecentPosts />
         <Menu />
       </div>
     </div>
