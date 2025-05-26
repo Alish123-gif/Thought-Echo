@@ -1,0 +1,370 @@
+/* About Page Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    min-height: 100vh;
+}
+
+.hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 20px 0 40px 0;
+    border-radius: 16px;
+    padding: 60px 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><circle cx="15" cy="15" r="1"/><circle cx="45" cy="45" r="1"/></g></svg>');
+    pointer-events: none;
+}
+
+.heroContent {
+    position: relative;
+    z-index: 1;
+}
+
+.profileSection {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.profileImage {
+    flex-shrink: 0;
+}
+
+.avatar {
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.profileText {
+    flex: 1;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin: 0;
+    opacity: 0.9;
+    font-style: italic;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.leadText {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: var(--textColor);
+}
+
+.description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    color: var(--softTextColor);
+}
+
+.sectionTitle {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: var(--textColor);
+    text-align: center;
+    position: relative;
+}
+
+.sectionTitle::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.interests {
+    background: var(--bg);
+    padding: 40px;
+    border-radius: 16px;
+    border: 1px solid var(--softTextColor);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.interestsList {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.interestsList li {
+    background: rgba(102, 126, 234, 0.1);
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    border-left: 4px solid #667eea;
+    transition: transform 0.2s ease;
+}
+
+.interestsList li:hover {
+    transform: translateX(5px);
+}
+
+.services {
+    padding: 40px 0;
+}
+
+.serviceGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.serviceCard {
+    background: var(--bg);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid var(--softTextColor);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.serviceCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+}
+
+.serviceCard h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--textColor);
+}
+
+.serviceCard p {
+    color: var(--softTextColor);
+    line-height: 1.6;
+}
+
+.whyMe {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 50px 40px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.whyMe .sectionTitle {
+    color: white;
+}
+
+.whyMe .sectionTitle::after {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.whyMe .description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+}
+
+.whyMeContent {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.motto {
+    margin-top: 30px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    border-left: 4px solid rgba(255, 255, 255, 0.5);
+}
+
+.mottoText {
+    font-size: 1.2rem;
+    font-style: italic;
+    margin: 0;
+    color: white;
+    font-weight: 500;
+}
+
+.cta {
+    text-align: center;
+    padding: 50px 30px;
+    background: var(--bg);
+    border-radius: 16px;
+    border: 2px dashed var(--softTextColor);
+}
+
+.ctaTitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--textColor);
+}
+
+.ctaText {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: var(--softTextColor);
+}
+
+.contactButtons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.primaryButton,
+.secondaryButton {
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.primaryButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.primaryButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.secondaryButton {
+    background: transparent;
+    color: var(--textColor);
+    border: 2px solid var(--textColor);
+}
+
+.secondaryButton:hover {
+    background: var(--textColor);
+    color: var(--bg);
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .hero {
+        padding: 40px 20px;
+        margin: 10px 0 30px 0;
+    }
+
+    .profileSection {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+    }
+
+    .content {
+        gap: 35px;
+    }
+
+    .interests,
+    .whyMe,
+    .cta {
+        padding: 30px 20px;
+    }
+
+    .serviceGrid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .interestsList {
+        grid-template-columns: 1fr;
+    }
+
+    .contactButtons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .primaryButton,
+    .secondaryButton {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .ctaTitle {
+        font-size: 2rem;
+    }
+
+    .sectionTitle {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .hero {
+        padding: 30px 15px;
+    }
+
+    .interests,
+    .whyMe,
+    .cta {
+        padding: 25px 15px;
+    }
+
+    .serviceCard {
+        padding: 20px;
+    }
+}
