@@ -38,37 +38,44 @@ const AdminPostsPage = () => {
         if (status === 'unauthenticated') {
             router.push('/login?callbackUrl=/admin/posts');
         }
-    }, [status, router]);    // Fetch posts
-    useEffect(() => {
-        const fetchPosts = async () => {
-            if (status !== 'authenticated') return;
-            try {
-                setLoading(true);
-                const token = session?.accessToken;
+    }, [status, router]);    // Extract fetch logic into a separate function for reuse
+    const fetchPosts = async () => {
+        if (status !== 'authenticated') return;
+        try {
+            setLoading(true);
+            setError(null);
+            const token = session?.accessToken;
 
-                const data = await getUserPosts(token, {
-                    page: currentPage,
-                    limit: postsPerPage
-                });
+            const data = await getUserPosts(token, {
+                page: currentPage,
+                limit: postsPerPage
+            });
 
-                // Extract unique categories
-                const uniqueCategories = [...new Set(data.posts.map(post => post.category))];
-                setCategories(uniqueCategories);
+            // Extract unique categories
+            const uniqueCategories = [...new Set(data.posts.map(post => post.category))];
+            setCategories(uniqueCategories);
 
-                setPosts(data.posts || []);
-                setAllPosts(data.posts || []);
-                setTotalPosts(data.totalPosts || 0);
-                setTotalPages(data.totalPages || 1);
-            } catch (err) {
-                console.error('Error fetching posts:', err);
-                setError(err.message || 'Failed to load posts');
-            } finally {
-                setLoading(false);
-            }
-        };
+            setPosts(data.posts || []);
+            setAllPosts(data.posts || []);
+            setTotalPosts(data.totalPosts || 0);
+            setTotalPages(data.totalPages || 1);
+        } catch (err) {
+            console.error('Error fetching posts:', err);
+            setError(err.message || 'Failed to load posts');
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    // Retry function that only re-fetches data
+    const handleRetry = () => {
         fetchPosts();
-    }, [session, status, currentPage, postsPerPage]);    // Filter and sort posts
+    };
+
+    // Fetch posts
+    useEffect(() => {
+        fetchPosts();
+    }, [session, status, currentPage, postsPerPage]);// Filter and sort posts
     useEffect(() => {
         if (loading || !allPosts.length) return;
 
@@ -179,9 +186,7 @@ const AdminPostsPage = () => {
                 </div>
             </div>
         );
-    }
-
-    if (status === 'authenticated' && error) {
+    } if (status === 'authenticated' && error) {
         return (
             <div className={styles.container}>
                 <div className={styles.errorContainer}>
@@ -189,7 +194,7 @@ const AdminPostsPage = () => {
                     <p>{error}</p>
                     <button
                         className={styles.retryButton}
-                        onClick={() => window.location.reload()}
+                        onClick={handleRetry}
                     >
                         <IoIosRefresh /> Retry
                     </button>
