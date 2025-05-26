@@ -327,52 +327,51 @@ const PostsPage = () => {
             );
         }
 
-        return posts.map(post => (
-            <div key={post.id} className={viewMode === 'grid' ? styles.postCard : styles.postListItem}>
-                <Link href={`/post/${post.id}`} className={styles.postLink}>
-                    <div className={viewMode === 'grid' ? styles.postCardImageContainer : styles.postListImageContainer}>
-                        <img
-                            src={post.imageUrl}
-                            alt={post.title}
-                            className={viewMode === 'grid' ? styles.postCardImage : styles.postListImage}
-                        />
+        return posts.map(post => (<div key={post.id} className={viewMode === 'grid' ? styles.postCard : styles.postListItem}>
+            <Link href={`/post/${post.slug}`} className={styles.postLink}>
+                <div className={viewMode === 'grid' ? styles.postCardImageContainer : styles.postListImageContainer}>
+                    <img
+                        src={post.imageUrl}
+                        alt={post.title}
+                        className={viewMode === 'grid' ? styles.postCardImage : styles.postListImage}
+                    />
+                </div>
+                <div className={viewMode === 'grid' ? styles.postCardContent : styles.postListContent}>
+                    <div className={styles.postMeta}>
+                        <span className={styles.postCategory}>{post.category}</span>
+                        {post.isFeatured && <span className={styles.featuredBadge}>Featured</span>}
                     </div>
-                    <div className={viewMode === 'grid' ? styles.postCardContent : styles.postListContent}>
-                        <div className={styles.postMeta}>
-                            <span className={styles.postCategory}>{post.category}</span>
-                            {post.isFeatured && <span className={styles.featuredBadge}>Featured</span>}
+                    <h3 className={viewMode === 'grid' ? styles.postCardTitle : styles.postListTitle}>{post.title}</h3>
+                    <p className={viewMode === 'grid' ? styles.postCardDescription : styles.postListDescription}>
+                        {post.description.length > 120
+                            ? `${post.description.substring(0, 120)}...`
+                            : post.description}
+                    </p>
+                    <div className={styles.postFooter}>
+                        <div className={styles.postAuthor}>
+                            {post.author?.name && `By ${post.author.name}`}
                         </div>
-                        <h3 className={viewMode === 'grid' ? styles.postCardTitle : styles.postListTitle}>{post.title}</h3>
-                        <p className={viewMode === 'grid' ? styles.postCardDescription : styles.postListDescription}>
-                            {post.description.length > 120
-                                ? `${post.description.substring(0, 120)}...`
-                                : post.description}
-                        </p>
-                        <div className={styles.postFooter}>
-                            <div className={styles.postAuthor}>
-                                {post.author?.name && `By ${post.author.name}`}
-                            </div>
-                            <div className={styles.postDate}>
-                                {formatDate(post.createdAt)}
-                            </div>
-                            {post.readingTime && (
-                                <div className={styles.readingTime}>
-                                    {post.readingTime} min read
-                                </div>
-                            )}
+                        <div className={styles.postDate}>
+                            {formatDate(post.createdAt)}
                         </div>
-                        {viewMode === 'list' && post.tags && (
-                            <div className={styles.postTags}>
-                                {post.tags.map(tag => (
-                                    <span key={tag} className={styles.postTag}>
-                                        {tag}
-                                    </span>
-                                ))}
+                        {post.readingTime && (
+                            <div className={styles.readingTime}>
+                                {post.readingTime} min read
                             </div>
                         )}
                     </div>
-                </Link>
-            </div>
+                    {viewMode === 'list' && post.tags && (
+                        <div className={styles.postTags}>
+                            {post.tags.map(tag => (
+                                <span key={tag} className={styles.postTag}>
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </Link>
+        </div>
         ));
     };
 
