@@ -19,9 +19,9 @@ export const options = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                try {
-                    // Make a request to your backend API
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/auth/login`, {
+                try {                    // Make a request to your backend API
+                    const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.BACKEND_URL || 'http://localhost:5000/api';
+                    const res = await fetch(`${apiUrl}/auth/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
