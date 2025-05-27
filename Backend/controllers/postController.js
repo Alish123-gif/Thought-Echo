@@ -173,15 +173,19 @@ exports.createPost = async (req, res) => {
             } catch (authError) {
                 console.error('❌ ImageKit auth failed:', authError.message);
                 throw new Error('ImageKit authentication failed: ' + authError.message);
-            }
-
-            // Read file
+            }            // Read file
             const fileBuffer = req.file.buffer;
+
+            // Create short, unique filename
+            const timestamp = Date.now();
+            const randomId = Math.random().toString(36).substring(2, 8); // 6 char random string
+            const fileExtension = req.file.originalname.split('.').pop();
+            const shortFileName = `post_${timestamp}_${randomId}.${fileExtension}`;
 
             // Upload to ImageKit
             imageUploadResponse = await imagekit.upload({
                 file: fileBuffer,
-                fileName: `blog-${Date.now()}-${req.file.originalname}`,
+                fileName: shortFileName,
                 folder: '/blog-posts'
             });
 
@@ -279,15 +283,19 @@ exports.updatePost = async (req, res) => {
                 } catch (authError) {
                     console.error('❌ ImageKit auth failed:', authError.message);
                     throw new Error('ImageKit authentication failed: ' + authError.message);
-                }
-
-                // Read file
+                }                // Read file
                 const fileBuffer = req.file.buffer;
+
+                // Create short, unique filename
+                const timestamp = Date.now();
+                const randomId = Math.random().toString(36).substring(2, 8); // 6 char random string
+                const fileExtension = req.file.originalname.split('.').pop();
+                const shortFileName = `post_${timestamp}_${randomId}.${fileExtension}`;
 
                 // Upload to ImageKit
                 const imageUploadResponse = await imagekit.upload({
                     file: fileBuffer,
-                    fileName: `blog-${Date.now()}-${req.file.originalname}`,
+                    fileName: shortFileName,
                     folder: '/blog-posts'
                 });
 
