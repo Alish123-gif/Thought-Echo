@@ -2,6 +2,19 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+// Environment variable validation
+const requiredEnvVars = {
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+};
+
+// Log missing environment variables
+Object.entries(requiredEnvVars).forEach(([key, value]) => {
+    if (!value) {
+        console.warn(`[NextAuth] Missing environment variable: ${key}`);
+    }
+});
+
 export const options = {
     providers: [
         GoogleProvider({
@@ -11,7 +24,8 @@ export const options = {
         GithubProvider({
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET,
-        }), CredentialsProvider({
+        }),
+        CredentialsProvider({
             id: "credentials",
             name: "Credentials",
             credentials: {
@@ -19,7 +33,8 @@ export const options = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                try {                    // Make a request to your backend API
+                try {
+                    // Make a request to your backend API
                     const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.BACKEND_URL || 'http://localhost:5000/api';
                     const res = await fetch(`${apiUrl}/auth/login`, {
                         method: 'POST',
@@ -30,7 +45,9 @@ export const options = {
                         }),
                     });
 
-                    const data = await res.json(); if (res.ok && data.user) {
+                    const data = await res.json();
+                    
+                    if (res.ok && data.user) {
                         // Return the user object and token
                         return {
                             id: data.user.id,
@@ -51,7 +68,21 @@ export const options = {
     ],
     pages: {
         signIn: "/login",
-    }, callbacks: {
+        error: "/login", // Redirect to login page on errors
+    },
+    debug: process.env.NODE_ENV === "development",
+    logger: {
+        error(code, metadata) {
+            console.error("[NextAuth Error]", code, metadata);
+        },
+        warn(code) {
+            console.warn("[NextAuth Warning]", code);
+        },
+        debug(code, metadata) {
+            console.log("[NextAuth Debug]", code, metadata);
+        }
+    },
+    callbacks: {
         async jwt({ token, user }) {
             if (user) {
                 // Store the user id and token in the JWT token
