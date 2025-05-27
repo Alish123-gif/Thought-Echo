@@ -48,7 +48,7 @@ export const options = {
                     });
 
                     const data = await res.json();
-                    
+
                     if (res.ok && data.user) {
                         // Return the user object and token
                         return {
@@ -105,7 +105,8 @@ export const options = {
                 session.accessToken = token.accessToken;
             }
             return session;
-        },    },
+        },
+    },
     secret: process.env.NEXTAUTH_SECRET || "fallback-secret-for-development",
     session: {
         strategy: "jwt",

@@ -1,0 +1,235 @@
+/* Privacy Policy Page Styles */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    min-height: 100vh;
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 20px 0 40px 0;
+    border-radius: 16px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><circle cx="15" cy="15" r="1"/><circle cx="45" cy="45" r="1"/></g></svg>');
+    pointer-events: none;
+}
+
+.heroIcon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.lastUpdated {
+    font-size: 1rem;
+    opacity: 0.8;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+}
+
+.content {
+    margin-bottom: 60px;
+}
+
+.section {
+    background: var(--bg);
+    margin-bottom: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--softBg);
+    overflow: hidden;
+}
+
+.sectionHeader {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    padding: 25px 30px;
+    border-bottom: 1px solid var(--softBg);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sectionIcon {
+    font-size: 1.5rem;
+    color: #667eea;
+    flex-shrink: 0;
+}
+
+.sectionHeader h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--textColor);
+}
+
+.sectionContent {
+    padding: 30px;
+    color: var(--textColor);
+    line-height: 1.7;
+}
+
+.sectionContent h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 25px 0 15px 0;
+    color: var(--textColor);
+    border-left: 4px solid #667eea;
+    padding-left: 15px;
+}
+
+.sectionContent h3:first-child {
+    margin-top: 0;
+}
+
+.sectionContent p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: var(--softTextColor);
+}
+
+.sectionContent ul {
+    margin: 15px 0 25px 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.sectionContent li {
+    position: relative;
+    margin-bottom: 12px;
+    padding-left: 25px;
+    color: var(--softTextColor);
+    font-size: 1rem;
+}
+
+.sectionContent li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.sectionContent strong {
+    color: var(--textColor);
+    font-weight: 600;
+}
+
+.contactInfo {
+    background: var(--softBg);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.contactInfo p {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.contactInfo p:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .hero {
+        padding: 40px 20px;
+        margin: 10px 0 30px 0;
+    }
+
+    .heroIcon {
+        font-size: 3rem;
+    }
+
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+    }
+
+    .sectionHeader {
+        padding: 20px;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .sectionHeader h2 {
+        font-size: 1.5rem;
+    }
+
+    .sectionContent {
+        padding: 20px;
+    }
+
+    .sectionContent h3 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .hero {
+        padding: 30px 15px;
+    }
+
+    .sectionHeader {
+        padding: 15px;
+    }
+
+    .sectionContent {
+        padding: 15px;
+    }
+
+    .sectionContent li {
+        padding-left: 20px;
+        font-size: 0.95rem;
+    }
+
+    .contactInfo {
+        padding: 15px;
+    }
+}
