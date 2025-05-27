@@ -21,4 +21,37 @@ const imagekit = new ImageKit({
     urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
 });
 
+// Test basic authentication method
+async function testImageKitAuth() {
+    try {
+        console.log('=== Testing ImageKit Authentication Methods ===');
+        
+        // Test 1: Try getFileMetadata (simpler operation)
+        console.log('Test 1: Attempting getFileMetadata...');
+        try {
+            await imagekit.getFileMetadata('non-existent-file');
+        } catch (metadataError) {
+            // We expect this to fail due to file not existing, but it should show auth status
+            console.log('Metadata test response:', metadataError.response?.status, metadataError.message);
+        }
+
+        // Test 2: Try listFiles with more specific error handling
+        console.log('Test 2: Attempting listFiles...');
+        const result = await imagekit.listFiles({ limit: 1 });
+        console.log('✅ listFiles successful, files count:', result.length);
+        
+    } catch (error) {
+        console.log('❌ Auth test failed with details:');
+        console.log('Error message:', error.message);
+        console.log('Error code:', error.code);
+        console.log('HTTP status:', error.response?.status);
+        console.log('Response headers:', error.response?.headers);
+        console.log('Response data:', error.response?.data);
+        console.log('Full error object:', JSON.stringify(error, null, 2));
+    }
+}
+
+// Call auth test when module is loaded
+testImageKitAuth();
+
 module.exports = imagekit;
