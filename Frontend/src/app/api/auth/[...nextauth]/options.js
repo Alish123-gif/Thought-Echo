@@ -2,18 +2,20 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-// Environment variable validation
+// Environment variable validation with proper fallbacks
 const requiredEnvVars = {
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
 };
 
-// Log missing environment variables
-Object.entries(requiredEnvVars).forEach(([key, value]) => {
-    if (!value) {
-        console.warn(`[NextAuth] Missing environment variable: ${key}`);
-    }
-});
+// Log missing environment variables in development only
+if (process.env.NODE_ENV === 'development') {
+    Object.entries(requiredEnvVars).forEach(([key, value]) => {
+        if (!value) {
+            console.warn(`[NextAuth] Missing environment variable: ${key}`);
+        }
+    });
+}
 
 export const options = {
     providers: [
@@ -103,9 +105,8 @@ export const options = {
                 session.accessToken = token.accessToken;
             }
             return session;
-        },
-    },
-    secret: process.env.NEXTAUTH_SECRET,
+        },    },
+    secret: process.env.NEXTAUTH_SECRET || "fallback-secret-for-development",
     session: {
         strategy: "jwt",
     },

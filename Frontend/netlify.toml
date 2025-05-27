@@ -4,6 +4,6 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
 [build.environment]
-NEXTAUTH_URL = "https://thoughtecho.netlify.app"
-NEXTAUTH_SECRET = "H/6ErvCRG9rMhPDPLo9fzniLwwE+J0To3L4XCf6AILo="
+  NEXTAUTH_URL = "https://thoughtecho.netlify.app"
