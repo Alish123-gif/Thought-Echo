@@ -26,10 +26,9 @@ const TermsOfServicePage = () => {
                         <p>
                             By accessing and using ThoughtEcho, you accept and agree to be bound by the terms and provision of this agreement. 
                             If you do not agree to abide by the above, please do not use this service.
-                        </p>
-                        <p>
-                            These Terms of Service ("Terms") apply to your access and use of ThoughtEcho (the "Service") 
-                            operated by Ali Shibli ("we", "us", or "our").
+                        </p>                        <p>
+                            These Terms of Service (&quot;Terms&quot;) apply to your access and use of ThoughtEcho (the &quot;Service&quot;) 
+                            operated by Ali Shibli (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;).
                         </p>
                     </div>
                 </section>
@@ -82,7 +81,7 @@ const TermsOfServicePage = () => {
                         <ul>
                             <li>You retain ownership of content you post on our platform</li>
                             <li>By posting content, you grant us a worldwide, non-exclusive license to use, display, and distribute your content</li>
-                            <li>You represent that you have the right to post the content and it doesn't violate any third-party rights</li>
+                            <li>You represent that you have the right to post the content and it doesn&apos;t violate any third-party rights</li>
                             <li>We reserve the right to remove content that violates these terms</li>
                         </ul>
 
@@ -122,7 +121,7 @@ const TermsOfServicePage = () => {
                             While we strive to maintain high availability, we cannot guarantee uninterrupted service.
                         </p>
                         <ul>
-                            <li>The service is provided "as is" without warranties of any kind</li>
+                            <li>The service is provided &quot;as is&quot; without warranties of any kind</li>
                             <li>We may modify, suspend, or discontinue the service at any time</li>
                             <li>We are not responsible for any loss of data or content</li>
                             <li>Regular maintenance may temporarily affect service availability</li>
@@ -191,7 +190,7 @@ const TermsOfServicePage = () => {
                             We reserve the right to modify these terms at any time. We will notify users of any material changes.
                         </p>
                         <ul>
-                            <li>Changes will be posted on this page with an updated "Last updated" date</li>
+                            <li>Changes will be posted on this page with an updated &quot;Last updated&quot; date</li>
                             <li>Continued use of the service after changes constitutes acceptance</li>
                             <li>If you disagree with changes, you should discontinue use of the service</li>
                         </ul>

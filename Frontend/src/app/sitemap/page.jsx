@@ -59,10 +59,9 @@ const SitemapPage = () => {
         <div className={styles.container}>
             <div className={styles.hero}>
                 <HiMap className={styles.heroIcon} />
-                <h1 className={styles.title}>Sitemap</h1>
-                <p className={styles.subtitle}>
+                <h1 className={styles.title}>Sitemap</h1>                <p className={styles.subtitle}>
                     Navigate through all pages and sections of ThoughtEcho. 
-                    Find exactly what you're looking for with our comprehensive site structure.
+                    Find exactly what you&apos;re looking for with our comprehensive site structure.
                 </p>
             </div>
 

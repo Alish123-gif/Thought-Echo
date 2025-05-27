@@ -7,9 +7,8 @@ const ContactPage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.hero}>
-                <h1 className={styles.title}>Get In Touch</h1>
-                <p className={styles.subtitle}>
-                    Have a question, want to collaborate, or just say hello? I'd love to hear from you.
+                <h1 className={styles.title}>Get In Touch</h1>                <p className={styles.subtitle}>
+                    Have a question, want to collaborate, or just say hello? I&apos;d love to hear from you.
                 </p>
             </div>
 
@@ -114,11 +113,9 @@ const ContactPage = () => {
                         </button>
                     </form>
                 </div>
-            </div>
-
-            <div className={styles.cta}>
-                <h2>Let's Build Something Amazing Together</h2>
-                <p>Whether it's a complex web application or a simple landing page, I'm here to help bring your ideas to life.</p>
+            </div>            <div className={styles.cta}>
+                <h2>Let&apos;s Build Something Amazing Together</h2>
+                <p>Whether it&apos;s a complex web application or a simple landing page, I&apos;m here to help bring your ideas to life.</p>
             </div>
         </div>
     );
