@@ -31,6 +31,25 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api', categoryRoutes);
 
+// Debug endpoint for testing ImageKit
+app.get('/api/debug/imagekit', async (req, res) => {
+  try {
+    const imagekit = require('./config/imagekit');
+    const result = await imagekit.listFiles({ limit: 1 });
+    res.json({
+      success: true,
+      message: 'ImageKit working',
+      fileCount: result.length
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      details: error.response?.data
+    });
+  }
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -73,12 +92,32 @@ const startServer = async () => {
 
     await sequelize.sync({ alter: true });
     console.log('Database connected and synced');
+
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
+
+    // Test ImageKit connection after server starts
+    testImageKitConnection();
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 };
+
+// Test ImageKit connection
+async function testImageKitConnection() {
+  try {
+    console.log('Testing ImageKit connection...');
+    const imagekit = require('./config/imagekit');
+    const result = await imagekit.listFiles({ limit: 1 });
+    console.log('✅ ImageKit connected successfully');
+  } catch (error) {
+    console.error('❌ ImageKit connection failed:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status
+    });
+  }
+}
 
 startServer();
