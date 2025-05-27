@@ -1,11 +1,17 @@
 [build]
-  base = "Frontend"
   command = "npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18"
 
+# Handle static assets first - don't redirect these
+[[redirects]]
+  from = "/_next/static/*"
+  to = "/_next/static/:splat"
+  status = 200
+
+# Handle all other routes for client-side routing (SPA fallback)
 [[redirects]]
   from = "/*"
   to = "/index.html"
