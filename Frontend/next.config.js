@@ -6,9 +6,7 @@ const nextConfig = {
         unoptimized: true
     },
     // Ensure API routes work correctly on Netlify
-    trailingSlash: false,
-    // Output configuration for Netlify
-    output: 'standalone'
+    trailingSlash: false
 }
 
 module.exports = nextConfig
