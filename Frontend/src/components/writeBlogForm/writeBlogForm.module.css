@@ -380,8 +380,19 @@ input:checked+.slider:before {
 
 
 .editor {
-    height: 400px;
-    max-height: 600px;
+    height: 350px;
+    /* Slightly reduced height */
+    max-height: 500px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.editorContainer {
+    position: relative;
+    z-index: 1;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    /* Add margin to create space below the editor */
 }
 
 .editorStats {
@@ -390,15 +401,19 @@ input:checked+.slider:before {
     padding: 6px 2px;
     font-size: 12px;
     color: var(--softTextColor);
-    margin-top: 5px;
+    margin-top: 10px;
+    /* Increase margin to prevent overlap with editor content */
 }
 
 .wordCount,
 .readingTime {
-    padding: 2px 8px;
+    padding: 4px 10px;
     background-color: var(--softBg);
     border-radius: 12px;
-    font-size: 11px;
+    font-size: 12px;
+    color: var(--textColor);
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .editorLoading {
@@ -418,11 +433,14 @@ input:checked+.slider:before {
     justify-content: space-between;
     align-items: center;
     margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .submitButtons {
     display: flex;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 .previewButton {
@@ -522,8 +540,14 @@ input:checked+.slider:before {
 .draftInfo {
     display: flex;
     align-items: center;
-    margin: 20px 0;
+    margin: 0 0 20px 0;
+    /* Adjust margin for better spacing */
     position: relative;
+    z-index: 5;
+    /* Ensure draftInfo is above the editor content */
+    background-color: var(--bg);
+    /* Match background to prevent transparency issues */
+    padding: 4px 0;
 }
 
 .lastSavedInfo {
@@ -543,6 +567,10 @@ input:checked+.slider:before {
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
+    position: relative;
+    z-index: 6;
+    /* Ensure button is above other elements */
+    min-height: 36px;
 }
 
 /* Make save button text and icon white in dark mode */
@@ -574,6 +602,9 @@ input:checked+.slider:before {
     align-items: center;
     gap: 5px;
     animation: fadeIn 0.3s ease-in-out;
+    z-index: 10;
+    /* Ensure it's visible above other elements */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .savedNotification span {
@@ -609,7 +640,345 @@ input:checked+.slider:before {
     }
 
     .editor {
-        height: 300px;
+        height: 250px;
+        /* Reduce editor height on mobile */
+    }
+
+    /* Fix toolbar on mobile */
+    .editor :global(.ql-toolbar) {
+        padding: 6px 4px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+    }
+
+    .editor :global(.ql-toolbar .ql-formats) {
+        margin-right: 6px;
+    }
+
+    .editor :global(.ql-toolbar button) {
+        width: 24px;
+        height: 24px;
+    }
+
+    .topFormLayout {
+        grid-gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .formGroup {
+        margin-bottom: 20px;
+    }
+
+    .label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .input,
+    .textarea,
+    .select {
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 6px;
+    }
+
+    .textarea {
+        min-height: 120px;
+    }
+
+    .imageUpload {
+        padding: 20px;
+    }
+
+    .uploadText {
+        font-size: 14px;
+    }
+
+    .uploadButton {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .imagePreview {
+        margin-top: 15px;
+    }
+
+    .previewImage {
+        max-height: 150px;
+        border-radius: 6px;
+    }
+
+    .removeImageBtn {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+    }
+
+    .formActions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+    }
+
+    .submitButtons {
+        flex-direction: column;
+        gap: 12px;
+        order: 2;
+    }
+
+    .previewButton,
+    .cancelButton,
+    .submitButton {
+        width: 100%;
+        padding: 14px 24px;
+        font-size: 16px;
+        justify-content: center;
+    }
+
+    .draftInfo {
+        order: 1;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .lastSavedInfo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .saveButton {
+        padding: 10px 16px;
+        font-size: 16px;
+    }
+
+    .previewFeaturedImage {
+        height: 250px;
+        margin-bottom: 20px;
+    }
+
+    .previewTitle {
+        font-size: 28px;
+        margin-bottom: 12px;
+    }
+
+    .previewDescription {
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+
+    .previewMeta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .previewReadingTime {
+        margin-left: 0;
+    }
+
+    .previewContent {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .topFormLayout {
+        grid-gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .formGroup {
+        margin-bottom: 16px;
+    }
+
+    .label {
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+
+    .input,
+    .textarea,
+    .select {
+        padding: 10px;
+        font-size: 13px;
+        border-radius: 5px;
+    }
+
+    .textarea {
+        min-height: 100px;
+    }
+
+    .imageUpload {
+        padding: 16px;
+        border-radius: 6px;
+    }
+
+    .uploadText {
+        font-size: 13px;
+    }
+
+    .uploadButton {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .previewImage {
+        max-height: 120px;
+    }
+
+    .removeImageBtn {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+
+    /* Draft info optimization for medium mobile */
+    .draftInfo {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin: 18px 0;
+        text-align: center;
+    }
+
+    .lastSavedInfo {
+        margin-right: 0;
+        margin-bottom: 8px;
+        font-size: 12px;
+    }
+
+    .saveButton {
+        padding: 10px 18px;
+        font-size: 14px;
+        min-height: 44px;
+        /* Touch target minimum */
+    }
+
+    .savedNotification {
+        position: static;
+        margin-top: 8px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .formGroup {
+        margin-bottom: 14px;
+    }
+
+    .label {
+        font-size: 12px;
+    }
+
+    .input,
+    .textarea,
+    .select {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .textarea {
+        min-height: 80px;
+    }
+
+    .editor {
+        height: 200px;
+        /* Further reduce editor height */
+    }
+
+    .editorStats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .wordCount,
+    .readingTime {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+
+    /* Further compact the toolbar */
+    .editor :global(.ql-toolbar) {
+        padding: 4px 2px;
+    }
+
+    .editor :global(.ql-toolbar button) {
+        width: 22px;
+        height: 22px;
+    }
+
+    .imageUpload {
+        padding: 12px;
+    }
+
+    .uploadText {
+        font-size: 12px;
+    }
+
+    .uploadButton {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .previewImage {
+        max-height: 100px;
+    }
+
+    /* Draft info and save button mobile optimization */
+    .draftInfo {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin: 16px 0;
+        text-align: center;
+    }
+
+    .lastSavedInfo {
+        margin-right: 0;
+        margin-bottom: 8px;
+        font-size: 11px;
+    }
+
+    .saveButton {
+        padding: 8px 16px;
+        font-size: 14px;
+        min-height: 44px;
+        /* Touch target minimum */
+        gap: 4px;
+    }
+
+    .savedNotification {
+        position: static;
+        margin-top: 8px;
+        font-size: 11px;
+    }
+
+    /* Form actions mobile optimization */
+    .formActions {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .submitButtons {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .previewButton,
+    .cancelButton,
+    .submitButton {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 14px;
+        min-height: 44px;
+        /* Touch target minimum */
+        justify-content: center;
     }
 }
 
@@ -641,11 +1010,31 @@ input:checked+.slider:before {
 .editor :global(.ql-container) {
     font-family: inherit !important;
     font-size: 16px !important;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .editor :global(.ql-toolbar) {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    background-color: #f9fafb;
+    padding: 8px;
+}
+
+/* Fix toolbar icons */
+.editor :global(.ql-toolbar .ql-formats) {
+    margin-right: 12px;
+}
+
+.editor :global(.ql-toolbar button) {
+    width: 28px;
+    height: 28px;
+    padding: 2px;
+}
+
+.editor :global(.ql-toolbar button svg) {
+    width: 18px;
+    height: 18px;
 }
 
 /* Preview Mode Styles */

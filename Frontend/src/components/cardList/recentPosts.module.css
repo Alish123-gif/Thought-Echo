@@ -9,6 +9,7 @@
     border: 1px solid var(--softBg);
     transition: all 0.3s ease;
     overflow: hidden;
+    width: 100%;
 }
 
 .container:hover {
@@ -116,6 +117,8 @@
         margin: 20px 0;
         border-radius: 8px;
         box-shadow: 0 2px 15px rgba(0, 0, 0, var(--opacity));
+        display: block;
+        width: 100%;
     }
 
     .container:hover {

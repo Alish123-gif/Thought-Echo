@@ -1,0 +1,275 @@
+/* Admin Dashboard Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    font-size: 1.2rem;
+    color: #6b7280;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.dashboardCard {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #e5e7eb;
+}
+
+.dashboardCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #6366f1;
+}
+
+.cardIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+    color: white;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.cardContent h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+}
+
+.cardContent p {
+    font-size: 0.9rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.quickActions {
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.quickActions h2 {
+    font-size: 1.5rem;
+    color: #1a202c;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.actionsList {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.actionButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    color: #6366f1;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    border: 2px solid #6366f1;
+    transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+    background: #6366f1;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Dark theme support */
+:global(.dark) .container {
+    color: white;
+}
+
+:global(.dark) .header h1 {
+    color: white;
+}
+
+:global(.dark) .header p {
+    color: #9ca3af;
+}
+
+:global(.dark) .dashboardCard {
+    background: #1f2937;
+    border-color: #374151;
+    color: white;
+}
+
+:global(.dark) .dashboardCard:hover {
+    border-color: #6366f1;
+}
+
+:global(.dark) .cardContent h3 {
+    color: white;
+}
+
+:global(.dark) .cardContent p {
+    color: #9ca3af;
+}
+
+:global(.dark) .quickActions {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+:global(.dark) .quickActions h2 {
+    color: white;
+}
+
+:global(.dark) .actionButton {
+    background: #374151;
+    color: #6366f1;
+    border-color: #6366f1;
+}
+
+:global(.dark) .actionButton:hover {
+    background: #6366f1;
+    color: white;
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        margin-bottom: 2rem;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .header p {
+        font-size: 1rem;
+    }
+
+    .dashboardGrid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .dashboardCard {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .cardIcon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+
+    .cardContent h3 {
+        font-size: 1.1rem;
+    }
+
+    .cardContent p {
+        font-size: 0.85rem;
+    }
+
+    .quickActions {
+        padding: 1.5rem;
+    }
+
+    .quickActions h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .actionsList {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .actionButton {
+        justify-content: center;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0.5rem;
+    }
+
+    .header h1 {
+        font-size: 1.75rem;
+    }
+
+    .dashboardGrid {
+        gap: 1rem;
+    }
+
+    .dashboardCard {
+        padding: 1.25rem;
+    }
+
+    .cardIcon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+
+    .quickActions {
+        padding: 1rem;
+    }
+
+    .actionButton {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
+    }
+}

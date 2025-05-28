@@ -26,3 +26,52 @@
 :global(.dropdown) .adminLink:hover {
     background-color: var(--softBg);
 }
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+    .adminLinks {
+        gap: 8px;
+    }
+
+    .adminLink {
+        padding: 12px 8px;
+        border-radius: 8px;
+        min-height: 44px;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.9rem;
+        touch-action: manipulation;
+    }
+
+    .adminLink:hover {
+        background-color: var(--softBg);
+        color: var(--textColor);
+    }
+
+    /* When used in mobile dropdown */
+    :global(.dropdown) .adminLink {
+        padding: 16px 12px;
+        border-radius: 8px;
+        min-height: 48px;
+        font-size: 1rem;
+    }
+
+    :global(.dropdown) .adminLink:hover {
+        background-color: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .adminLink {
+        padding: 14px 8px;
+        font-size: 0.85rem;
+        min-height: 48px;
+    }
+
+    :global(.dropdown) .adminLink {
+        padding: 18px 12px;
+        font-size: 0.95rem;
+        min-height: 52px;
+    }
+}

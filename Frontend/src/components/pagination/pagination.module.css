@@ -41,3 +41,50 @@
     font-size: 12px;
     color: var(--softTextColor);
 }
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+    .container {
+        margin: 16px 20px;
+        padding: 8px 0;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .button {
+        padding: 8px 12px;
+        font-size: 13px;
+        min-width: 80px;
+    }
+
+    .pageInfo {
+        font-size: 13px;
+        gap: 4px;
+    }
+
+    .totalPosts {
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        margin: 12px 16px;
+        gap: 10px;
+    }
+
+    .button {
+        padding: 6px 10px;
+        font-size: 12px;
+        min-width: 70px;
+    }
+
+    .pageInfo {
+        font-size: 12px;
+        gap: 3px;
+    }
+
+    .totalPosts {
+        font-size: 10px;
+    }
+}

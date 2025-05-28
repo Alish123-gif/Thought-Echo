@@ -301,6 +301,109 @@
     }
 }
 
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        margin: 1rem 0;
+        gap: 0.75rem;
+        border-radius: 0.5rem;
+    }
+
+    .iconWrapper {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .icon {
+        font-size: 1rem;
+    }
+
+    .title {
+        font-size: 1rem;
+        margin-bottom: 0.375rem;
+    }
+
+    .message {
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.5;
+    }
+
+    .actionWrapper {
+        margin-top: 0.75rem;
+    }
+
+    /* Button adjustments for mobile */
+    .button,
+    .retryButton,
+    .primaryButton,
+    .secondaryButton {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        min-height: 44px;
+        border-radius: 0.5rem;
+        touch-action: manipulation;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .buttonGroup .button,
+    .buttonGroup .retryButton,
+    .buttonGroup .primaryButton,
+    .buttonGroup .secondaryButton {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0.875rem;
+        margin: 0.75rem 0;
+        gap: 0.625rem;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .iconWrapper {
+        width: 1.75rem;
+        height: 1.75rem;
+        align-self: center;
+    }
+
+    .icon {
+        font-size: 0.9rem;
+    }
+
+    .title {
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .message {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .actionWrapper {
+        margin-top: 0.5rem;
+        width: 100%;
+    }
+
+    .button,
+    .retryButton,
+    .primaryButton,
+    .secondaryButton {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.85rem;
+        min-height: 48px;
+    }
+}
+
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .container {

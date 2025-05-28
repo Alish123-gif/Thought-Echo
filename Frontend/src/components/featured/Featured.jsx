@@ -15,17 +15,17 @@ const Featured = () => {
     const [error, setError] = useState(null);
     const [postIndex, setPostIndex] = useState(0);
     const [animationDirection, setAnimationDirection] = useState(null);
-    
+
     const router = useRouter();
-    
+
     const navigate = (slug) => {
         router.push(`/post/${slug}`);
     };
-    
+
     const handleChangePosts = (direction) => {
         // Don't proceed if there are no posts or insufficient posts
         if (!posts || posts.length <= 1) return;
-        
+
         // First remove animation to reset it
         setAnimationDirection(null);
 
@@ -41,7 +41,8 @@ const Featured = () => {
                 } else {
                     return prevIndex === posts.length - 1 ? 0 : prevIndex + 1;
                 }
-            });        }, 10);
+            });
+        }, 10);
     };
 
     const fetchFeaturedPosts = async () => {
@@ -49,7 +50,7 @@ const Featured = () => {
             setLoading(true);
             setError(null);
             const response = await getFeaturedPosts();
-            
+
             if (response && Array.isArray(response)) {
                 const enrichedPosts = await enrichPostsWithCategoriesOptimized(response);
                 setPosts(enrichedPosts || []);
@@ -60,7 +61,8 @@ const Featured = () => {
         } catch (error) {
             console.error('Error fetching featured posts:', error);
             setError(error.message || 'Failed to load featured posts');
-            setPosts([]);        } finally {
+            setPosts([]);
+        } finally {
             setLoading(false);
         }
     };
@@ -80,11 +82,11 @@ const Featured = () => {
     if (loading) {
         return <LoadingSpinner />;
     }
-    
+
     if (error) {
         return <DataMessage type="warning" title="Error fetching featured posts" message={error} action={fetchFeaturedPosts} />;
     }
-    
+
     // Handle case where there are no posts
     if (!posts || posts.length === 0) {
         return (
@@ -96,13 +98,13 @@ const Featured = () => {
             </div>
         );
     }
-    
+
     // Handle case where postIndex is out of bounds
     if (postIndex >= posts.length) {
         setPostIndex(0);
         return <LoadingSpinner />;
     }
-    
+
     const currentPost = posts[postIndex];
     if (!currentPost) {
         return <LoadingSpinner />;
@@ -123,18 +125,19 @@ const Featured = () => {
                         <ChevronLeftCircle className={styles.arrowIcon} />
                     </button>
                 )}
-                
+
                 <div
                     className={`${styles.post} ${animationDirection === 'left' ? styles.slideRight : animationDirection === 'right' ? styles.slideLeft : ''}`}
                 >
                     <React.Fragment key={currentPost.id}>                        <div className={styles.imgContainer}>
-                            <Image
-                                className={styles.image}
-                                src={currentPost.image || currentPost.imageUrl || '/p1.jpeg'}
-                                alt="Featured Image"
-                                fill
-                            />
-                        </div>
+                        <Image
+                            className={styles.image}
+                            src={currentPost.imageUrl || '/p1.jpeg'}
+                            alt={currentPost.title || "Featured Image"}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                    </div>
                         <div className={styles.textContainer}>
                             <h2 className={styles.postTitle}>{currentPost.title}</h2>
                             {currentPost.categoryName && (
@@ -144,7 +147,7 @@ const Featured = () => {
                             <button onClick={() => navigate(currentPost.slug)} className={styles.button}>Read More</button>
                         </div>
                     </React.Fragment>                </div>
-                
+
                 {posts.length > 1 && (
                     <button
                         className={styles.arrowButton}
