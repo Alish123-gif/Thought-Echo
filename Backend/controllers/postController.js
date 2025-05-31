@@ -155,18 +155,37 @@ exports.createPost = async (req, res) => {
         }
 
         // Calculate reading time
-        const readingTime = calculateReadingTime(content);
-
-        // Upload image to ImageKit
+        const readingTime = calculateReadingTime(content);        // Upload image to ImageKit
         let imageUploadResponse;
         try {
-            // Read file
+            console.log('=== Post Creation Debug ===');
+            console.log('File received:', !!req.file);
+            console.log('ImageKit config exists:', {
+                publicKey: !!process.env.IMAGEKIT_PUBLIC_KEY,
+                privateKey: !!process.env.IMAGEKIT_PRIVATE_KEY,
+                urlEndpoint: !!process.env.IMAGEKIT_URL_ENDPOINT
+            });
+
+            // Test authentication before upload
+            try {
+                await imagekit.listFiles({ limit: 1 });
+                console.log('✅ ImageKit auth successful');
+            } catch (authError) {
+                console.error('❌ ImageKit auth failed:', authError.message);
+                throw new Error('ImageKit authentication failed: ' + authError.message);
+            }            // Read file
             const fileBuffer = req.file.buffer;
+
+            // Create short, unique filename
+            const timestamp = Date.now();
+            const randomId = Math.random().toString(36).substring(2, 8); // 6 char random string
+            const fileExtension = req.file.originalname.split('.').pop();
+            const shortFileName = `post_${timestamp}_${randomId}.${fileExtension}`;
 
             // Upload to ImageKit
             imageUploadResponse = await imagekit.upload({
                 file: fileBuffer,
-                fileName: `blog-${Date.now()}-${req.file.originalname}`,
+                fileName: shortFileName,
                 folder: '/blog-posts'
             });
 
@@ -175,9 +194,12 @@ exports.createPost = async (req, res) => {
                 await unlinkAsync(req.file.path);
             }
         } catch (uploadError) {
-            console.error('Error uploading image:', uploadError);
+            console.error('=== Post Image Upload Error ===');
+            console.error('Error message:', uploadError.message);
+            console.error('Error stack:', uploadError.stack);
+            console.error('ImageKit response:', uploadError.response?.data);
             return res.status(500).json({ message: 'Failed to upload image', error: uploadError.message });
-        }        // Create post record
+        }// Create post record
         const post = await Post.create({
             title,
             description,
@@ -242,19 +264,38 @@ exports.updatePost = async (req, res) => {
         }
 
         // Calculate new reading time if content changed
-        const readingTime = content ? calculateReadingTime(content) : post.readingTime;
-
-        // Handle image upload if provided
+        const readingTime = content ? calculateReadingTime(content) : post.readingTime;        // Handle image upload if provided
         let imageUrl = post.imageUrl;
         if (req.file) {
             try {
-                // Read file
+                console.log('=== Post Update Debug ===');
+                console.log('File received:', !!req.file);
+                console.log('ImageKit config exists:', {
+                    publicKey: !!process.env.IMAGEKIT_PUBLIC_KEY,
+                    privateKey: !!process.env.IMAGEKIT_PRIVATE_KEY,
+                    urlEndpoint: !!process.env.IMAGEKIT_URL_ENDPOINT
+                });
+
+                // Test authentication before upload
+                try {
+                    await imagekit.listFiles({ limit: 1 });
+                    console.log('✅ ImageKit auth successful');
+                } catch (authError) {
+                    console.error('❌ ImageKit auth failed:', authError.message);
+                    throw new Error('ImageKit authentication failed: ' + authError.message);
+                }                // Read file
                 const fileBuffer = req.file.buffer;
+
+                // Create short, unique filename
+                const timestamp = Date.now();
+                const randomId = Math.random().toString(36).substring(2, 8); // 6 char random string
+                const fileExtension = req.file.originalname.split('.').pop();
+                const shortFileName = `post_${timestamp}_${randomId}.${fileExtension}`;
 
                 // Upload to ImageKit
                 const imageUploadResponse = await imagekit.upload({
                     file: fileBuffer,
-                    fileName: `blog-${Date.now()}-${req.file.originalname}`,
+                    fileName: shortFileName,
                     folder: '/blog-posts'
                 });
 
@@ -265,10 +306,13 @@ exports.updatePost = async (req, res) => {
 
                 imageUrl = imageUploadResponse.url;
             } catch (uploadError) {
-                console.error('Error uploading image:', uploadError);
+                console.error('=== Post Update Image Upload Error ===');
+                console.error('Error message:', uploadError.message);
+                console.error('Error stack:', uploadError.stack);
+                console.error('ImageKit response:', uploadError.response?.data);
                 return res.status(500).json({ message: 'Failed to upload image', error: uploadError.message });
             }
-        }        // Update post
+        }// Update post
         await post.update({
             title: title || post.title,
             description: description || post.description,

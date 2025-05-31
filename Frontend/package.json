@@ -1,8 +1,7 @@
 {
   "name": "starter",
   "version": "0.1.0",
-  "private": true,
-  "scripts": {
+  "private": true,  "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -11,17 +10,18 @@
   "dependencies": {
     "@tsparticles/preset-fountain": "^3.1.0",
     "@tsparticles/react": "^3.0.0",
-    "@tsparticles/slim": "^3.8.1",
-    "eslint": "8.48.0",
-    "eslint-config-next": "13.4.19",
+    "@tsparticles/slim": "^3.8.1",    "eslint": "8.48.0",
+    "eslint-config-next": "13.5.6",
     "lucide-react": "^0.441.0",
-    "next": "13.4.19",
+    "next": "13.5.6",
     "next-auth": "^4.24.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^5.3.0"
+    "react-icons": "^5.3.0",
+    "react-quill": "^2.0.0"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.11.2",
     "@types/node": "22.15.21",
     "@types/react": "19.1.4"
   }

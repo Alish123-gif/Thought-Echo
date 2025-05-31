@@ -8,16 +8,24 @@ import { enrichPostsWithCategoriesOptimized } from "@/utils/postHelpers";
 import LoadingSpinner from '../ui/LoadingSpinner';
 import DataMessage from '../ui/DataMessage';
 import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
+
 const Featured = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [postIndex, setPostIndex] = useState(0);
-    const [animationDirection, setAnimationDirection] = useState(null); const router = useRouter();
+    const [animationDirection, setAnimationDirection] = useState(null);
+
+    const router = useRouter();
+
     const navigate = (slug) => {
         router.push(`/post/${slug}`);
-    }
+    };
+
     const handleChangePosts = (direction) => {
+        // Don't proceed if there are no posts or insufficient posts
+        if (!posts || posts.length <= 1) return;
+
         // First remove animation to reset it
         setAnimationDirection(null);
 
@@ -35,17 +43,30 @@ const Featured = () => {
                 }
             });
         }, 10);
-    }; const fetchFeaturedPosts = async () => {
+    };
+
+    const fetchFeaturedPosts = async () => {
         try {
+            setLoading(true);
+            setError(null);
             const response = await getFeaturedPosts();
-            const enrichedPosts = await enrichPostsWithCategoriesOptimized(response);
-            setPosts(enrichedPosts);
-            setLoading(false);
+
+            if (response && Array.isArray(response)) {
+                const enrichedPosts = await enrichPostsWithCategoriesOptimized(response);
+                setPosts(enrichedPosts || []);
+                setPostIndex(0); // Reset to first post
+            } else {
+                setPosts([]);
+            }
         } catch (error) {
-            setError(error);
+            console.error('Error fetching featured posts:', error);
+            setError(error.message || 'Failed to load featured posts');
+            setPosts([]);
+        } finally {
             setLoading(false);
         }
-    }
+    };
+
     useEffect(() => {
         fetchFeaturedPosts();
     }, []);
@@ -54,15 +75,39 @@ const Featured = () => {
         if (animationDirection) {
             const timer = setTimeout(() => {
                 setAnimationDirection(null);
-            }, 500); // Match animation duration in CSS
-            return () => clearTimeout(timer);
+            }, 500); // Match animation duration in CSS            return () => clearTimeout(timer);
         }
     }, [animationDirection]);
+
     if (loading) {
         return <LoadingSpinner />;
     }
+
     if (error) {
         return <DataMessage type="warning" title="Error fetching featured posts" message={error} action={fetchFeaturedPosts} />;
+    }
+
+    // Handle case where there are no posts
+    if (!posts || posts.length === 0) {
+        return (
+            <div className={styles.container}>
+                <h1 className={styles.title}>
+                    <b>Ali reporting in</b>—echoes of insight, inspiration, and innovation.
+                </h1>
+                <DataMessage type="info" title="No featured posts" message="No featured posts available at the moment." />
+            </div>
+        );
+    }
+
+    // Handle case where postIndex is out of bounds
+    if (postIndex >= posts.length) {
+        setPostIndex(0);
+        return <LoadingSpinner />;
+    }
+
+    const currentPost = posts[postIndex];
+    if (!currentPost) {
+        return <LoadingSpinner />;
     }
     return (
         <div className={styles.container}>
@@ -80,27 +125,29 @@ const Featured = () => {
                         <ChevronLeftCircle className={styles.arrowIcon} />
                     </button>
                 )}
+
                 <div
                     className={`${styles.post} ${animationDirection === 'left' ? styles.slideRight : animationDirection === 'right' ? styles.slideLeft : ''}`}
                 >
-                    <React.Fragment key={posts[postIndex].id}>                        <div className={styles.imgContainer}>
+                    <React.Fragment key={currentPost.id}>                        <div className={styles.imgContainer}>
                         <Image
                             className={styles.image}
-                            src={posts[postIndex].image || posts[postIndex].imageUrl || '/p1.jpeg'}
-                            alt="Featured Image"
+                            src={currentPost.imageUrl || '/p1.jpeg'}
+                            alt={currentPost.title || "Featured Image"}
                             fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                     </div>
                         <div className={styles.textContainer}>
-                            <h2 className={styles.postTitle}>{posts[postIndex].title}</h2>
-                            {posts[postIndex].categoryName && (
-                                <span className={styles.category}>{posts[postIndex].categoryName}</span>
+                            <h2 className={styles.postTitle}>{currentPost.title}</h2>
+                            {currentPost.categoryName && (
+                                <span className={styles.category}>{currentPost.categoryName}</span>
                             )}
-                            <p className={styles.postDesc}>{posts[postIndex].description}</p>
-                            <button onClick={() => navigate(posts[postIndex].slug)} className={styles.button}>Read More</button>
+                            <p className={styles.postDesc}>{currentPost.description}</p>
+                            <button onClick={() => navigate(currentPost.slug)} className={styles.button}>Read More</button>
                         </div>
-                    </React.Fragment>
-                </div>
+                    </React.Fragment>                </div>
+
                 {posts.length > 1 && (
                     <button
                         className={styles.arrowButton}
@@ -110,11 +157,9 @@ const Featured = () => {
                     >
                         <ChevronRightCircle className={styles.arrowIcon} />
                     </button>
-                )}
-            </div>
-
+                )}            </div>
         </div>
-    )
-}
+    );
+};
 
-export default Featured
+export default Featured;

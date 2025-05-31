@@ -1,9 +1,11 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { getPosts, deletePost, getUserPosts } from '@/utils/api';
+import { enrichPostsWithCategoriesOptimized } from '@/utils/postHelpers';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaEye, FaEdit, FaTrashAlt, FaPlus, FaSearch, FaFilter, FaSort } from 'react-icons/fa';
 import { IoIosRefresh } from 'react-icons/io';
 import styles from './adminPosts.module.css';
@@ -39,24 +41,39 @@ const AdminPostsPage = () => {
             router.push('/login?callbackUrl=/admin/posts');
         }
     }, [status, router]);    // Extract fetch logic into a separate function for reuse
-    const fetchPosts = async () => {
+    const fetchPosts = useCallback(async () => {
         if (status !== 'authenticated') return;
         try {
             setLoading(true);
             setError(null);
             const token = session?.accessToken;
 
-            const data = await getUserPosts(token, {
+            const data = await getPosts(token, {
                 page: currentPage,
                 limit: postsPerPage
             });
+            console.log('Fetched posts:', data);
 
-            // Extract unique categories
-            const uniqueCategories = [...new Set(data.posts.map(post => post.category))];
+            if (!data.posts || data.posts.length === 0) {
+                setPosts([]);
+                setAllPosts([]);
+                setTotalPosts(0);
+                setTotalPages(0);
+                setLoading(false);
+                return;
+            }
+
+            // Enrich posts with category data
+            console.log('Enriching posts with category data...');
+            const enrichedPosts = await enrichPostsWithCategoriesOptimized(data.posts || []);
+            console.log('Enriched posts:', enrichedPosts);
+
+            // Extract unique categories from enriched posts
+            const uniqueCategories = [...new Set(enrichedPosts.map(post => post.category).filter(Boolean))];
             setCategories(uniqueCategories);
 
-            setPosts(data.posts || []);
-            setAllPosts(data.posts || []);
+            setPosts(enrichedPosts);
+            setAllPosts(enrichedPosts);
             setTotalPosts(data.totalPosts || 0);
             setTotalPages(data.totalPages || 1);
         } catch (err) {
@@ -65,17 +82,17 @@ const AdminPostsPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [session?.accessToken, status, currentPage, postsPerPage]);
 
     // Retry function that only re-fetches data
     const handleRetry = () => {
         fetchPosts();
-    };
-
-    // Fetch posts
+    };    // Fetch posts
     useEffect(() => {
         fetchPosts();
-    }, [session, status, currentPage, postsPerPage]);// Filter and sort posts
+    }, [fetchPosts]);
+
+    // Filter and sort posts
     useEffect(() => {
         if (loading || !allPosts.length) return;
 
@@ -121,12 +138,12 @@ const AdminPostsPage = () => {
         });
 
         setPosts(filteredPosts);
-    }, [debouncedSearchTerm, selectedCategory, selectedStatus, sortField, sortDirection, allPosts, loading]);
-
-    // Handle page change
+    }, [debouncedSearchTerm, selectedCategory, selectedStatus, sortField, sortDirection, allPosts, loading]);    // Handle page change
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
-    };    // Handle delete post
+    };
+
+    // Handle delete post
     const handleDeletePost = async (id) => {
         if (!session?.accessToken) return;
 
@@ -306,95 +323,169 @@ const AdminPostsPage = () => {
             </div>
 
             {posts.length > 0 && (
-                <div className={styles.tableContainer}>
-                    <table className={styles.postsTable}>
-                        <thead>
-                            <tr>
-                                <th className={styles.imageColumn}>Image</th>
-                                <th
-                                    className={`${styles.titleColumn} ${styles.sortableColumn}`}
-                                    onClick={() => handleSortChange('title')}
-                                >
-                                    Title {sortField === 'title' && (
-                                        <FaSort className={styles.sortIcon} />
-                                    )}
-                                </th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th
-                                    className={`${styles.dateColumn} ${styles.sortableColumn}`}
-                                    onClick={() => handleSortChange('createdAt')}
-                                >
-                                    Date {sortField === 'createdAt' && (
-                                        <FaSort className={styles.sortIcon} />
-                                    )}
-                                </th>
-                                <th className={styles.actionsColumn}>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {posts.map(post => (
-                                <tr key={post.id}>
-                                    <td className={styles.imageCell}>
+                <>
+                    <div className={styles.tableContainer}>
+                        <table className={styles.postsTable}>
+                            <thead>
+                                <tr>
+                                    <th className={styles.imageColumn}>Image</th>
+                                    <th
+                                        className={`${styles.titleColumn} ${styles.sortableColumn}`}
+                                        onClick={() => handleSortChange('title')}
+                                    >
+                                        Title {sortField === 'title' && (
+                                            <FaSort className={styles.sortIcon} />
+                                        )}
+                                    </th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th
+                                        className={`${styles.dateColumn} ${styles.sortableColumn}`}
+                                        onClick={() => handleSortChange('createdAt')}
+                                    >
+                                        Date {sortField === 'createdAt' && (
+                                            <FaSort className={styles.sortIcon} />
+                                        )}
+                                    </th>
+                                    <th className={styles.actionsColumn}>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {posts.map(post => (
+                                    <tr key={post.id}>                                    <td className={styles.imageCell}>
                                         <div className={styles.postImageContainer}>
-                                            <img
+                                            <Image
                                                 src={post.imageUrl}
                                                 alt={post.title}
                                                 className={styles.postImage}
+                                                width={80}
+                                                height={60}
                                             />
                                         </div>
                                     </td>
-                                    <td className={styles.titleCell}>
-                                        <div className={styles.postTitle}>{post.title}</div>
-                                        <div className={styles.postExcerpt}>
-                                            {post.description.length > 80
-                                                ? `${post.description.substring(0, 80)}...`
+                                        <td className={styles.titleCell}>
+                                            <div className={styles.postTitle}>{post.title}</div>
+                                            <div className={styles.postExcerpt}>
+                                                {post.description.length > 80
+                                                    ? `${post.description.substring(0, 80)}...`
+                                                    : post.description}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span className={styles.categoryBadge}>
+                                                {post.category}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span className={`${styles.statusBadge} ${post.isPublished ? styles.published : styles.draft}`}>
+                                                {post.isPublished ? 'Published' : 'Draft'}
+                                            </span>
+                                        </td>
+                                        <td className={styles.dateCell}>
+                                            {new Date(post.createdAt).toLocaleDateString()}
+                                        </td>
+                                        <td className={styles.actionsCell}>
+                                            <div className={styles.actionButtons}>
+                                                <Link
+                                                    href={`/post/${post.slug}`}
+                                                    className={`${styles.actionButton} ${styles.viewButton}`}
+                                                    title="View post"
+                                                >
+                                                    <FaEye />
+                                                </Link>
+                                                <Link
+                                                    href={`/admin/edit/${post.id}`}
+                                                    className={`${styles.actionButton} ${styles.editButton}`}
+                                                    title="Edit post"
+                                                >
+                                                    <FaEdit />
+                                                </Link>                                                <button
+                                                    className={`${styles.actionButton} ${styles.deleteButton}`}
+                                                    onClick={() => setConfirmDelete(post.id)}
+                                                    title="Delete post"
+                                                    style={{ height: '2rem' }}
+                                                >
+                                                    <FaTrashAlt />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>                    </table>
+                    </div>
+                    <div className={styles.mobileCardContainer}>
+                        {posts.map(post => (
+                            <div key={`mobile-${post.id}`} className={styles.mobileCard}>
+                                <div className={styles.mobileCardHeader}>
+                                    <Image
+                                        src={post.imageUrl}
+                                        alt={post.title}
+                                        className={styles.mobileCardImage}
+                                        width={50}
+                                        height={50}
+                                    />
+                                    <div className={styles.mobileCardContent}>
+                                        <div className={styles.mobileCardTitle}>{post.title}</div>
+                                        <div className={styles.mobileCardExcerpt}>
+                                            {post.description.length > 60
+                                                ? `${post.description.substring(0, 60)}...`
                                                 : post.description}
                                         </div>
-                                    </td>
-                                    <td>
-                                        <span className={styles.categoryBadge}>
+                                    </div>
+                                </div>
+                                <div className={styles.mobileCardMeta}>
+                                    <div className={styles.mobileCardMetaItem}>
+                                        <span className={styles.mobileCardMetaLabel}>Category</span>
+                                        <span className={`${styles.mobileCardMetaValue} ${styles.categoryBadge}`}>
                                             {post.category}
                                         </span>
-                                    </td>
-                                    <td>
-                                        <span className={`${styles.statusBadge} ${post.isPublished ? styles.published : styles.draft}`}>
+                                    </div>
+                                    <div className={styles.mobileCardMetaItem}>
+                                        <span className={styles.mobileCardMetaLabel}>Status</span>
+                                        <span className={`${styles.mobileCardMetaValue} ${styles.statusBadge} ${post.isPublished ? styles.published : styles.draft}`}>
                                             {post.isPublished ? 'Published' : 'Draft'}
                                         </span>
-                                    </td>
-                                    <td className={styles.dateCell}>
-                                        {new Date(post.createdAt).toLocaleDateString()}
-                                    </td>
-                                    <td className={styles.actionsCell}>
-                                        <div className={styles.actionButtons}>
-                                            <Link
-                                                href={`/post/${post.slug}`}
-                                                className={`${styles.actionButton} ${styles.viewButton}`}
-                                                title="View post"
-                                            >
-                                                <FaEye />
-                                            </Link>
-                                            <Link
-                                                href={`/admin/edit/${post.id}`}
-                                                className={`${styles.actionButton} ${styles.editButton}`}
-                                                title="Edit post"
-                                            >
-                                                <FaEdit />
-                                            </Link>
-                                            <button
-                                                className={`${styles.actionButton} ${styles.deleteButton}`}
-                                                onClick={() => setConfirmDelete(post.id)}
-                                                title="Delete post"
-                                            >
-                                                <FaTrashAlt />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                                    </div>
+                                    <div className={styles.mobileCardMetaItem}>
+                                        <span className={styles.mobileCardMetaLabel}>Date</span>
+                                        <span className={styles.mobileCardMetaValue}>
+                                            {new Date(post.createdAt).toLocaleDateString()}
+                                        </span>
+                                    </div>
+                                    <div className={styles.mobileCardMetaItem}>
+                                        <span className={styles.mobileCardMetaLabel}>Author</span>
+                                        <span className={styles.mobileCardMetaValue}>
+                                            {post.user?.name || 'Unknown'}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className={styles.mobileCardActions}>
+                                    <Link
+                                        href={`/post/${post.slug}`}
+                                        className={`${styles.mobileActionButton} ${styles.viewButton}`}
+                                        title="View post"
+                                    >
+                                        <FaEye />
+                                    </Link>
+                                    <Link
+                                        href={`/admin/edit/${post.id}`}
+                                        className={`${styles.mobileActionButton} ${styles.editButton}`}
+                                        title="Edit post"
+                                    >
+                                        <FaEdit />
+                                    </Link>                                    <button
+                                        className={`${styles.mobileActionButton} ${styles.deleteButton}`}
+                                        onClick={() => setConfirmDelete(post.id)}
+                                        title="Delete post"
+                                        style={{ height: '36px' }}
+                                    >
+                                        <FaTrashAlt />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </>
             )}
 
             {/* Pagination */}

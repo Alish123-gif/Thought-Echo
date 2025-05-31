@@ -29,20 +29,20 @@ const AboutPage = () => {
             <div className={styles.content}>
                 <section className={styles.intro}>
                     <p className={styles.leadText}>
-                        I'm <strong>Ali</strong>, a full-stack web developer based in <strong>Lebanon</strong> with a strong technical edge,
+                        I&aposm <strong>Ali</strong>, a full-stack web developer based in <strong>Lebanon</strong> with a strong technical edge,
                         a love for smart tools, and a passion for building things that actually work.
                     </p>
 
                     <p className={styles.description}>
                         I specialize in <strong>React</strong>, <strong>Next.js</strong>, <strong>Node.js</strong>, <strong>Express</strong>,
-                        and modern backend integrations. I've worked with Stripe, built complex API-based flows, handled deployment
+                        and modern backend integrations. I&aposve worked with Stripe, built complex API-based flows, handled deployment
                         and architecture decisions, and solved real-world bugs — not textbook ones.
                     </p>
 
                     <p className={styles.description}>
-                        I'm also the kind of developer who will rebuild their dev environment in the morning and troubleshoot
-                        a broken NVMe bootloader in the afternoon. I don't just code — I debug, test, optimize, and push things
-                        until they're solid.
+                        I&aposm also the kind of developer who will rebuild their dev environment in the morning and troubleshoot
+                        a broken NVMe bootloader in the afternoon. I don&apost just code — I debug, test, optimize, and push things
+                        until they&aposre solid.
                     </p>
                 </section>
 
@@ -56,8 +56,8 @@ const AboutPage = () => {
                         <li>🚀 Performance tuning (from gaming rigs to backend logic)</li>
                     </ul>
                     <p className={styles.description}>
-                        When I'm not coding, I'm thinking like a gamer — building, modding, experimenting. Whether it's
-                        optimizing a PC build, role-playing in games like <strong>Baldur's Gate 3</strong>, or finding
+                        When I&aposm not coding, I&aposm thinking like a gamer — building, modding, experimenting. Whether it&aposs
+                        optimizing a PC build, role-playing in games like <strong>Baldur&aposs Gate 3</strong>, or finding
                         the best GPU for the job, I like solving problems hands-on.
                     </p>
                 </section>
@@ -96,16 +96,16 @@ const AboutPage = () => {
                     <h2 className={styles.sectionTitle}>🎯 Why Work With Me?</h2>
                     <div className={styles.whyMeContent}>
                         <p className={styles.description}>
-                            I'm technical, fast, and no-nonsense. I don't just build what you ask for — I think about
-                            what works, what scales, and what's worth your time.
+                            I&aposm technical, fast, and no-nonsense. I don&apost just build what you ask for — I think about
+                            what works, what scales, and what&aposs worth your time.
                         </p>
                         <p className={styles.description}>
-                            If you're looking for a developer who's comfortable going deep — whether that means backend logic,
-                            AI integration, or real-world problem-solving — let's talk.
+                            If you&aposre looking for a developer who&aposs comfortable going deep — whether that means backend logic,
+                            AI integration, or real-world problem-solving — let&aposs talk.
                         </p>
                         <div className={styles.motto}>
                             <p className={styles.mottoText}>
-                                "I'm not just coding the present — I'm creating my way in the world, building the future one project at a time."
+                                &quot;I&aposm not just coding the present — I&aposm creating my way in the world, building the future one project at a time.&quot;
                             </p>
                         </div>
                     </div>
@@ -114,7 +114,7 @@ const AboutPage = () => {
                 <section className={styles.cta}>
                     <h2 className={styles.ctaTitle}>Ready to build something amazing?</h2>
                     <p className={styles.ctaText}>
-                        Let's turn your ideas into reality with clean code and smart solutions.
+                        Let&aposs turn your ideas into reality with clean code and smart solutions.
                     </p>
                     <div className={styles.contactButtons}>
                         <a href="mailto:alishibli372@example.com" className={styles.primaryButton}>

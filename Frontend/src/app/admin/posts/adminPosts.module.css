@@ -338,10 +338,17 @@
     transition: all 0.2s;
     color: white;
     text-decoration: none;
+    padding: 0;
+    font-size: 0.875rem;
+    box-sizing: border-box;
+    line-height: 1;
 }
 
 .viewButton {
     background-color: #2563eb;
+    box-sizing: border-box;
+    width: 2rem;
+    height: 2rem;
 }
 
 .viewButton:hover {
@@ -350,6 +357,9 @@
 
 .editButton {
     background-color: #0284c7;
+    box-sizing: border-box;
+    width: 2rem;
+    height: 2rem;
 }
 
 .editButton:hover {
@@ -358,10 +368,27 @@
 
 .deleteButton {
     background-color: #dc2626;
+    box-sizing: border-box;
+    width: 2rem;
+    height: 2rem;
+    min-height: 2rem;
+    max-height: 2rem;
+    padding: 0;
 }
 
 .deleteButton:hover {
     background-color: #b91c1c;
+}
+
+.deleteButton svg,
+.editButton svg,
+.viewButton svg {
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
 }
 
 /* Pagination */
@@ -543,4 +570,267 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+/* Mobile Card Layout */
+.mobileCardContainer {
+    display: none;
+}
+
+.mobileCard {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.mobileCardHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.mobileCardImage {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    flex-shrink: 0;
+}
+
+.mobileCardContent {
+    flex: 1;
+    min-width: 0;
+}
+
+.mobileCardTitle {
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 4px;
+    font-size: 16px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.mobileCardExcerpt {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.mobileCardMeta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.mobileCardMetaItem {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mobileCardMetaLabel {
+    font-size: 11px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.mobileCardMetaValue {
+    font-size: 14px;
+    color: #1a202c;
+}
+
+.mobileCardActions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.mobileActionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    text-decoration: none;
+    padding: 0;
+    font-size: 1rem;
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+        margin-bottom: 1.5rem;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .createButton {
+        justify-content: center;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    .controls {
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .searchContainer {
+        max-width: none;
+    }
+
+    .filterButtons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .filterButton,
+    .resetButton {
+        min-width: 120px;
+        justify-content: center;
+    }
+
+    .filterPanel {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .filterGroup select {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .sortOptions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    /* Hide table, show mobile cards */
+    .tableContainer {
+        display: none;
+    }
+
+    .mobileCardContainer {
+        display: block;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .pageNumbers {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+
+    .paginationButton {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+
+    .pageNumber {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+    }
+
+    .postsCountInfo {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0.5rem;
+    }
+
+    .header h1 {
+        font-size: 1.25rem;
+    }
+
+    .mobileCard {
+        padding: 16px;
+        margin-bottom: 12px;
+    }
+
+    .mobileCardHeader {
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .mobileCardImage {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mobileCardTitle {
+        font-size: 14px;
+    }
+
+    .mobileCardMeta {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .mobileCardActions {
+        gap: 6px;
+    }
+
+    .mobileActionButton {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+
+    .filterPanel {
+        padding: 0.75rem;
+    }
+
+    .modal {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .modalButtons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .cancelButton,
+    .confirmDeleteButton {
+        width: 100%;
+        padding: 0.75rem;
+    }
 }

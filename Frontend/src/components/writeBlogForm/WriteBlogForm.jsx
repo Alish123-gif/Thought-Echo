@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect, useContext, useCallback } from 'react';
 import styles from './writeBlogForm.module.css';
 import Image from 'next/image';
 import { HiOutlinePhotograph, HiOutlineX, HiOutlineSave } from 'react-icons/hi';
@@ -164,10 +164,8 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
             setImageUrl(initialData.imageUrl || '');
             setPreviewUrl(initialData.imageUrl || '');
         }
-    }, [initialData, mode]);
-
-    // Save draft to localStorage
-    const saveDraft = () => {
+    }, [initialData, mode]);    // Save draft to localStorage
+    const saveDraft = useCallback(() => {
         try {
             const draft = {
                 title,
@@ -195,7 +193,8 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
         } catch (error) {
             console.error('Error saving draft to localStorage:', error);
         }
-    };
+    }, [title, description, content, category, tags, isFeatured, isPublished, previewUrl]);
+
     // Auto-save every AUTOSAVE_INTERVAL
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -205,7 +204,7 @@ const WriteBlogForm = ({ initialData = {}, mode = 'create', onSubmit }) => {
         }, AUTOSAVE_INTERVAL);
 
         return () => clearInterval(intervalId);
-    }, [title, description, content, category, tags, isFeatured, isPublished, previewUrl]);    // Discard draft
+    }, [title, description, content, category, tags, isFeatured, isPublished, previewUrl, saveDraft]);// Discard draft
     const discardDraft = () => {
         if (window.confirm('Are you sure you want to discard this draft? All changes will be lost.')) {
             clearForm();

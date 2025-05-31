@@ -1,0 +1,332 @@
+/* Sitemap Page Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    min-height: 100vh;
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 20px 0 40px 0;
+    border-radius: 16px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><circle cx="15" cy="15" r="1"/><circle cx="45" cy="45" r="1"/></g></svg>');
+    pointer-events: none;
+}
+
+.heroIcon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.content {
+    margin-bottom: 60px;
+}
+
+.section {
+    margin-bottom: 50px;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--softBg);
+}
+
+.sectionIcon {
+    font-size: 2rem;
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.sectionTitle {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--textColor);
+}
+
+.linksGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.linkCard {
+    background: var(--bg);
+    border: 1px solid var(--softBg);
+    border-radius: 12px;
+    padding: 25px;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.linkCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+    border-color: #667eea;
+}
+
+.linkContent {
+    flex: 1;
+}
+
+.linkTitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: var(--textColor);
+}
+
+.linkDescription {
+    font-size: 1rem;
+    color: var(--softTextColor);
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+}
+
+.linkUrl {
+    font-size: 0.9rem;
+    color: #667eea;
+    font-family: 'Courier New', monospace;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.linkArrow {
+    font-size: 1.5rem;
+    color: #667eea;
+    margin-left: 15px;
+    transition: transform 0.3s ease;
+}
+
+.linkCard:hover .linkArrow {
+    transform: translateX(5px);
+}
+
+/* Additional Information Section */
+.additionalInfo {
+    background: var(--softBg);
+    padding: 40px;
+    border-radius: 16px;
+    margin-bottom: 40px;
+}
+
+.infoTitle {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: var(--textColor);
+    text-align: center;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.infoCard {
+    background: var(--bg);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid var(--softBg);
+    text-align: center;
+}
+
+.infoCard h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    color: var(--textColor);
+}
+
+.infoCard p {
+    font-size: 1rem;
+    color: var(--softTextColor);
+    margin: 0 0 15px 0;
+    line-height: 1.5;
+}
+
+.infoCard code {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+/* Statistics Section */
+.statistics {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    padding: 40px;
+    border-radius: 16px;
+    margin-bottom: 40px;
+}
+
+.statsTitle {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: var(--textColor);
+    text-align: center;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 25px;
+}
+
+.statCard {
+    background: var(--bg);
+    padding: 30px 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--softBg);
+    transition: transform 0.3s ease;
+}
+
+.statCard:hover {
+    transform: translateY(-5px);
+}
+
+.statNumber {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 5px;
+}
+
+.statLabel {
+    font-size: 1rem;
+    color: var(--softTextColor);
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .hero {
+        padding: 40px 20px;
+        margin: 10px 0 30px 0;
+    }
+
+    .heroIcon {
+        font-size: 3rem;
+    }
+
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+    }
+
+    .sectionHeader {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .sectionTitle {
+        font-size: 1.7rem;
+    }
+
+    .linksGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .linkCard {
+        padding: 20px;
+    }
+
+    .additionalInfo,
+    .statistics {
+        padding: 25px 20px;
+    }
+
+    .infoGrid,
+    .statsGrid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .hero {
+        padding: 30px 15px;
+    }
+
+    .linkCard {
+        padding: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .linkArrow {
+        align-self: center;
+    }
+
+    .additionalInfo,
+    .statistics {
+        padding: 20px 15px;
+    }
+
+    .statNumber {
+        font-size: 2rem;
+    }
+}

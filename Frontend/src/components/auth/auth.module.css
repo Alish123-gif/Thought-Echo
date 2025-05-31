@@ -34,6 +34,13 @@
     font-size: 16px;
     font-weight: 500;
     width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #667eea;
 }
 
 .button {
@@ -124,4 +131,71 @@
     color: crimson;
     cursor: pointer;
     font-weight: 500;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .auth {
+        padding: 16px;
+        min-height: 70vh;
+    }
+
+    .title {
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
+
+    .input {
+        padding: 16px;
+        font-size: 15px;
+    }
+
+    .button {
+        padding: 16px;
+        font-size: 15px;
+    }
+
+    .socialButton {
+        padding: 12px;
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .auth {
+        padding: 12px;
+        min-height: 60vh;
+    }
+
+    .title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .form {
+        gap: 16px;
+    }
+
+    .input {
+        padding: 14px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    .button {
+        padding: 14px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    .socialButton {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    .social {
+        gap: 12px;
+        margin-top: 20px;
+    }
 }

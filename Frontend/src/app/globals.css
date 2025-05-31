@@ -50,6 +50,8 @@ a {
     /* background-color: var(--bg); */
     color: var(--textColor);
     width: 100%;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
 }
 
 .wrapper {
@@ -61,13 +63,7 @@ a {
     box-sizing: border-box;
 }
 
-@media screen and (max-width: 768px) {
-    .wrapper {
-        max-width: 1366px;
-        padding: 0 60px;
-    }
-}
-
+/* Large screens */
 @media screen and (max-width: 1280px) {
     .wrapper {
         max-width: 1024px;
@@ -75,22 +71,287 @@ a {
     }
 }
 
+/* Medium screens */
 @media screen and (max-width: 1024px) {
     .wrapper {
         max-width: 768px;
+        padding: 0 30px;
+    }
+}
+
+/* Small screens */
+@media screen and (max-width: 768px) {
+    .wrapper {
+        max-width: 100%;
         padding: 0 20px;
     }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 640px) {
+    .wrapper {
+        max-width: 100%;
+        padding: 0 16px;
+    }
+}
+
+/* Very small screens */
+@media screen and (max-width: 480px) {
+    .wrapper {
+        max-width: 100%;
+        padding: 0 12px;
+    }
+}
+
+/* Utility Classes for Mobile Consistency */
+.mobile-hidden {
+    display: block;
+}
+
+.mobile-only {
+    display: none;
 }
 
 @media screen and (max-width: 768px) {
-    .wrapper {
-        max-width: 640px;
+    .mobile-hidden {
+        display: none;
+    }
+
+    .mobile-only {
+        display: block;
     }
 }
 
-@media screen and (max-width: 640px) {
-    .wrapper {
-        max-width: 475px;
-        padding: 0 20px;
+/* Text Responsive Utilities */
+.text-responsive {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+
+.heading-responsive {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.subheading-responsive {
+    font-size: clamp(1.125rem, 3vw, 1.5rem);
+}
+
+/* Spacing Utilities */
+.spacing-mobile {
+    padding: 0.75rem;
+}
+
+.spacing-tablet {
+    padding: 1rem;
+}
+
+.spacing-desktop {
+    padding: 1.5rem;
+}
+
+@media screen and (min-width: 768px) {
+    .spacing-mobile {
+        padding: 1rem;
     }
+
+    .spacing-tablet {
+        padding: 1.5rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .spacing-mobile {
+        padding: 1.5rem;
+    }
+
+    .spacing-tablet {
+        padding: 2rem;
+    }
+
+    .spacing-desktop {
+        padding: 2.5rem;
+    }
+}
+
+/* Improved container responsiveness */
+.container {
+    min-height: 100vh;
+    color: var(--textColor);
+    width: 100%;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
+}
+
+/* Better responsive images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+}
+
+@media screen and (min-width: 768px) {
+    table {
+        display: table;
+        white-space: normal;
+    }
+}
+
+/* Responsive buttons */
+button,
+.button {
+    touch-action: manipulation;
+    min-height: 44px;
+    /* Accessibility minimum */
+}
+
+@media screen and (max-width: 768px) {
+
+    button,
+    .button {
+        min-height: 40px;
+        font-size: 14px;
+    }
+}
+
+/* Mobile and Touch Optimizations */
+@media screen and (max-width: 768px) {
+
+    /* Ensure proper touch targets */
+    button,
+    .button,
+    a[role="button"],
+    input[type="button"],
+    input[type="submit"] {
+        min-height: 44px;
+        min-width: 44px;
+        touch-action: manipulation;
+    }
+
+    /* Improve form controls for mobile */
+    input,
+    textarea,
+    select {
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+        border-radius: 8px;
+        padding: 12px;
+    }
+
+    /* Better spacing for mobile */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Improve readability */
+    p,
+    li {
+        line-height: 1.6;
+    }
+
+    /* Better modal/overlay handling on mobile */
+    .modal,
+    .overlay {
+        padding: 1rem;
+    }
+
+    /* Prevent horizontal scrolling */
+    body {
+        overflow-x: hidden;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    /* Even better touch targets for small screens */
+    button,
+    .button,
+    a[role="button"] {
+        min-height: 48px;
+        padding: 12px 16px;
+    }
+
+    /* Smaller screens need more compact spacing */
+    .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    /* Improve text sizing for readability */
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
+
+    h5 {
+        font-size: 1rem;
+    }
+
+    h6 {
+        font-size: 0.9rem;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --softBg: #e0e0e0;
+        --softTextColor: #404040;
+    }
+
+    .dark {
+        --softBg: #404040;
+        --softTextColor: #c0c0c0;
+    }
+}
+
+/* Focus visible for better keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+}
+
+/* Better scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Prevent text size adjust on device rotation */
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }

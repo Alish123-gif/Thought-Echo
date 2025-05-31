@@ -75,20 +75,38 @@ exports.createCategory = async (req, res) => {
             return res.status(400).json({
                 error: 'A category with this name or slug already exists'
             });
-        }
-
-        let imageUrl = null;
+        } let imageUrl = null;
 
         // Upload image to ImageKit if provided
         if (req.file) {
-            const fileName = `category_${crypto.randomBytes(8).toString('hex')}`;
+            console.log('=== Category Creation Debug ===');
+            console.log('File received:', !!req.file);
+            console.log('ImageKit config exists:', {
+                publicKey: !!process.env.IMAGEKIT_PUBLIC_KEY,
+                privateKey: !!process.env.IMAGEKIT_PRIVATE_KEY,
+                urlEndpoint: !!process.env.IMAGEKIT_URL_ENDPOINT
+            });
+
+            // Test authentication before upload
+            try {
+                await imagekit.listFiles({ limit: 1 });
+                console.log('✅ ImageKit auth successful');
+            } catch (authError) {
+                console.error('❌ ImageKit auth failed:', authError.message);            throw new Error('ImageKit authentication failed: ' + authError.message);
+            }
+
+            // Create short, unique filename
+            const timestamp = Date.now();
+            const randomId = Math.random().toString(36).substring(2, 8); // 6 char random string
+            const fileExtension = req.file.originalname.split('.').pop();
+            const shortFileName = `cat_${timestamp}_${randomId}.${fileExtension}`;
             const fileType = req.file.mimetype;
 
             const uploadResponse = await imagekit.upload({
                 file: req.file.buffer.toString('base64'),
-                fileName: fileName,
+                fileName: shortFileName,
                 folder: '/categories',
-                useUniqueFileName: true,
+                useUniqueFileName: false, // We're creating unique names ourselves
                 fileType: fileType
             });
 
@@ -105,13 +123,20 @@ exports.createCategory = async (req, res) => {
 
         res.status(201).json(category);
     } catch (error) {
-        console.error('Error creating category:', error);
+        console.error('=== Category Creation Error ===');
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+        console.error('ImageKit response:', error.response?.data);
+
         if (error.name === 'SequelizeValidationError') {
             return res.status(400).json({
                 error: error.errors.map(e => e.message).join(', ')
             });
         }
-        res.status(500).json({ error: 'Failed to create category' });
+        res.status(500).json({
+            error: 'Failed to create category',
+            details: error.message
+        });
     }
 };
 
@@ -151,18 +176,20 @@ exports.updateCategory = async (req, res) => {
             }
         }
 
-        let imageUrl = category.imageUrl;
-
-        // Upload new image to ImageKit if provided
+        let imageUrl = category.imageUrl;        // Upload new image to ImageKit if provided
         if (req.file) {
-            const fileName = `category_${crypto.randomBytes(8).toString('hex')}`;
+            // Create short, unique filename
+            const timestamp = Date.now();
+            const randomId = Math.random().toString(36).substring(2, 8); // 6 char random string
+            const fileExtension = req.file.originalname.split('.').pop();
+            const shortFileName = `cat_${timestamp}_${randomId}.${fileExtension}`;
             const fileType = req.file.mimetype;
 
             const uploadResponse = await imagekit.upload({
                 file: req.file.buffer.toString('base64'),
-                fileName: fileName,
+                fileName: shortFileName,
                 folder: '/categories',
-                useUniqueFileName: true,
+                useUniqueFileName: false, // We're creating unique names ourselves
                 fileType: fileType
             });
 
@@ -266,17 +293,19 @@ exports.uploadCategoryImage = async (req, res) => {
                 console.error('Failed to delete old image from ImageKit:', error);
                 // Continue with new image upload even if old image deletion fails
             }
-        }
-
-        // Upload new image to ImageKit
-        const fileName = `category_${crypto.randomBytes(8).toString('hex')}`;
+        }        // Upload new image to ImageKit
+        // Create short, unique filename
+        const timestamp = Date.now();
+        const randomId = Math.random().toString(36).substring(2, 8); // 6 char random string
+        const fileExtension = req.file.originalname.split('.').pop();
+        const shortFileName = `cat_${timestamp}_${randomId}.${fileExtension}`;
         const fileType = req.file.mimetype;
 
         const uploadResponse = await imagekit.upload({
             file: req.file.buffer.toString('base64'),
-            fileName: fileName,
+            fileName: shortFileName,
             folder: '/categories',
-            useUniqueFileName: true,
+            useUniqueFileName: false, // We're creating unique names ourselves
             fileType: fileType
         });
 

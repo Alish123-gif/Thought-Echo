@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { getPostBySlug } from "@/utils/api";
 import styles from "./postDetails.module.css";
@@ -12,10 +12,8 @@ const PostDetailsPage = () => {
     const { slug } = useParams();
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    // Extract fetch logic into a separate function for reuse
-    const fetchPost = async () => {
+    const [error, setError] = useState(null);    // Extract fetch logic into a separate function for reuse
+    const fetchPost = useCallback(async () => {
         if (!slug) return;
         try {
             setLoading(true);
@@ -28,7 +26,7 @@ const PostDetailsPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [slug]);
 
     // Retry function that only re-fetches data
     const handleRetry = () => {
@@ -37,7 +35,7 @@ const PostDetailsPage = () => {
 
     useEffect(() => {
         fetchPost();
-    }, [slug]); if (loading) return <LoadingSpinner />;
+    }, [fetchPost]); if (loading) return <LoadingSpinner />;
     if (error) return <DataMessage type="error" title="Error Loading Post" message={error} showRetry={true} onRetry={handleRetry} />;
     if (!post) return null; return (
         <div className={styles.container}>

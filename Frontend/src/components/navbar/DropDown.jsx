@@ -17,9 +17,7 @@ const DropDown = ({ children }) => {
     const pathname = usePathname();
 
     // Get windowWidth from ThemeContext instead of tracking it locally
-    const { windowWidth } = useContext(ThemeContext);
-
-    useEffect(() => {
+    const { windowWidth } = useContext(ThemeContext); useEffect(() => {
         if (!isDropdownOpen) return;
 
         const handleClickOutside = (event) => {
@@ -31,11 +29,13 @@ const DropDown = ({ children }) => {
 
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
-    }, [isDropdownOpen, styles.iconContainer, styles.dropdown]);
-
-    const toggleDropdown = (e) => {
+    }, [isDropdownOpen]); const toggleDropdown = (e) => {
         e.stopPropagation();
         setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    const closeDropdown = () => {
+        setIsDropdownOpen(false);
     };
 
     return (
@@ -51,67 +51,63 @@ const DropDown = ({ children }) => {
                 >
                     {isDropdownOpen ? <FaTimes /> : <FaBars />}
                 </button>
-            </div>
-
-            {isDropdownOpen && (
+            </div>            {isDropdownOpen && (
                 <div className={styles.dropdown}>                    <div className={styles.dropdownContent}>
-                    <ThemeToggle className={styles.dropdownItem} />
-
-                    {/* Show different items based on route */}
+                    <ThemeToggle className={styles.dropdownItem} onToggle={closeDropdown} />{/* Show different items based on route */}
                     {session?.user?.isAdmin && pathname?.startsWith('/admin') ? (
                         <>
-                            <Link className={styles.dropdownItem} href="/admin">
+                            <Link className={styles.dropdownItem} href="/admin" onClick={closeDropdown}>
                                 <HiShieldCheck /> Dashboard
                             </Link>
-                            <Link className={styles.dropdownItem} href="/admin/write">
+                            <Link className={styles.dropdownItem} href="/admin/write" onClick={closeDropdown}>
                                 <HiPencilAlt /> Write Post
                             </Link>
-                            <Link className={styles.dropdownItem} href="/admin/posts">
+                            <Link className={styles.dropdownItem} href="/admin/posts" onClick={closeDropdown}>
                                 <HiViewList /> All Posts
                             </Link>
-                            <Link className={styles.dropdownItem} href="/admin/settings">
+                            <Link className={styles.dropdownItem} href="/admin/settings" onClick={closeDropdown}>
                                 <Settings /> Settings
                             </Link>
-                            <Link className={styles.dropdownItem} href="/">
+                            <Link className={styles.dropdownItem} href="/" onClick={closeDropdown}>
                                 <HiHome /> Back to Site
                             </Link>
                         </>
                     ) : (
                         <>
-                            <Link className={styles.dropdownItem} href="/">
+                            <Link className={styles.dropdownItem} href="/" onClick={closeDropdown}>
                                 <HiHome /> Home
                             </Link>
-                            <Link className={styles.dropdownItem} href="/about">
+                            <Link className={styles.dropdownItem} href="/about" onClick={closeDropdown}>
                                 <HiInformationCircle /> About
                             </Link>
-                            <Link className={styles.dropdownItem} href="/contact">
+                            <Link className={styles.dropdownItem} href="/contact" onClick={closeDropdown}>
                                 <HiMail /> Contact
                             </Link>
                             {session?.user?.isAdmin && (
                                 <>
-                                    <Link className={styles.dropdownItem} href="/admin">
+                                    <Link className={styles.dropdownItem} href="/admin" onClick={closeDropdown}>
                                         <HiShieldCheck /> Admin Dashboard
                                     </Link>
                                     <div className={`${styles.dropdownSubMenu}`}>
-                                        <AdminLinks className={styles.dropdownItem} />
+                                        <AdminLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
                                     </div>
                                 </>
                             )}
 
                             {session?.user && !session?.user?.isAdmin && (
                                 <>
-                                    <Link className={styles.dropdownItem} href="/profile">
+                                    <Link className={styles.dropdownItem} href="/profile" onClick={closeDropdown}>
                                         <HiUser /> Profile
                                     </Link>
                                     <div className={`${styles.dropdownSubMenu}`}>
-                                        <UserLinks className={styles.dropdownItem} />
+                                        <UserLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
                                     </div>
                                 </>
                             )}
                         </>
                     )}
 
-                    <AuthLinks className={styles.dropdownItem} />
+                    <AuthLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
                 </div>
                     <div className={styles.dropdownSocail}>
                         <a className={styles.dropdownItem} href="https://twitter.com" target="_blank" rel="noopener noreferrer">

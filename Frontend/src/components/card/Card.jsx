@@ -30,18 +30,18 @@ const Card = ({ post }) => {
     };
 
     return (
-        <div className={styles.container}>
-            {post.imageUrl && (
-                <div className={styles.imageContainer}>
-                    <Image
-                        src={post.imageUrl}
-                        alt={post.title || "Post Image"}
-                        fill
-                        className={styles.image}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                </div>
-            )}
+        <div className={styles.container}>            {post.imageUrl && (
+            <div className={styles.imageContainer}>
+                <Image
+                    src={post.imageUrl}
+                    alt={post.title || "Post Image"}
+                    fill
+                    className={styles.image}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={false}
+                />
+            </div>
+        )}
             <div className={styles.textContainer}>
                 <div className={styles.detail}>
                     <span className={styles.date}>{formatDate(post.createdAt)} - </span>
