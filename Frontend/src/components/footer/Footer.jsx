@@ -28,7 +28,7 @@ const Footer = () => {
                             </div>
                             <div className={styles.contactItem}>
                                 <HiMail className={styles.contactIcon} />
-                                <a href="mailto:ali@example.com">ali@example.com</a>
+                                <a href="mailto:alishibli372@gmail.com">alishibli372@gmail.com</a>
                             </div>
                         </div>
                     </div>
