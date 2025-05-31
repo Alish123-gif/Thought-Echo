@@ -7,18 +7,26 @@ import { ThemeContextProvider } from '@/context/ThemeContext';
 import ParticleBg from '@/components/particleBg/ParticleBg';
 import AuthProvider from './providers/AuthProvider';
 import { AuthProvider as CustomAuthProvider } from '@/context/AuthContext';
+import ViewportSetter from '@/components/ViewportSetter';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'Blog App',
   description: 'The best blog app!',
+  viewport: {
+    width: 'device-width',
+    initialScale: 0.80,
+    minimumScale: 0.80,
+    maximumScale: 5.0,
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ViewportSetter />
         <AuthProvider>
           <CustomAuthProvider>
             <ThemeContextProvider>

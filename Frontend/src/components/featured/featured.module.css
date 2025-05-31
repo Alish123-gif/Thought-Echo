@@ -109,15 +109,13 @@
 }
 
 .button {
+    width: 110%;
     padding: 16px 20px;
-    border: none;
+    border: thin solid var(--textColor);
     border-radius: 8px;
     color: var(--textColor);
     background-color: var(--bg);
-    outline: var(--textColor);
     max-width: fit-content;
-    outline-style: solid;
-    outline-width: 1px;
     cursor: pointer;
 }
 
