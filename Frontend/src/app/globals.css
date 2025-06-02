@@ -85,7 +85,7 @@ a {
         max-width: 100%;
         padding: 0 15px;
     }
-    
+
     body {
         font-size: 15px;
     }
@@ -97,7 +97,7 @@ a {
         max-width: 100%;
         padding: 0 12px;
     }
-    
+
     body {
         font-size: 14px;
     }
@@ -109,27 +109,29 @@ a {
         max-width: 100%;
         padding: 0 10px;
     }
-    
+
     body {
         font-size: 14px;
         line-height: 1.4;
     }
-    
+
     h1 {
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
     }
-    
+
     h2 {
         font-size: 1.3rem;
         margin-bottom: 0.4rem;
     }
-      p {
+
+    p {
         margin-bottom: 0.8rem;
     }
-    
+
     /* Increase touch targets */
-    button, a {
+    button,
+    a {
         padding: 8px;
     }
 }
@@ -150,6 +152,7 @@ a[class*="outline"] {
 }
 
 @media screen and (max-width: 480px) {
+
     .btn-outline,
     button[class*="outline"],
     .button[class*="outline"],
@@ -264,7 +267,8 @@ table {
 button,
 .button {
     touch-action: manipulation;
-    min-height: 44px; /* Accessibility minimum */
+    min-height: 44px;
+    /* Accessibility minimum */
     padding: 8px 16px;
     border-radius: 4px;
     box-sizing: border-box;
@@ -283,7 +287,8 @@ button,
     .button {
         min-height: 40px;
         font-size: 14px;
-        padding: 6px 14px; /* Slightly reduced padding for smaller screens */
+        padding: 6px 14px;
+        /* Slightly reduced padding for smaller screens */
     }
 }
 
@@ -345,8 +350,10 @@ button,
         padding: 8px 14px;
         font-size: 13px;
         margin: 0 1px;
-        width: auto; /* Ensure buttons don't stretch unnecessarily */
-        max-width: 100%; /* Prevent overflow */
+        width: auto;
+        /* Ensure buttons don't stretch unnecessarily */
+        max-width: 100%;
+        /* Prevent overflow */
         overflow: visible;
     }
 
