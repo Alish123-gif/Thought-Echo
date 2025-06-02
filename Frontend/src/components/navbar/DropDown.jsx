@@ -51,64 +51,66 @@ const DropDown = ({ children }) => {
                 >
                     {isDropdownOpen ? <FaTimes /> : <FaBars />}
                 </button>
-            </div>            {isDropdownOpen && (
-                <div className={styles.dropdown}>                    <div className={styles.dropdownContent}>
-                    <ThemeToggle className={styles.dropdownItem} onToggle={closeDropdown} />{/* Show different items based on route */}
-                    {session?.user?.isAdmin && pathname?.startsWith('/admin') ? (
-                        <>
-                            <Link className={styles.dropdownItem} href="/admin" onClick={closeDropdown}>
-                                <HiShieldCheck /> Dashboard
-                            </Link>
-                            <Link className={styles.dropdownItem} href="/admin/write" onClick={closeDropdown}>
-                                <HiPencilAlt /> Write Post
-                            </Link>
-                            <Link className={styles.dropdownItem} href="/admin/posts" onClick={closeDropdown}>
-                                <HiViewList /> All Posts
-                            </Link>
-                            <Link className={styles.dropdownItem} href="/admin/settings" onClick={closeDropdown}>
-                                <Settings /> Settings
-                            </Link>
-                            <Link className={styles.dropdownItem} href="/" onClick={closeDropdown}>
-                                <HiHome /> Back to Site
-                            </Link>
-                        </>
-                    ) : (
-                        <>
-                            <Link className={styles.dropdownItem} href="/" onClick={closeDropdown}>
-                                <HiHome /> Home
-                            </Link>
-                            <Link className={styles.dropdownItem} href="/about" onClick={closeDropdown}>
-                                <HiInformationCircle /> About
-                            </Link>
-                            <Link className={styles.dropdownItem} href="/contact" onClick={closeDropdown}>
-                                <HiMail /> Contact
-                            </Link>
-                            {session?.user?.isAdmin && (
-                                <>
-                                    <Link className={styles.dropdownItem} href="/admin" onClick={closeDropdown}>
-                                        <HiShieldCheck /> Admin Dashboard
-                                    </Link>
-                                    <div className={`${styles.dropdownSubMenu}`}>
-                                        <AdminLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
-                                    </div>
-                                </>
-                            )}
+            </div>
+            {isDropdownOpen && (
+                <div className={styles.dropdown}>
+                    <div className={styles.dropdownContent}>
+                        <ThemeToggle className={styles.dropdownItem} onToggle={closeDropdown} />
+                        {session?.user?.isAdmin && pathname?.startsWith('/admin') ? (
+                            <>
+                                <Link className={styles.dropdownItem} href="/admin" onClick={closeDropdown}>
+                                    <HiShieldCheck /> Dashboard
+                                </Link>
+                                <Link className={styles.dropdownItem} href="/admin/write" onClick={closeDropdown}>
+                                    <HiPencilAlt /> Write Post
+                                </Link>
+                                <Link className={styles.dropdownItem} href="/admin/posts" onClick={closeDropdown}>
+                                    <HiViewList /> All Posts
+                                </Link>
+                                <Link className={styles.dropdownItem} href="/admin/settings" onClick={closeDropdown}>
+                                    <Settings /> Settings
+                                </Link>
+                                <Link className={styles.dropdownItem} href="/" onClick={closeDropdown}>
+                                    <HiHome /> Back to Site
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link className={styles.dropdownItem} href="/" onClick={closeDropdown}>
+                                    <HiHome /> Home
+                                </Link>
+                                <Link className={styles.dropdownItem} href="/about" onClick={closeDropdown}>
+                                    <HiInformationCircle /> About
+                                </Link>
+                                <Link className={styles.dropdownItem} href="/contact" onClick={closeDropdown}>
+                                    <HiMail /> Contact
+                                </Link>
+                                {session?.user?.isAdmin && (
+                                    <>
+                                        <Link className={styles.dropdownItem} href="/admin" onClick={closeDropdown}>
+                                            <HiShieldCheck /> Admin Dashboard
+                                        </Link>
+                                        <div className={`${styles.dropdownSubMenu}`}>
+                                            <AdminLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
+                                        </div>
+                                    </>
+                                )}
 
-                            {session?.user && !session?.user?.isAdmin && (
-                                <>
-                                    <Link className={styles.dropdownItem} href="/profile" onClick={closeDropdown}>
-                                        <HiUser /> Profile
-                                    </Link>
-                                    <div className={`${styles.dropdownSubMenu}`}>
-                                        <UserLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
-                                    </div>
-                                </>
-                            )}
-                        </>
-                    )}
+                                {session?.user && !session?.user?.isAdmin && (
+                                    <>
+                                        <Link className={styles.dropdownItem} href="/profile" onClick={closeDropdown}>
+                                            <HiUser /> Profile
+                                        </Link>
+                                        <div className={`${styles.dropdownSubMenu}`}>
+                                            <UserLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
+                                        </div>
+                                    </>
+                                )}
+                            </>
+                        )}
 
-                    <AuthLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
-                </div>
+                        <AuthLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
+                    </div>
                     <div className={styles.dropdownSocail}>
                         <a className={styles.dropdownItem} href="https://twitter.com" target="_blank" rel="noopener noreferrer">
                             <Image src="/x.png" alt="X" width={22} height={22} /><span>{windowWidth <= 640 ? "" : "X"}</span>

@@ -146,11 +146,10 @@
     display: none;
     position: absolute;
     top: 70px;
-    left: 0;
-    right: 0;
-    width: 100%;
+    left: -2%;
+    width: 104%;
     background-color: var(--bg);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px -2px var(--textColor);
     z-index: 1000;
     flex-direction: column;
     padding: 20px;
@@ -183,7 +182,7 @@
     padding: 12px;
     color: var(--textColor);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     text-decoration: none;
     border-radius: 8px;
@@ -195,11 +194,11 @@
     flex-direction: row;
     justify-content: center;
     font-size: 0.9rem;
-    gap: 20px;
+    gap: 10px;
     color: var(--textColor);
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    padding-top: 20px;
-    margin-top: 10px;
+    border-top: 1px solid rgba(99, 102, 241, 0.3);
+    padding-top: 10px;
+    background-color: rgba(99, 102, 241, 0.3);
 }
 
 .dropdownItem:hover {
@@ -459,7 +458,7 @@
     .iconContainer button {
         display: flex;
     }
-    
+
     .logo {
         font-size: 1.1rem;
     }
