@@ -28,6 +28,7 @@
 
 .content {
     display: grid;
+    grid-row: 2 / 3;
     grid-template-columns: 2fr 1fr 1fr 1.5fr;
     gap: 25px;
     padding: 25px 20px 20px;
@@ -131,6 +132,23 @@
     color: #667eea;
     border-left-color: #667eea;
     transform: translateX(5px);
+}
+
+/* New Links Row Class */
+.linksRow {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .linksRow {
+        flex-direction: row;
+        gap: 50px;
+        align-items: start;
+    }
 }
 
 /* Social Section */
