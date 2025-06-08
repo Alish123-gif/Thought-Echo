@@ -29,15 +29,15 @@
 .content {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 25px;
-    padding: 25px 20px 20px;
+    gap: 30px;
+    padding: 20px 20px 15px;
 }
 
 /* Brand Section */
 .brandSection {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .logo {
@@ -64,8 +64,8 @@
 .contactInfo {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-top: 5px;
+    gap: 6px;
+    margin-top: 4px;
 }
 
 .contactItem {
@@ -95,7 +95,7 @@
 .linksSection {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
     text-align: center;
 }
@@ -113,7 +113,7 @@
 .linksList {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .footerLink {
@@ -133,18 +133,35 @@
     transform: translateX(5px);
 }
 
+/* New Links Row Class */
+.linksRow {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .linksRow {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+}
+
 /* Social Section */
 .socialSection {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
     text-align: center;
 }
 
 .socialLinks {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -153,10 +170,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     background: var(--softBg);
-    border-radius: 12px;
+    border-radius: 10px;
     color: var(--textColor);
     text-decoration: none;
     transition: all 0.3s ease;
@@ -177,33 +194,34 @@
 /* Newsletter */
 .newsletter {
     background: var(--softBg);
-    padding: 12px;
-    border-radius: 12px;
+    padding: 10px;
+    border-radius: 10px;
     border: 1px solid var(--softBg);
     text-align: center;
 }
 
 .newsletterText {
     color: var(--textColor);
-    font-size: 0.9rem;
-    margin: 0 0 8px 0;
-    line-height: 1.5;
+    font-size: 0.85rem;
+    margin: 0 0 6px 0;
+    line-height: 1.4;
 }
 
 .newsletterForm {
     display: flex;
-    gap: 8px;
-    flex-direction: column;
+    gap: 6px;
+    flex-direction: row;
 }
 
 .emailInput {
     background: var(--bg);
     border: 1px solid var(--softBg);
-    border-radius: 8px;
-    padding: 8px 12px;
+    border-radius: 6px;
+    padding: 6px 10px;
     color: var(--textColor);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition: all 0.3s ease;
+    flex: 1;
 }
 
 .emailInput::placeholder {
@@ -220,12 +238,13 @@
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #ffffff;
     border: none;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 0.9rem;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .subscribeButton:hover {
@@ -243,9 +262,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 12px 20px;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
 }
 
 .copyright {
@@ -300,8 +319,8 @@
 @media screen and (max-width: 1024px) {
     .content {
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        padding: 25px 20px 20px;
+        gap: 18px;
+        padding: 18px 20px 15px;
     }
 
     .brandSection {
@@ -312,33 +331,41 @@
 @media screen and (max-width: 768px) {
     .content {
         grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px 15px 12px;
+    }
+
+    .linksRow {
         gap: 20px;
-        padding: 20px 15px 15px;
     }
 
     .newsletterForm {
         flex-direction: column;
+        gap: 8px;
     }
 
     .socialLinks {
         justify-content: center;
+        gap: 10px;
     }
 
     .bottomContent {
         flex-direction: column;
         text-align: center;
-        gap: 10px;
+        gap: 8px;
+        padding: 10px 20px;
     }
 
     .bottomLinks {
         justify-content: center;
+        gap: 15px;
     }
 }
 
 @media screen and (max-width: 480px) {
     .content {
-        padding: 20px 10px 12px;
-        gap: 15px;
+        padding: 15px 10px 10px;
+        gap: 12px;
     }
 
     .logo {
@@ -353,28 +380,53 @@
 
     .contactInfo {
         align-items: center;
+        gap: 4px;
+    }
+
+    .linksRow {
+        gap: 15px;
     }
 
     .sectionTitle {
         text-align: center;
-        margin: 0 auto 5px;
+        margin: 0 auto 4px;
+        font-size: 1.1rem;
     }
 
     .linksList {
         align-items: center;
         text-align: center;
+        gap: 4px;
     }
 
     .footerLink {
         margin: 0;
-        padding: 6px 0;
+        padding: 4px 0;
         border-left: none;
         border-bottom: 2px solid transparent;
+        font-size: 0.9rem;
     }
 
     .footerLink:hover {
         transform: none;
         border-left: none;
         border-bottom-color: #667eea;
+    }
+
+    .socialLinks {
+        gap: 8px;
+    }
+
+    .socialLink {
+        width: 35px;
+        height: 35px;
+    }
+
+    .bottomContent {
+        padding: 8px 15px;
+    }
+
+    .bottomLinks {
+        gap: 12px;
     }
 }

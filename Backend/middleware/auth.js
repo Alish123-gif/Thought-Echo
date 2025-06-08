@@ -13,7 +13,7 @@ exports.isAuthenticated = async (req, res, next) => {
 
         if (!token) {
             return res.status(401).json({ message: 'Authentication token required' });
-        }        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        } const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findByPk(decoded.id);
 
         if (!user) {
@@ -24,25 +24,25 @@ exports.isAuthenticated = async (req, res, next) => {
         next();
     } catch (error) {
         console.error('Authentication error:', error);
-        
+
         // Check if it's a token expiration error
         if (error.name === 'TokenExpiredError') {
-            return res.status(401).json({ 
-                message: 'Token expired', 
+            return res.status(401).json({
+                message: 'Token expired',
                 error: 'TokenExpiredError',
-                tokenExpired: true 
+                tokenExpired: true
             });
         }
-        
+
         // Check if it's an invalid token error
         if (error.name === 'JsonWebTokenError') {
-            return res.status(401).json({ 
-                message: 'Invalid token', 
+            return res.status(401).json({
+                message: 'Invalid token',
                 error: 'JsonWebTokenError',
-                tokenInvalid: true 
+                tokenInvalid: true
             });
         }
-        
+
         res.status(401).json({ message: 'Authentication failed', error: error.message });
     }
 };
@@ -54,3 +54,6 @@ exports.isAdmin = (req, res, next) => {
         res.status(403).json({ message: 'Admin privileges required' });
     }
 };
+
+// Alias for isAuthenticated to match the import in analytics routes
+exports.authenticateToken = exports.isAuthenticated;

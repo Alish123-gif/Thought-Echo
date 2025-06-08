@@ -61,15 +61,15 @@ const AdminDashboard = () => {
                     </div>
                 </Link>
 
-                <div className={styles.dashboardCard}>
+                <Link href="/admin/analytics" className={styles.dashboardCard}>
                     <div className={styles.cardIcon}>
                         <FaChartBar />
                     </div>
                     <div className={styles.cardContent}>
                         <h3>Analytics</h3>
-                        <p>Coming soon...</p>
+                        <p>Analyse people interactions</p>
                     </div>
-                </div>
+                </Link>
             </div>
 
             <div className={styles.quickActions}>

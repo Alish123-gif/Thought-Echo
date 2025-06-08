@@ -48,6 +48,9 @@
 .categoryImage {
     margin-right: 5px;
     border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
 }
 
 .loadingCategories {

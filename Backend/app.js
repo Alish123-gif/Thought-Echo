@@ -19,6 +19,7 @@ const sequelize = require(path.join(__dirname, 'config', 'database'));
 const authRoutes = require(path.join(__dirname, 'routes', 'auth'));
 const postRoutes = require(path.join(__dirname, 'routes', 'posts'));
 const categoryRoutes = require(path.join(__dirname, 'routes', 'categories'));
+const analyticsRoutes = require(path.join(__dirname, 'routes', 'analytics'));
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,6 +31,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api', categoryRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Debug endpoint for testing ImageKit
 app.get('/api/debug/imagekit', async (req, res) => {
@@ -54,10 +56,10 @@ app.get('/api/debug/imagekit', async (req, res) => {
 app.get('/api/debug/imagekit-auth', async (req, res) => {
   try {
     const imagekit = require('./config/imagekit');
-    
+
     // Test auth parameter generation
     const authParams = imagekit.getAuthenticationParameters();
-    
+
     res.json({
       success: true,
       message: 'Auth parameters generated successfully',
@@ -142,10 +144,10 @@ async function testImageKitConnection() {
   try {
     console.log('Testing ImageKit connection...');
     const imagekit = require('./config/imagekit');
-    
+
     // Test different endpoints to isolate the issue
     console.log('=== Comprehensive ImageKit Test ===');
-    
+
     // Test 1: Check if we can create upload token (this tests auth without actual upload)
     try {
       const authParams = imagekit.getAuthenticationParameters();
@@ -172,7 +174,7 @@ async function testImageKitConnection() {
         privateKeyExists: !!process.env.IMAGEKIT_PRIVATE_KEY
       }
     });
-    
+
     // Additional check: Try to validate the keys format
     if (process.env.IMAGEKIT_PUBLIC_KEY && !process.env.IMAGEKIT_PUBLIC_KEY.startsWith('public_')) {
       console.error('⚠️  Public key doesn\'t start with "public_" - this might be incorrect');
