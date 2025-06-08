@@ -5,7 +5,8 @@ const {
     getViewerCount,
     getAnalytics,
     getPageViewsByDateRange,
-    getRealTimeAnalytics
+    getRealTimeAnalytics,
+    getSessionStats
 } = require('../controllers/analyticsController');
 const { authenticateToken, isAdmin } = require('../middleware/auth');
 
@@ -17,5 +18,6 @@ router.get('/viewers', getViewerCount);
 router.get('/', authenticateToken, isAdmin, getAnalytics);
 router.get('/pageviews', authenticateToken, isAdmin, getPageViewsByDateRange);
 router.get('/realtime', authenticateToken, isAdmin, getRealTimeAnalytics);
+router.get('/sessions', authenticateToken, isAdmin, getSessionStats);
 
 module.exports = router;

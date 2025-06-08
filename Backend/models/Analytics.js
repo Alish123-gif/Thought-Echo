@@ -10,23 +10,28 @@ const Analytics = sequelize.define('Analytics', {
     page: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: '/'
+        defaultValue: '/',
+        validate: {
+            len: [1, 500] // Limit page URL length
+        }
     },
     userAgent: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(500), // Limit user agent length
         allowNull: true
     },
     referrer: {
         type: DataTypes.STRING,
-        allowNull: true
-    },
-    ipAddress: {
-        type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        validate: {
+            len: [0, 255] // Limit referrer length
+        }
     },
     sessionId: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        validate: {
+            len: [0, 100] // Limit session ID length
+        }
     },
     timestamp: {
         type: DataTypes.DATE,
@@ -35,8 +40,7 @@ const Analytics = sequelize.define('Analytics', {
     }
 }, {
     tableName: 'analytics',
-    timestamps: true,
-    indexes: [
+    timestamps: true, indexes: [
         {
             fields: ['page']
         },
@@ -45,6 +49,12 @@ const Analytics = sequelize.define('Analytics', {
         },
         {
             fields: ['sessionId']
+        },
+        {
+            fields: ['page', 'timestamp'] // Composite index for better query performance
+        },
+        {
+            fields: ['page', 'sessionId', 'timestamp'] // Optimized for duplicate detection
         }
     ]
 });
