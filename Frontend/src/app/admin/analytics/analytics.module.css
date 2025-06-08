@@ -139,22 +139,41 @@
     text-align: center;
 }
 
+.refreshContainer {
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+    z-index: 10;
+}
+
 .refreshButton {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 10px 20px;
+    padding: 12px 24px;
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    /* Ensure clickable area */
+    position: relative;
+    z-index: 10;
 }
 
-.refreshButton:hover {
+.refreshButton:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #7c8df0 0%, #8a5fb8 100%);
+}
+
+.refreshButton:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
 }
 
 .refreshButton:disabled {
@@ -162,6 +181,7 @@
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+    background: #ccc;
 }
 
 /* Responsive Design */
