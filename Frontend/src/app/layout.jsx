@@ -8,6 +8,7 @@ import ParticleBg from '@/components/particleBg/ParticleBg';
 import AuthProvider from './providers/AuthProvider';
 import { AuthProvider as CustomAuthProvider } from '@/context/AuthContext';
 import ViewportSetter from '@/components/ViewportSetter';
+import PageViewTracker from '@/components/PageViewTracker';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <ViewportSetter />
+        <PageViewTracker />
         <AuthProvider>
           <CustomAuthProvider>
             <ThemeContextProvider>
