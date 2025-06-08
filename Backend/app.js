@@ -185,4 +185,8 @@ async function testImageKitConnection() {
   }
 }
 
+// Initialize analytics auto-cleanup
+const { startAutoCleanup } = require('./controllers/analyticsController');
+startAutoCleanup();
+
 startServer();
