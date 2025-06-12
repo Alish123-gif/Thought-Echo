@@ -38,18 +38,18 @@ const SettingsPage = () => {
     useEffect(() => {
         if (!isLoading) {
             setLoading(false);
-            console.log('User object:', user);
-            console.log('Is user admin?', user?.isAdmin);
-            console.log('Is Authenticated:', isAuthenticated);
+
+
+
 
             if (!isAuthenticated) {
-                console.log('Not authenticated, redirecting...');
+
                 router.push('/login?callbackUrl=' + encodeURIComponent('/admin/settings'));
                 return;
             }
 
             if (!user?.isAdmin) {
-                console.log('Not admin, redirecting...');
+
                 router.push('/');
                 return;
             }

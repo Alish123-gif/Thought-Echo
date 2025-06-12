@@ -81,7 +81,7 @@ export const options = {
             console.warn("[NextAuth Warning]", code);
         },
         debug(code, metadata) {
-            console.log("[NextAuth Debug]", code, metadata);
+
         }
     },
     callbacks: {

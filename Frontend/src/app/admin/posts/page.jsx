@@ -52,7 +52,7 @@ const AdminPostsPage = () => {
                 page: currentPage,
                 limit: postsPerPage
             });
-            console.log('Fetched posts:', data);
+
 
             if (!data.posts || data.posts.length === 0) {
                 setPosts([]);
@@ -64,9 +64,9 @@ const AdminPostsPage = () => {
             }
 
             // Enrich posts with category data
-            console.log('Enriching posts with category data...');
+
             const enrichedPosts = await enrichPostsWithCategoriesOptimized(data.posts || []);
-            console.log('Enriched posts:', enrichedPosts);
+
 
             // Extract unique categories from enriched posts
             const uniqueCategories = [...new Set(enrichedPosts.map(post => post.category).filter(Boolean))];

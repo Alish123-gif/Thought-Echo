@@ -11,11 +11,11 @@ async function createDatabaseIfNotExists() {
         database: 'postgres' // Connect to default postgres database first
     });
 
-    console.log('Attempting to connect to PostgreSQL server...');
+
 
     try {
         await client.connect();
-        console.log('Connected to PostgreSQL server');
+
 
         // Check if our database exists
         const checkResult = await client.query(`
@@ -23,12 +23,12 @@ async function createDatabaseIfNotExists() {
         `, [process.env.DB_NAME]);
 
         if (checkResult.rowCount === 0) {
-            console.log(`Database ${process.env.DB_NAME} does not exist, creating it now...`);
+
             // Create the database
             await client.query(`CREATE DATABASE "${process.env.DB_NAME}"`);
-            console.log(`Database ${process.env.DB_NAME} created successfully`);
+
         } else {
-            console.log(`Database ${process.env.DB_NAME} already exists`);
+
         }
     } catch (error) {
         console.error('Error creating database:', error);

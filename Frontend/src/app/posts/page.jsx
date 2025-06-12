@@ -57,7 +57,7 @@ const PostsPage = () => {
         };
         fetchCategories();
     }, []);
-    console.log('categories', categories);
+
     // Fetch posts based on filters
     const fetchPosts = useCallback(async () => {
         try {

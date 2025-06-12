@@ -48,7 +48,7 @@ const cleanupMemoryCaches = () => {
     }
 
     if (cleaned > 0) {
-        console.log(`🧹 Cleaned up ${cleaned} expired sessions from memory`);
+
     }
 };
 
@@ -175,7 +175,7 @@ const trackPageView = async (req, res) => {
 
         // Check if this is likely the same user viewing the same page recently
         if (isSameUser(userFingerprint, currentPage)) {
-            console.log(`🔄 Duplicate page view detected for user ${userFingerprint} on page ${currentPage}`);
+
             return res.status(200).json({
                 success: true,
                 message: 'Page view already tracked for this user recently',
@@ -197,7 +197,7 @@ const trackPageView = async (req, res) => {
         });
 
         if (recentEntry) {
-            console.log(`🔄 Recent database entry found for ${userFingerprint} on page ${currentPage}`);
+
 
             // Update user session but don't create new record
             updateUserSession(userFingerprint, currentPage);
@@ -224,7 +224,7 @@ const trackPageView = async (req, res) => {
         viewerCountCache = null;
         viewerCountCacheTime = null;
 
-        console.log(`✅ New page view tracked: ${userFingerprint} on page ${currentPage}`);
+
 
         res.status(201).json({
             success: true,
@@ -510,7 +510,7 @@ const cleanupOldData = async () => {
             }
         });
 
-        console.log(`Cleaned up ${deletedCount} old analytics records`);
+
         return deletedCount;
     } catch (error) {
         console.error('Error cleaning up old analytics data:', error);

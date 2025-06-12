@@ -79,8 +79,8 @@ exports.createCategory = async (req, res) => {
 
         // Upload image to ImageKit if provided
         if (req.file) {
-            console.log('=== Category Creation Debug ===');
-            console.log('File received:', !!req.file);
+
+
             console.log('ImageKit config exists:', {
                 publicKey: !!process.env.IMAGEKIT_PUBLIC_KEY,
                 privateKey: !!process.env.IMAGEKIT_PRIVATE_KEY,
@@ -90,9 +90,9 @@ exports.createCategory = async (req, res) => {
             // Test authentication before upload
             try {
                 await imagekit.listFiles({ limit: 1 });
-                console.log('✅ ImageKit auth successful');
+
             } catch (authError) {
-                console.error('❌ ImageKit auth failed:', authError.message);            throw new Error('ImageKit authentication failed: ' + authError.message);
+                console.error('❌ ImageKit auth failed:', authError.message); throw new Error('ImageKit authentication failed: ' + authError.message);
             }
 
             // Create short, unique filename

@@ -126,10 +126,10 @@ const startServer = async () => {
     });
 
     await sequelize.sync({ alter: true });
-    console.log('Database connected and synced');
+
 
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+
     });
 
     // Test ImageKit connection after server starts
@@ -142,26 +142,26 @@ const startServer = async () => {
 // Test ImageKit connection
 async function testImageKitConnection() {
   try {
-    console.log('Testing ImageKit connection...');
+
     const imagekit = require('./config/imagekit');
 
     // Test different endpoints to isolate the issue
-    console.log('=== Comprehensive ImageKit Test ===');
+
 
     // Test 1: Check if we can create upload token (this tests auth without actual upload)
     try {
       const authParams = imagekit.getAuthenticationParameters();
-      console.log('✅ Authentication parameters generated successfully');
-      console.log('Token:', authParams.token);
-      console.log('Expire:', authParams.expire);
-      console.log('Signature:', authParams.signature);
+
+
+
+
     } catch (authError) {
-      console.log('❌ Failed to generate auth parameters:', authError.message);
+
     }
 
     // Test 2: Try listing files
     const result = await imagekit.listFiles({ limit: 1 });
-    console.log('✅ ImageKit connected successfully, files:', result.length);
+
   } catch (error) {
     console.error('❌ ImageKit connection failed:', {
       message: error.message,

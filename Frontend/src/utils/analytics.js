@@ -105,12 +105,12 @@ export const trackPageView = async (page = window.location.pathname) => {
                         console.warn('🚦 Analytics rate limited');
                     } else if (data.duplicate || data.throttled) {
                         analyticsMonitor.recordDuplicate();
-                        console.log('🔄 Duplicate page view prevented:', data.message);
+
                     } else {
                         // Invalidate viewer count cache when new view is tracked
                         viewerCountCache = null;
                         cacheTimestamp = null;
-                        console.log('📊 New unique page view tracked');
+
                     }
 
                     resolve(data);

@@ -20,18 +20,14 @@ export default function PageViewTracker() {
         isTracking.current = true;
 
         try {
-            console.log(`📊 Tracking page view: ${path}`);
             const result = await trackPageView(path);
 
             if (result && !result.throttled) {
                 lastTrackedPath.current = path;
-                console.log(`✅ Page view tracked successfully`);
             } else if (result && result.throttled) {
-                console.log(`⏱️ Page view throttled (already tracked recently)`);
-                lastTrackedPath.current = path; // Still mark as tracked
+                lastTrackedPath.current = path;
             }
         } catch (error) {
-            // Silently fail - don't break the user experience
             console.error('Failed to track page view:', error);
         } finally {
             isTracking.current = false;
