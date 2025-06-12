@@ -145,8 +145,7 @@ const AnalyticsPage = () => {
                     </p>
                 </div>
             </div>
-
-            <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <div className={styles.refreshContainer}>
                 <button
                     className={styles.refreshButton}
                     onClick={handleRefresh}
