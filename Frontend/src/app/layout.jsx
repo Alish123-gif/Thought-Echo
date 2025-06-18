@@ -9,6 +9,7 @@ import AuthProvider from './providers/AuthProvider';
 import { AuthProvider as CustomAuthProvider } from '@/context/AuthContext';
 import ViewportSetter from '@/components/ViewportSetter';
 import PageViewTracker from '@/components/PageViewTracker';
+import TokenValidator from '@/components/TokenValidator';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,11 +27,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <ViewportSetter />
+      <body className={inter.className}>        <ViewportSetter />
         <PageViewTracker />
         <AuthProvider>
           <CustomAuthProvider>
+            <TokenValidator />
             <ThemeContextProvider>
               <ThemeProvider>
                 <ParticleBg />
