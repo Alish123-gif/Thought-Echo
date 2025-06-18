@@ -85,18 +85,18 @@ const MenuPosts = ({ withImage, type = "popular", limit = 4 }) => {
     return (
         <div className={styles.items}>
             {posts.map((post) => (
-                <Link key={post.id} href={`/post/${post.slug}`} className={styles.item}>
-                    {withImage && post.imageUrl && (
-                        <div className={styles.imageContainer}>
-                            <Image
-                                src={post.imageUrl}
-                                alt={post.title || "Post Image"}
-                                fill
-                                className={styles.image}
-                                sizes="80px"
-                            />
-                        </div>
-                    )}
+                <Link key={post.id} href={`/post/${post.slug}`} className={styles.item}>                    {withImage && post.imageUrl && (
+                    <div className={styles.imageContainer}>
+                        <Image
+                            src={post.imageUrl}
+                            alt={post.title || "Post Image"}
+                            fill
+                            className={styles.image}
+                            sizes="(max-width: 480px) 55px, (max-width: 640px) 60px, (max-width: 768px) 70px, (max-width: 1024px) 75px, 80px"
+                            priority={false}
+                        />
+                    </div>
+                )}
                     <div className={styles.textContainer}>
                         <span className={`${styles.category} ${getCategoryStyle(post.category)}`}>
                             {post.category || 'Uncategorized'}

@@ -33,7 +33,7 @@ const MenuCategories = () => {
             {categories.map((category) => (
                 <Link
                     key={category.id}
-                    href={`/blog?cat=${category.slug}`}
+                    href={`/posts?category=${category.id}`}
                     className={styles.categoryItem}
                     style={{ backgroundColor: category.color }}
                 >

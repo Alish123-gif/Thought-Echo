@@ -13,29 +13,27 @@
 }
 
 .imageContainer {
-    flex: 1;
-    aspect-ratio: 1/1;
     position: relative;
-    min-width: 80px;
-    width: 100px;
-    height: 100px;
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
     overflow: hidden;
+    border-radius: 50%;
+    border: 3px solid lightgray;
 }
 
 .image {
-    border-radius: 50%;
-    border: 3px solid lightgray;
     object-fit: cover;
-    width: 100%;
-    height: 100%;
     object-position: center;
 }
 
 .textContainer {
-    flex: 4;
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 5px;
+    min-width: 0;
+    /* Allows text to wrap properly */
 }
 
 .category {
@@ -104,7 +102,13 @@
     }
 
     .item {
-        gap: 15px;
+        gap: 18px;
+    }
+
+    .imageContainer {
+        width: 75px;
+        height: 75px;
+        border: 2px solid lightgray;
     }
 
     .postTitle {
@@ -120,11 +124,12 @@
     }
 
     .item {
-        gap: 12px;
+        gap: 15px;
     }
 
-    .textContainer {
-        flex: 1;
+    .imageContainer {
+        width: 70px;
+        height: 70px;
     }
 
     .postTitle {
@@ -146,15 +151,15 @@
 
     .item {
         align-items: flex-start;
-        gap: 10px;
+        gap: 12px;
     }
 
-
-    .image {
+    .imageContainer {
+        width: 60px;
+        height: 60px;
         border-radius: 8px;
+        /* Change from circular to rounded rectangle */
         border: 2px solid lightgray;
-        object-fit: cover;
-        object-position: center;
     }
 
     .postTitle {
@@ -179,9 +184,13 @@
     }
 
     .item {
-        gap: 8px;
+        gap: 10px;
     }
 
+    .imageContainer {
+        width: 55px;
+        height: 55px;
+    }
 
     .postTitle {
         font-size: 13px;
