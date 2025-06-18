@@ -1,12 +1,11 @@
 "use client"
 import React, { useState, useEffect, useContext } from 'react'
 import styles from './navbar.module.css'
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaTwitter, FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
 import { HiHome, HiInformationCircle, HiMail, HiUser, HiShieldCheck, HiPencilAlt, HiViewList, HiUserGroup, HiChartBar } from "react-icons/hi";
 import { AuthLinks, ThemeToggle, AdminLinks, UserLinks } from '..';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import ThemeContext from '@/context/ThemeContext';
 import { Settings } from 'lucide-react';
@@ -112,17 +111,16 @@ const DropDown = ({ children }) => {
                         <AuthLinks className={styles.dropdownItem} onLinkClick={closeDropdown} />
                     </div>
                     <div className={styles.dropdownSocail}>
-                        <a className={styles.dropdownItem} href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                            <Image src="/x.png" alt="X" width={22} height={22} /><span>{windowWidth <= 640 ? "" : "X"}</span>
+                        <a className={styles.dropdownItem} href="https://x.com/AliShibli13" target="_blank" rel="noopener noreferrer">
+                            <FaTwitter /><span>{windowWidth <= 640 ? "" : "X"}</span>
                         </a>
-                        <a className={styles.dropdownItem} href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                            <Image src="/instagram.png" alt="Instagram" width={22} height={22} /><span>{windowWidth <= 640 ? "" : "Instagram"}</span>
+                        <a className={styles.dropdownItem} href="https://www.instagram.com/_ali_shibli/" target="_blank" rel="noopener noreferrer">
+                            <FaInstagram /><span>{windowWidth <= 640 ? "" : "Instagram"}</span>
                         </a>
-                        <a className={styles.dropdownItem} href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-                            <Image src="/linkedin.png" alt="LinkedIn" width={22} height={22} /><span>{windowWidth <= 640 ? "" : "LinkedIn"}</span>
-                        </a>
-                        <a className={styles.dropdownItem} href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">
-                            <Image src="/tiktok.png" alt="TikTok" width={22} height={22} /><span>{windowWidth <= 640 ? "" : "TikTok"}</span>
+                        <a className={styles.dropdownItem} href="https://www.linkedin.com/in/ali-shibli-573483245/" target="_blank" rel="noopener noreferrer">
+                            <FaLinkedin /><span>{windowWidth <= 640 ? "" : "LinkedIn"}</span>
+                        </a>                        <a className={styles.dropdownItem} href="https://github.com/Alish123-gif" target="_blank" rel="noopener noreferrer">
+                            <FaGithub /><span>{windowWidth <= 640 ? "" : "GitHub"}</span>
                         </a>
                     </div>
                 </div>
