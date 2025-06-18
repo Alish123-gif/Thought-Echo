@@ -1,4 +1,4 @@
-/* Modern Footer Styles */
+/* Base Layout */
 .footer {
     background: var(--bg);
     color: var(--textColor);
@@ -11,16 +11,13 @@
 .footer::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23626262" fill-opacity="0.05"><circle cx="15" cy="15" r="1"/><circle cx="45" cy="45" r="1"/></g></svg>');
     pointer-events: none;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -29,22 +26,34 @@
 .content {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 30px;
-    padding: 20px 20px 15px;
+    gap: 40px;
+    padding: 40px 30px 25px;
+    align-items: start;
 }
 
-/* Brand Section */
-.brandSection {
+/* Shared Flex Layouts */
+.brandSection,
+.linksSection,
+.socialSection {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
 }
 
+.linksSection {
+    gap: 15px;
+}
+
+.socialSection {
+    gap: 15px;
+}
+
+/* Logo and Brand */
 .logo {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 0px;
+    margin-bottom: 8px;
 }
 
 .logoText {
@@ -61,11 +70,12 @@
     margin: 0;
 }
 
+/* Contact Information */
 .contactInfo {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-top: 4px;
+    gap: 8px;
+    margin-top: 8px;
 }
 
 .contactItem {
@@ -84,94 +94,73 @@
 .contactItem a {
     color: var(--textColor);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .contactItem a:hover {
     color: #667eea;
 }
 
-/* Links Sections */
-.linksSection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    text-align: center;
-}
-
+/* Section Titles */
 .sectionTitle {
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--textColor);
-    margin: 0 0 5px 0;
+    margin: 0;
     border-bottom: 2px solid #667eea;
     padding-bottom: 8px;
     width: fit-content;
 }
 
+/* Links */
 .linksList {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
-.footerLink {
+.footerLink,
+.bottomLink {
     color: var(--softTextColor);
     text-decoration: none;
     font-size: 0.95rem;
     transition: all 0.3s ease;
-    padding: 4px 0;
+}
+
+.footerLink {
+    padding: 6px 0;
     border-left: 3px solid transparent;
-    padding-left: 8px;
-    margin-left: -8px;
+    padding-left: 12px;
+    margin-left: -12px;
+}
+
+.footerLink:hover,
+.bottomLink:hover {
+    color: #667eea;
 }
 
 .footerLink:hover {
-    color: #667eea;
     border-left-color: #667eea;
-    transform: translateX(5px);
+    transform: translateX(6px);
 }
 
-/* New Links Row Class */
 .linksRow {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
+    display: contents;
 }
 
-@media (max-width: 900px) {
-    .linksRow {
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
-    }
-}
-
-/* Social Section */
-.socialSection {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-    text-align: center;
-}
-
+/* Social Links */
 .socialLinks {
     display: flex;
-    gap: 12px;
+    gap: 15px;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 .socialLink {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     background: var(--softBg);
     border-radius: 10px;
     color: var(--textColor);
@@ -194,22 +183,21 @@
 /* Newsletter */
 .newsletter {
     background: var(--softBg);
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;
     border: 1px solid var(--softBg);
-    text-align: center;
 }
 
 .newsletterText {
     color: var(--textColor);
-    font-size: 0.85rem;
-    margin: 0 0 6px 0;
+    font-size: 0.9rem;
+    margin: 0 0 10px 0;
     line-height: 1.4;
 }
 
 .newsletterForm {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     flex-direction: row;
 }
 
@@ -217,9 +205,9 @@
     background: var(--bg);
     border: 1px solid var(--softBg);
     border-radius: 6px;
-    padding: 6px 10px;
+    padding: 8px 12px;
     color: var(--textColor);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     flex: 1;
 }
@@ -239,8 +227,8 @@
     color: #ffffff;
     border: none;
     border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 0.85rem;
+    padding: 8px 12px;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -262,9 +250,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 20px;
+    padding: 15px 30px;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
 }
 
 .copyright {
@@ -304,26 +292,33 @@
     flex-wrap: wrap;
 }
 
-.bottomLink {
-    color: var(--softTextColor);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
+/* Responsive Design - Consolidated */
+@media screen and (max-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
+
+    .content {
+        gap: 35px;
+        padding: 35px 25px 20px;
+    }
 }
 
-.bottomLink:hover {
-    color: #667eea;
-}
-
-/* Responsive Design */
 @media screen and (max-width: 1024px) {
     .content {
         grid-template-columns: 1fr 1fr;
-        gap: 18px;
-        padding: 18px 20px 15px;
+        gap: 25px;
+        padding: 30px 20px;
     }
 
     .brandSection {
+        grid-column: 1 / -1;
+    }
+
+    .linksRow {
+        display: flex;
+        gap: 30px;
+        justify-content: space-between;
         grid-column: 1 / -1;
     }
 }
@@ -331,77 +326,81 @@
 @media screen and (max-width: 768px) {
     .content {
         grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 15px 15px 12px;
+        gap: 20px;
+        padding: 25px 15px;
     }
 
     .linksRow {
+        flex-direction: column;
         gap: 20px;
+        align-items: flex-start;
+    }
+
+    .linksSection {
+        width: 100%;
     }
 
     .newsletterForm {
         flex-direction: column;
-        gap: 8px;
+        gap: 10px;
     }
 
     .socialLinks {
-        justify-content: center;
-        gap: 10px;
+        justify-content: left;
+        gap: 12px;
     }
 
     .bottomContent {
         flex-direction: column;
         text-align: center;
-        gap: 8px;
-        padding: 10px 20px;
+        gap: 10px;
+        padding: 12px 20px;
     }
 
     .bottomLinks {
         justify-content: center;
-        gap: 15px;
+        gap: 20px;
     }
 }
 
 @media screen and (max-width: 480px) {
     .content {
-        padding: 15px 10px 10px;
-        gap: 12px;
+        padding: 20px 15px;
+        gap: 15px;
     }
 
-    .logo {
-        justify-content: center;
-        text-align: center;
-    }
-
+    .logo,
     .brandDescription,
     .contactInfo {
         text-align: center;
     }
 
+    .logo {
+        justify-content: center;
+    }
+
     .contactInfo {
         align-items: center;
-        gap: 4px;
+        gap: 6px;
     }
 
     .linksRow {
-        gap: 15px;
+        gap: 18px;
     }
 
     .sectionTitle {
-        text-align: center;
-        margin: 0 auto 4px;
+        margin: 0 auto 8px;
         font-size: 1.1rem;
     }
 
     .linksList {
         align-items: center;
-        text-align: center;
-        gap: 4px;
+        gap: 6px;
     }
 
     .footerLink {
         margin: 0;
-        padding: 4px 0;
+        padding: 6px 0;
         border-left: none;
         border-bottom: 2px solid transparent;
         font-size: 0.9rem;
@@ -414,19 +413,19 @@
     }
 
     .socialLinks {
-        gap: 8px;
+        gap: 10px;
     }
 
     .socialLink {
-        width: 35px;
-        height: 35px;
+        width: 38px;
+        height: 38px;
     }
 
     .bottomContent {
-        padding: 8px 15px;
+        padding: 10px 15px;
     }
 
     .bottomLinks {
-        gap: 12px;
+        gap: 15px;
     }
 }

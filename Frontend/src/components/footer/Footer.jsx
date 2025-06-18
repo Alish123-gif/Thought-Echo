@@ -135,7 +135,8 @@ const Footer = async () => {
                             <Link href="/sitemap" className={styles.bottomLink}>Sitemap</Link>
                         </div>
                     </div>
-                </div>            </div>
+                </div>
+            </div>
         </footer>
     );
 };

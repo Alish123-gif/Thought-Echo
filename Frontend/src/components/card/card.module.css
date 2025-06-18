@@ -101,6 +101,7 @@
 /* Media query for small devices */
 @media screen and (max-width: 768px) {
     .container {
+        display: block;
         flex-direction: column;
         gap: 15px;
         padding: 20px;
