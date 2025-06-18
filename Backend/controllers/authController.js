@@ -46,3 +46,25 @@ exports.login = async (req, res) => {
         res.status(500).json({ message: 'Login error', error: error.message });
     }
 };
+
+exports.validateToken = async (req, res) => {
+    try {
+        // The middleware should have already verified the token and added user to req
+        // If we reach this point, the token is valid
+        if (req.user) {
+            return res.json({
+                valid: true,
+                user: {
+                    id: req.user.id,
+                    email: req.user.email,
+                    isAdmin: req.user.isAdmin
+                }
+            });
+        }
+
+        return res.status(401).json({ valid: false, message: 'Invalid token' });
+    } catch (error) {
+        console.error('Token validation error:', error);
+        res.status(500).json({ valid: false, message: 'Token validation error', error: error.message });
+    }
+};
