@@ -17,8 +17,8 @@ const Footer = async () => {
                     <div className={styles.brandSection}>
                         <div className={styles.logo}>
                             <Image src="/logo.png" alt="ThoughtEcho" width={50} height={50} />
-                            <h2 className={styles.logoText}>ThoughtEcho</h2>
-                        </div>                        <p className={styles.brandDescription}>
+                        </div>
+                        <p className={styles.brandDescription}>
                             Full-stack developer sharing insights on code, creativity, and innovation.
                         </p>
                         <div className={styles.contactInfo}>
@@ -107,7 +107,8 @@ const Footer = async () => {
                         <div className={styles.newsletter}>
                             <p className={styles.newsletterText}>
                                 Stay updated with the latest posts and insights
-                            </p>                            <div className={styles.newsletterForm}>
+                            </p>
+                            <div className={styles.newsletterForm}>
                                 <input
                                     type="email"
                                     placeholder="Your email"
