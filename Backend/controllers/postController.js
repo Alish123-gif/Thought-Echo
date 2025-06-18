@@ -30,7 +30,7 @@ exports.getAllPosts = async (req, res) => {
 
         // Build where clause for filtering
         const where = {};
-        if (category) where.category = category;
+        if (category) where.categoryId = category;
         if (featured) where.isFeatured = featured === 'true';
         if (published !== undefined) where.isPublished = published === 'true';
 
