@@ -1,3 +1,16 @@
-.link {
+.Item {
     cursor: pointer;
+    padding: 8px 6px;
+    border-radius: 6px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+    width: max-content;
+    color: var(--textColor);
+    opacity: 0.8;
+}
+
+.Item:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+    opacity: 1;
 }
