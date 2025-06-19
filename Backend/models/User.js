@@ -11,7 +11,7 @@ const User = sequelize.define('User', {
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: true  // Making it optional to maintain compatibility with existing data
+        allowNull: true
     },
     isAdmin: {
         type: DataTypes.BOOLEAN,
@@ -26,6 +26,10 @@ const User = sequelize.define('User', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     hooks: {
