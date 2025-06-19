@@ -20,6 +20,7 @@ const authRoutes = require(path.join(__dirname, 'routes', 'auth'));
 const postRoutes = require(path.join(__dirname, 'routes', 'posts'));
 const categoryRoutes = require(path.join(__dirname, 'routes', 'categories'));
 const analyticsRoutes = require(path.join(__dirname, 'routes', 'analytics'));
+const userRoutes = require(path.join(__dirname, 'routes', 'users'));
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -32,58 +33,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api/analytics', analyticsRoutes);
-
-// Debug endpoint for testing ImageKit
-app.get('/api/debug/imagekit', async (req, res) => {
-  try {
-    const imagekit = require('./config/imagekit');
-    const result = await imagekit.listFiles({ limit: 1 });
-    res.json({
-      success: true,
-      message: 'ImageKit working',
-      fileCount: result.length
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message,
-      details: error.response?.data
-    });
-  }
-});
-
-// Additional debug endpoint to test auth parameters
-app.get('/api/debug/imagekit-auth', async (req, res) => {
-  try {
-    const imagekit = require('./config/imagekit');
-
-    // Test auth parameter generation
-    const authParams = imagekit.getAuthenticationParameters();
-
-    res.json({
-      success: true,
-      message: 'Auth parameters generated successfully',
-      config: {
-        publicKey: process.env.IMAGEKIT_PUBLIC_KEY?.substring(0, 15) + '...',
-        urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
-        privateKeyExists: !!process.env.IMAGEKIT_PRIVATE_KEY,
-        privateKeyFormat: process.env.IMAGEKIT_PRIVATE_KEY?.startsWith('private_') ? 'Correct' : 'Invalid',
-        publicKeyFormat: process.env.IMAGEKIT_PUBLIC_KEY?.startsWith('public_') ? 'Correct' : 'Invalid'
-      },
-      authParams: {
-        token: authParams.token,
-        expire: authParams.expire,
-        signature: authParams.signature
-      }
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message,
-      stack: error.stack
-    });
-  }
-});
+app.use('/api/user', userRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -131,59 +81,10 @@ const startServer = async () => {
     app.listen(PORT, () => {
 
     });
-
-    // Test ImageKit connection after server starts
-    testImageKitConnection();
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 };
-
-// Test ImageKit connection
-async function testImageKitConnection() {
-  try {
-
-    const imagekit = require('./config/imagekit');
-
-    // Test different endpoints to isolate the issue
-
-
-    // Test 1: Check if we can create upload token (this tests auth without actual upload)
-    try {
-      const authParams = imagekit.getAuthenticationParameters();
-
-
-
-
-    } catch (authError) {
-
-    }
-
-    // Test 2: Try listing files
-    const result = await imagekit.listFiles({ limit: 1 });
-
-  } catch (error) {
-    console.error('❌ ImageKit connection failed:', {
-      message: error.message,
-      code: error.code,
-      response: error.response?.data,
-      status: error.response?.status,
-      config: {
-        publicKey: process.env.IMAGEKIT_PUBLIC_KEY?.substring(0, 10) + '...',
-        urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
-        privateKeyExists: !!process.env.IMAGEKIT_PRIVATE_KEY
-      }
-    });
-
-    // Additional check: Try to validate the keys format
-    if (process.env.IMAGEKIT_PUBLIC_KEY && !process.env.IMAGEKIT_PUBLIC_KEY.startsWith('public_')) {
-      console.error('⚠️  Public key doesn\'t start with "public_" - this might be incorrect');
-    }
-    if (process.env.IMAGEKIT_PRIVATE_KEY && !process.env.IMAGEKIT_PRIVATE_KEY.startsWith('private_')) {
-      console.error('⚠️  Private key doesn\'t start with "private_" - this might be incorrect');
-    }
-  }
-}
 
 // Initialize analytics auto-cleanup
 const { startAutoCleanup } = require('./controllers/analyticsController');
