@@ -80,21 +80,6 @@ exports.createCategory = async (req, res) => {
         // Upload image to ImageKit if provided
         if (req.file) {
 
-
-            console.log('ImageKit config exists:', {
-                publicKey: !!process.env.IMAGEKIT_PUBLIC_KEY,
-                privateKey: !!process.env.IMAGEKIT_PRIVATE_KEY,
-                urlEndpoint: !!process.env.IMAGEKIT_URL_ENDPOINT
-            });
-
-            // Test authentication before upload
-            try {
-                await imagekit.listFiles({ limit: 1 });
-
-            } catch (authError) {
-                console.error('❌ ImageKit auth failed:', authError.message); throw new Error('ImageKit authentication failed: ' + authError.message);
-            }
-
             // Create short, unique filename
             const timestamp = Date.now();
             const randomId = Math.random().toString(36).substring(2, 8); // 6 char random string
