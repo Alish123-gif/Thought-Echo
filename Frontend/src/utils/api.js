@@ -356,3 +356,25 @@ export const getUserPosts = async (token, options = {}) => {
         throw error;
     }
 };
+
+/** 
+ * Update the current user's avatar
+ * @param {File} avatar - New avatar file
+ * @returns {Promise<Object>} - Updated user data
+**/
+export const updateUserAvatar = async (avatar) => {
+    try {
+        const formData = new FormData();
+        formData.append('avatar', avatar);
+
+        const response = await fetchWithAuth(`${API_BASE_URL}/user/update-avatar`, {
+            method: 'PUT',
+            body: formData
+        });
+
+        return await handleApiResponse(response);
+    } catch (error) {
+        console.error('Error updating user avatar:', error);
+        throw error;
+    }
+};
