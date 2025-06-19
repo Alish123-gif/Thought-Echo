@@ -9,7 +9,7 @@ const requiredEnvVars = {
 };
 
 // Log missing environment variables in development only
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NEXT_PUBLIC_NODE_ENV === 'development') {
     Object.entries(requiredEnvVars).forEach(([key, value]) => {
         if (!value) {
             console.warn(`[NextAuth] Missing environment variable: ${key}`);
@@ -46,17 +46,20 @@ export const options = {
                             password: credentials?.password,
                         }),
                     });
-
                     const data = await res.json();
 
-                    if (res.ok && data.user) {
+                    console.log('Backend response:', data); if (res.ok && data.user) {
                         // Return the user object and token
-                        return {
+                        const userObj = {
                             id: data.user.id,
                             email: data.user.email,
+                            name: data.user.name,
+                            avatar: data.user.avatar,
                             isAdmin: data.user.isAdmin,
                             token: data.token
                         };
+                        console.log('Returning user object:', userObj);
+                        return userObj;
                     }
 
                     // Authentication failed
@@ -72,7 +75,7 @@ export const options = {
         signIn: "/login",
         error: "/login", // Redirect to login page on errors
     },
-    debug: process.env.NODE_ENV === "development",
+    debug: process.env.NEXT_PUBLIC_NODE_ENV === "development",
     logger: {
         error(code, metadata) {
             console.error("[NextAuth Error]", code, metadata);
@@ -87,22 +90,27 @@ export const options = {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
+                console.log('JWT callback - user received:', user);
                 // Store the user id and token in the JWT token
                 token.id = user.id;
                 token.email = user.email;
+                token.name = user.name;
+                token.avatar = user.avatar;
                 token.isAdmin = user.isAdmin;
                 // Save the auth token from your backend
                 token.accessToken = user.token;
             }
             return token;
-        },
-        async session({ session, token }) {
+        }, async session({ session, token }) {
             if (token) {
                 // Pass the token data to the client
                 session.user.id = token.id;
                 session.user.email = token.email;
+                session.user.name = token.name;
+                session.user.avatar = token.avatar || null;
                 session.user.isAdmin = token.isAdmin;
                 session.accessToken = token.accessToken;
+                console.log('Session callback - session after update:', session);
             }
             return session;
         },
