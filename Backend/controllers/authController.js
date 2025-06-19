@@ -30,17 +30,21 @@ exports.login = async (req, res) => {
         const valid = await user.isValidPassword(password);
         if (!valid) {
             return res.status(401).json({ message: 'Invalid credentials' });
-        }
-
-        const token = jwt.sign(
-            { id: user.id, email: user.email, isAdmin: user.isAdmin },
+        } const token = jwt.sign(
+            { id: user.id, email: user.email, isAdmin: user.isAdmin, name: user.name, avatar: user.image },
             process.env.JWT_SECRET,
             { expiresIn: '1d' }
         );
 
         res.json({
             token,
-            user: { id: user.id, email: user.email, name: user.name, isAdmin: user.isAdmin }
+            user: {
+                id: user.id,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                name: user.name,
+                avatar: user.image
+            }
         });
     } catch (error) {
         res.status(500).json({ message: 'Login error', error: error.message });
@@ -57,7 +61,9 @@ exports.validateToken = async (req, res) => {
                 user: {
                     id: req.user.id,
                     email: req.user.email,
-                    isAdmin: req.user.isAdmin
+                    isAdmin: req.user.isAdmin,
+                    name: req.user.name,
+                    avatar: req.user.image
                 }
             });
         }
