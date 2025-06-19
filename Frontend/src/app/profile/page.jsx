@@ -4,9 +4,11 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Image from 'next/image';
 import styles from './profile.module.css';
+import { updateUserAvatar } from '@/utils/api';
 
 export default function ProfilePage() {
     const { user, isAuthenticated, isLoading } = useAuth();
+    console.log('User:', user);
     const router = useRouter();
 
     useEffect(() => {
@@ -19,24 +21,47 @@ export default function ProfilePage() {
         return <div className="container">Loading profile...</div>;
     }
 
+    const handleImageClick = () => {
+        document.getElementById('imageInput').click();
+    }; const handleImageUpload = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            try {
+                const response = await updateUserAvatar(file);
+                console.log('Avatar updated successfully:', response);
+            } catch (error) {
+                console.error('Failed to update avatar:', error);
+                alert('Failed to update avatar. Please try again.');
+            }
+        }
+    };
+
     return (
         <div className="container">
             <div className={styles.profile}>
                 <h1 className={styles.title}>Your Profile</h1>
                 {user && (
                     <div className={styles.userInfo}>
-                        <div className={styles.userHeader}>                            <div className={styles.avatar}>
-                            {user.image ? (
-                                <Image
-                                    src={user.image}
-                                    alt={user.name}
-                                    width={80}
-                                    height={80}
+                        <div className={styles.userHeader}>
+                            <div className={styles.avatar} onClick={handleImageClick} style={{ cursor: 'pointer' }}>
+                                {user.avatar ? (
+                                    <Image
+                                        src={user.avatar}
+                                        alt={user.name}
+                                        width={80}
+                                        height={80}
+                                    />
+                                ) : (
+                                    <span>{user.name?.charAt(0) || 'U'}</span>
+                                )}
+                                <input
+                                    type="file"
+                                    id="imageInput"
+                                    hidden
+                                    accept="image/avif,image/jpeg,image/png,image/gif,image/webp"
+                                    onChange={handleImageUpload}
                                 />
-                            ) : (
-                                <span>{user.name?.charAt(0) || 'U'}</span>
-                            )}
-                        </div>
+                            </div>
                             <h2>{user.name || 'User'}</h2>
                         </div>
                         <div className={styles.userDetails}>
