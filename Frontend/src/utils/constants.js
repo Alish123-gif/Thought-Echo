@@ -1,19 +1,6 @@
 // Constants for the blog application
 
 /**
- * Blog post categories with their display labels and values
- */
-export const CATEGORIES = [
-    { value: 'style', label: 'Style & Fashion' },
-    { value: 'food', label: 'Food & Cooking' },
-    { value: 'travel', label: 'Travel & Adventure' },
-    { value: 'culture', label: 'Culture & Arts' },
-    { value: 'coding', label: 'Coding & Technology' },
-    { value: 'science', label: 'Science & Education' },
-    { value: 'health', label: 'Health & Wellness' },
-];
-
-/**
  * Default pagination limits for different views
  */
 export const PAGINATION_LIMITS = {
