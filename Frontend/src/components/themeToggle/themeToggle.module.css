@@ -1,12 +1,19 @@
 .container {
-    width: 26px;
-    height: 26px;
-    border-radius: 50px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     margin-bottom: 4px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--softBg);
-    border: 1px solid var(--textColor);
+    border: 1px solid var(--colorStylingTransparent);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: var(--colorStylingPulseGlow);
 }

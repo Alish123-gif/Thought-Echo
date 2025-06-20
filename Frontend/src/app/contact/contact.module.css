@@ -9,10 +9,17 @@
 .hero {
     text-align: center;
     padding: 60px 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--colorStylingGradient);
     margin: 20px 0 40px 0;
     border-radius: 16px;
     color: white;
+    box-shadow: var(--colorStylingBoxShadow);
+    transition: all 0.3s ease;
+}
+
+.hero:hover {
+    box-shadow: var(--colorStylingPulseGlow);
+    transform: translateY(-5px);
 }
 
 .title {

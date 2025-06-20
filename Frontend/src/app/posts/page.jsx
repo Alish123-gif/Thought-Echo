@@ -510,7 +510,7 @@ const PostsPage = () => {
             )}            {/* Posts grid/list */}
             <div className={viewMode === 'grid' ? styles.postsGrid : styles.postsList}>
                 {loading || isSearching ? (
-                    <LoadingSpinner size="large" color="#8B5CF6" />
+                    <LoadingSpinner size="large" color="var(--colorStyling)" />
                 ) : (
                     renderPosts()
                 )}

@@ -9,10 +9,11 @@
 .spinner {
     border: 3px solid rgba(0, 0, 0, 0.1);
     border-radius: 50%;
-    border-top-color: #2563eb;
-    /* Default color, can be overridden */
+    border-top-color: var(--colorStyling);
+    /* Use theme color */
     animation: spin 1s linear infinite;
     display: inline-block;
+    box-shadow: 0 0 10px var(--colorStylingTransparent);
 }
 
 /* Spinner sizes */

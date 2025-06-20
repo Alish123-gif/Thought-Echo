@@ -14,9 +14,10 @@
 }
 
 .scrolled {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(var(--colorStylingRGB), 0.15);
     height: 60px;
     background-color: var(--bg);
+    border-bottom: 1px solid var(--colorStylingTransparent);
 }
 
 /* Social Media Icons */
@@ -44,10 +45,10 @@
 }
 
 .socialLink:hover {
-    background: #667eea;
+    background: var(--colorStylingGradient);
     color: #ffffff;
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    box-shadow: var(--colorStylingBoxShadow);
 }
 
 .socialLink svg {
@@ -62,12 +63,17 @@
     color: var(--textColor);
     text-align: center;
     letter-spacing: -0.5px;
-    background: linear-gradient(to right, #6366F1, #8B5CF6);
+    background: var(--colorStylingGradient);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: all 0.3s ease;
     cursor: pointer;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    text-shadow: var(--colorStylingTextShadow);
 }
 
 /* Links */
@@ -106,7 +112,7 @@
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #6366F1;
+    background: var(--colorStylingGradient);
     transition: width 0.3s ease;
 }
 
@@ -126,7 +132,7 @@
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #6366F1;
+    background: var(--colorStylingGradient);
 }
 
 /* Back to site link */
@@ -308,7 +314,7 @@
 
 /* Admin Badge */
 .adminBadge {
-    background: linear-gradient(to right, #6366F1, #8B5CF6);
+    background: linear-gradient(to right, #6366F1, var(--colorStyling));
     color: white;
     padding: 4px 8px;
     border-radius: 20px;

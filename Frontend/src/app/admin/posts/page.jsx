@@ -198,7 +198,7 @@ const AdminPostsPage = () => {
                 </div>
                 <div className={styles.tableContainer}>
                     <div className={styles.loadingState}>
-                        <LoadingSpinner size="large" color="#8B5CF6" />
+                        <LoadingSpinner size="large" color="var(--colorStyling)" />
                     </div>
                 </div>
             </div>

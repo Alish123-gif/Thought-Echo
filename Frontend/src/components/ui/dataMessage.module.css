@@ -13,6 +13,11 @@
     overflow: hidden;
 }
 
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--colorStylingBoxShadow);
+}
+
 .container::before {
     content: '';
     position: absolute;
@@ -87,16 +92,16 @@
 /* Message types - Light mode */
 .info {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    border-color: #0ea5e9;
+    border-color: var(--colorStyling);
     color: #0f172a;
 }
 
 .info::before {
-    background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
+    background: var(--colorStylingGradient);
 }
 
 .info .iconWrapper {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    background: var(--colorStylingGradient);
 }
 
 .info .icon {

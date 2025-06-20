@@ -11,15 +11,18 @@
     border: none;
     border-radius: 5px;
     font-size: 14px;
-    background: crimson;
+    background: var(--colorStyling);
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .button:hover:not(.disabled) {
-    background: darkred;
-    transform: translateY(-1px);
+    background: var(--colorStylingGradient);
+    transform: translateY(-3px);
+    box-shadow: var(--colorStylingBoxShadow);
 }
 
 .button.disabled {
@@ -35,6 +38,23 @@
     gap: 5px;
     font-size: 14px;
     color: var(--textColor);
+    position: relative;
+}
+
+.pageInfo::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 2px;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--colorStylingGradient);
+    transition: width 0.3s ease;
+}
+
+.pageInfo:hover::after {
+    width: 80px;
 }
 
 .totalPosts {

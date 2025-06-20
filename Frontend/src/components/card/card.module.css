@@ -4,6 +4,14 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    border-left: 3px solid var(--colorStyling);
+    box-shadow: var(--colorStylingBoxShadow);
 }
 
 .imageContainer {
@@ -15,6 +23,12 @@
     width: 100%;
     min-width: 0;
     display: block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.imageContainer:hover {
+    box-shadow: var(--colorStylingPulseGlow);
 }
 
 .image {
@@ -45,14 +59,32 @@
 }
 
 .category {
-    color: crimson;
+    color: var(--colorStyling);
     font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.category:hover {
+    transform: translateY(-2px);
+    text-shadow: 0 0 5px var(--colorStylingTransparent);
 }
 
 .title {
     font-size: 20px;
     font-weight: 500;
     color: var(--textColor);
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.title:hover {
+    background: var(--colorStylingGradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .desc {
@@ -66,6 +98,17 @@
     font-weight: 500;
     color: var(--softTextColor);
     width: fit-content;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.link:hover {
+    color: var(--colorStyling);
+    background-color: var(--softBg);
+    box-shadow: 0 2px 8px var(--colorStylingTransparent);
+    transform: translateY(-2px);
 }
 
 /* Media query for large devices */

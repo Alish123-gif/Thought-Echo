@@ -10,11 +10,33 @@
     gap: 6px;
     color: var(--textColor);
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
 }
 
 .adminLink:hover {
-    color: var(--softTextColor);
+    color: var(--colorStyling);
+    background-color: var(--softBg);
+    transform: translateX(5px);
+    box-shadow: var(--colorStylingBoxShadow);
+}
+
+.adminLink::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: var(--colorStylingGradient);
+    transition: width 0.3s ease;
+}
+
+.adminLink:hover::after {
+    width: 100%;
 }
 
 /* When used in dropdown menu */
@@ -24,7 +46,8 @@
 }
 
 :global(.dropdown) .adminLink:hover {
-    background-color: var(--softBg);
+    background: linear-gradient(to right, var(--softBg), rgba(var(--colorStylingRGB), 0.1));
+    color: var(--colorStyling);
 }
 
 /* Mobile Responsive Styles */
@@ -57,8 +80,9 @@
     }
 
     :global(.dropdown) .adminLink:hover {
-        background-color: rgba(99, 102, 241, 0.1);
-        color: #6366f1;
+        background: linear-gradient(to right, var(--softBg), rgba(var(--colorStylingRGB), 0.15));
+        color: var(--colorStyling);
+        box-shadow: var(--colorStylingBoxShadow);
     }
 }
 

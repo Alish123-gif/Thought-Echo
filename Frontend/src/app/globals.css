@@ -3,8 +3,29 @@
     --textColor: black;
     --softBg: #f0f0f0;
     --softTextColor: #626262;
+    --colorStyling: #8B5CF6;
     --opacity: 0.1;
     --ballPosition: 1px;
+
+    /* RGB values for gradients */
+    --bgRGB: 255, 255, 255;
+    --textColorRGB: 0, 0, 0;
+    --softBgRGB: 240, 240, 240;
+    --softTextColorRGB: 98, 98, 98;
+
+    /* Enhanced color system based on colorStyling */
+    --colorStylingRGB: 139, 92, 246;
+    /* RGB value of #8B5CF6 */
+    --colorStylingLight: #B794F6;
+    /* Lighter shade */
+    --colorStylingDark: #6B46C1;
+    /* Darker shade */
+    --colorStylingTransparent: rgba(139, 92, 246, 0.1);
+    /* Transparent version */
+    --colorStylingGradient: linear-gradient(135deg, var(--colorStyling), var(--colorStylingDark));
+    --colorStylingGlow: 0 0 15px rgba(139, 92, 246, 0.5);
+    --colorStylingBorder: 2px solid var(--colorStyling);
+    --colorStylingOutline: 0 0 0 2px rgba(139, 92, 246, 0.3);
 }
 
 * {
@@ -18,6 +39,9 @@ body {
     /* background-color: var(--bg); */
     color: var(--textColor);
     font-family: 'Roboto', sans-serif;
+    
+    /* Theme transitions */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 a {
@@ -33,6 +57,22 @@ a {
     --opacity: 0.2;
     --oppOpacity: 0.8;
     --ballPosition: 22px;
+
+    /* RGB values for dark mode */
+    --bgRGB: 8, 8, 10;
+    --textColorRGB: 255, 255, 255;
+    --softBgRGB: 51, 51, 51;
+    --softTextColorRGB: 88, 88, 88;
+
+    /* Enhanced color system for dark mode */
+    --colorStylingLight: #9F7AEA;
+    /* Adjusted lighter shade for dark mode */
+    --colorStylingDark: #553C9A;
+    /* Adjusted darker shade for dark mode */
+    --colorStylingTransparent: rgba(139, 92, 246, 0.2);
+    /* More visible in dark mode */
+    --colorStylingGlow: 0 0 20px rgba(139, 92, 246, 0.7);
+    /* Stronger glow in dark mode */
 }
 
 .light {
@@ -43,6 +83,12 @@ a {
     --opacity: 0.1;
     --oppOpacity: 0.9;
     --ballPosition: 1px;
+
+    /* RGB values for light mode */
+    --bgRGB: 233, 233, 233;
+    --textColorRGB: 0, 0, 0;
+    --softBgRGB: 182, 182, 182;
+    --softTextColorRGB: 98, 98, 98;
 }
 
 .container {
@@ -433,4 +479,57 @@ html {
 html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
+}
+
+/* Custom theme classes for profile themes */
+.theme-ocean {
+    --colorStyling: #0077b6;
+    --colorStylingRGB: 0, 119, 182;
+    --colorStylingLight: #00b4d8;
+    --colorStylingDark: #005f8d;
+    --colorStylingTransparent: rgba(0, 119, 182, 0.1);
+    --colorStylingGradient: linear-gradient(135deg, #0077b6, #005f8d);
+    --colorStylingGlow: 0 0 15px rgba(0, 119, 182, 0.5);
+    --colorStylingBorder: 2px solid #0077b6;
+    --colorStylingOutline: 0 0 0 2px rgba(0, 119, 182, 0.3);
+    --colorStylingBoxShadow: 0 0 10px rgba(0, 119, 182, 0.3);
+}
+
+.theme-sunset {
+    --colorStyling: #e63946;
+    --colorStylingRGB: 230, 57, 70;
+    --colorStylingLight: #f94144;
+    --colorStylingDark: #c1121f;
+    --colorStylingTransparent: rgba(230, 57, 70, 0.1);
+    --colorStylingGradient: linear-gradient(135deg, #e63946, #c1121f);
+    --colorStylingGlow: 0 0 15px rgba(230, 57, 70, 0.5);
+    --colorStylingBorder: 2px solid #e63946;
+    --colorStylingOutline: 0 0 0 2px rgba(230, 57, 70, 0.3);
+    --colorStylingBoxShadow: 0 0 10px rgba(230, 57, 70, 0.3);
+}
+
+.theme-forest {
+    --colorStyling: #2a9d8f;
+    --colorStylingRGB: 42, 157, 143;
+    --colorStylingLight: #57cc99;
+    --colorStylingDark: #1e6e62;
+    --colorStylingTransparent: rgba(42, 157, 143, 0.1);
+    --colorStylingGradient: linear-gradient(135deg, #2a9d8f, #1e6e62);
+    --colorStylingGlow: 0 0 15px rgba(42, 157, 143, 0.5);
+    --colorStylingBorder: 2px solid #2a9d8f;
+    --colorStylingOutline: 0 0 0 2px rgba(42, 157, 143, 0.3);
+    --colorStylingBoxShadow: 0 0 10px rgba(42, 157, 143, 0.3);
+}
+
+.theme-lavender {
+    --colorStyling: #7209b7;
+    --colorStylingRGB: 114, 9, 183;
+    --colorStylingLight: #9d4edd;
+    --colorStylingDark: #560bad;
+    --colorStylingTransparent: rgba(114, 9, 183, 0.1);
+    --colorStylingGradient: linear-gradient(135deg, #7209b7, #560bad);
+    --colorStylingGlow: 0 0 15px rgba(114, 9, 183, 0.5);
+    --colorStylingBorder: 2px solid #7209b7;
+    --colorStylingOutline: 0 0 0 2px rgba(114, 9, 183, 0.3);
+    --colorStylingBoxShadow: 0 0 10px rgba(114, 9, 183, 0.3);
 }

@@ -9,12 +9,13 @@
 .hero {
     text-align: center;
     padding: 60px 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--colorStylingGradient);
     margin: 20px 0 40px 0;
     border-radius: 16px;
     color: white;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--colorStylingBoxShadow);
 }
 
 .hero::before {
@@ -40,6 +41,7 @@
     margin-bottom: 20px;
     position: relative;
     z-index: 1;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .subtitle {
@@ -71,10 +73,17 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--softBg);
     overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.section:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--colorStylingBoxShadow);
+    border-color: var(--colorStylingTransparent);
 }
 
 .sectionHeader {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(var(--colorStylingRGB), 0.1) 0%, rgba(var(--colorStylingRGB), 0.2) 100%);
     padding: 25px 30px;
     border-bottom: 1px solid var(--softBg);
     display: flex;
@@ -84,7 +93,7 @@
 
 .sectionIcon {
     font-size: 1.5rem;
-    color: #667eea;
+    color: var(--colorStyling);
     flex-shrink: 0;
 }
 
@@ -106,8 +115,14 @@
     font-weight: 600;
     margin: 25px 0 15px 0;
     color: var(--textColor);
-    border-left: 4px solid #667eea;
+    border-left: 4px solid var(--colorStyling);
     padding-left: 15px;
+    transition: all 0.3s ease;
+}
+
+.sectionContent h3:hover {
+    transform: translateX(5px);
+    color: var(--colorStyling);
 }
 
 .sectionContent h3:first-child {
@@ -138,7 +153,7 @@
     content: '•';
     position: absolute;
     left: 0;
-    color: #667eea;
+    color: var(--colorStyling);
     font-weight: bold;
     font-size: 1.2rem;
 }
@@ -153,6 +168,13 @@
     padding: 20px;
     border-radius: 12px;
     margin-top: 20px;
+    border-left: 3px solid var(--colorStyling);
+    transition: all 0.3s ease;
+}
+
+.contactInfo:hover {
+    box-shadow: var(--colorStylingBoxShadow);
+    transform: translateY(-3px);
 }
 
 .contactInfo p {

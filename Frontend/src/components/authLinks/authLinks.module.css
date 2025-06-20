@@ -1,16 +1,35 @@
 .Item {
     cursor: pointer;
-    padding: 8px 6px;
+    padding: 8px 12px;
     border-radius: 6px;
     margin-right: 10px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     width: max-content;
     color: var(--textColor);
     opacity: 0.8;
+    position: relative;
+    overflow: hidden;
 }
 
 .Item:hover {
-    background-color: rgba(99, 102, 241, 0.1);
-    color: #6366F1;
+    background-color: var(--softBg);
+    color: var(--colorStyling);
     opacity: 1;
+    box-shadow: var(--colorStylingBoxShadow);
+    transform: translateY(-3px);
+}
+
+.Item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: var(--colorStylingGradient);
+    transition: width 0.3s ease;
+}
+
+.Item:hover::after {
+    width: 100%;
 }

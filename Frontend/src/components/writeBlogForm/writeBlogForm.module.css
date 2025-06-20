@@ -485,7 +485,7 @@ input:checked+.slider:before {
 }
 
 .submitButton {
-    background: linear-gradient(to right, #6366F1, #8B5CF6);
+    background: linear-gradient(to right, #6366F1, var(--colorStyling));
     color: white;
     border: none;
     border-radius: 8px;
@@ -1095,7 +1095,7 @@ input:checked+.slider:before {
 }
 
 .previewCategory {
-    background: linear-gradient(to right, #6366F1, #8B5CF6);
+    background: linear-gradient(to right, #6366F1, var(--colorStyling));
     color: white;
     font-size: 14px;
     font-weight: 500;

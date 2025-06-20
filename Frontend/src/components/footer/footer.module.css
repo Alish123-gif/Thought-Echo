@@ -5,7 +5,7 @@
     margin-top: 80px;
     position: relative;
     overflow: hidden;
-    border-top: 1px solid var(--softBg);
+    border-top: 2px solid var(--colorStylingTransparent);
 }
 
 .footer::before {
@@ -61,6 +61,16 @@
     font-weight: 700;
     color: var(--textColor);
     margin: 0;
+    background: var(--colorStylingGradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.logoText:hover {
+    transform: scale(1.05);
+    text-shadow: var(--colorStylingTextShadow);
 }
 
 .brandDescription {
@@ -87,7 +97,7 @@
 }
 
 .contactIcon {
-    color: #667eea;
+    color: var(--colorStyling);
     font-size: 1.1rem;
 }
 
@@ -98,7 +108,8 @@
 }
 
 .contactItem a:hover {
-    color: #667eea;
+    color: var(--colorStyling);
+    text-shadow: 0 0 3px var(--colorStylingTransparent);
 }
 
 /* Section Titles */

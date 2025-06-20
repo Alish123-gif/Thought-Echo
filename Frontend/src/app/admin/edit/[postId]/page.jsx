@@ -39,7 +39,7 @@ const EditPostPage = () => {
     if (loading) {
         return (
             <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
-                <LoadingSpinner size="large" color="#8B5CF6" />
+                <LoadingSpinner size="large" color="var(--colorStyling)" />
             </div>);
     }
 
