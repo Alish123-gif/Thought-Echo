@@ -16,7 +16,7 @@ const Footer = async () => {
                     {/* Brand Section */}
                     <div className={styles.brandSection}>
                         <div className={styles.logo}>
-                            <Image src="/logo.png" alt="ThoughtEcho" width={50} height={50} />
+                            <div className={styles.logoSvg}></div>
                         </div>
                         <p className={styles.brandDescription}>
                             Full-stack developer sharing insights on code, creativity, and innovation.

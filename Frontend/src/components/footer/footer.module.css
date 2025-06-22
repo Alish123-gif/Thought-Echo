@@ -27,7 +27,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1.5fr;
     gap: 40px;
-    padding: 40px 30px 25px;
+    padding: 20px 20px 12px;
     align-items: start;
 }
 
@@ -54,6 +54,54 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 8px;
+    height: 50px;
+    width: 160px;
+}
+
+.logoSvg {
+    width: 160px;
+    height: 50px;
+    background-color: var(--colorStyling);
+    -webkit-mask: url('/logo.svg') no-repeat left center;
+    mask: url('/logo.svg') no-repeat left center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: background-color 0.3s ease;
+}
+
+.logoSvg:hover {
+    background-color: var(--colorStylingLight);
+    transform: scale(1.02);
+}
+
+.logo img,
+.logo span[style],
+.logo>span,
+.logo>div {
+    width: 160px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+    object-position: left center !important;
+    background-color: var(--colorStyling);
+    -webkit-mask: url('/logo.svg') no-repeat center;
+    mask: url('/logo.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: background-color 0.3s ease;
+}
+
+/* Target Next.js Image component specifically */
+.logo [data-nimg] {
+    width: 250px !important;
+    height: 60px !important;
+    position: static !important;
+    object-fit: contain !important;
+    background-color: var(--colorStyling);
+    -webkit-mask: url('/logo.svg') no-repeat center;
+    mask: url('/logo.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: background-color 0.3s ease;
 }
 
 .logoText {
@@ -118,7 +166,7 @@
     font-weight: 600;
     color: var(--textColor);
     margin: 0;
-    border-bottom: 2px solid #667eea;
+    border-bottom: 2px solid var(--colorStyling);
     padding-bottom: 8px;
     width: fit-content;
 }
@@ -147,11 +195,11 @@
 
 .footerLink:hover,
 .bottomLink:hover {
-    color: #667eea;
+    color: var(--colorStyling);
 }
 
 .footerLink:hover {
-    border-left-color: #667eea;
+    border-left-color: var(--colorStyling);
     transform: translateX(6px);
 }
 
@@ -181,7 +229,7 @@
 }
 
 .socialLink:hover {
-    background: #667eea;
+    background: var(--colorStylingGradient);
     color: #ffffff;
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
