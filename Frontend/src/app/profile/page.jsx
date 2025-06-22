@@ -13,7 +13,8 @@ import {
     FaPalette, FaBell, FaBookmark
 } from 'react-icons/fa';
 
-export default function ProfilePage() {    const { user, isAuthenticated, isLoading } = useAuth();
+export default function ProfilePage() {
+    const { user, isAuthenticated, isLoading } = useAuth();
     const router = useRouter();
     const { customTheme, setThemePreference, themeOptions } = useContext(ThemeContext);
     const [profileStats, setProfileStats] = useState({
@@ -110,19 +111,19 @@ export default function ProfilePage() {    const { user, isAuthenticated, isLoad
                 setIsUploading(false);
             }
         }
-    };    const handleThemeChange = (themeId) => {
+    }; const handleThemeChange = (themeId) => {
         // Use the context's function to set and persist the theme
         setThemePreference(themeId);
-        
+
         // Show confirmation message
         const selectedTheme = themeOptions.find(theme => theme.id === themeId);
         setThemeChangeMessage(`Theme changed to ${selectedTheme.name}. Your preference will be saved for future sessions.`);
-        
+
         // Clear message after 3 seconds
         setTimeout(() => {
             setThemeChangeMessage('');
         }, 3000);
-        
+
         // Close the theme picker
         setShowThemePicker(false);
     };
@@ -255,7 +256,7 @@ export default function ProfilePage() {    const { user, isAuthenticated, isLoad
                                         </div>
                                     ))}
                                 </div>
-                                
+
                                 {themeChangeMessage && (
                                     <div className={styles.themeConfirmation}>
                                         {themeChangeMessage}
