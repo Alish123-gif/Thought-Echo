@@ -14,7 +14,7 @@ import TokenValidator from '@/components/TokenValidator';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Blog App',
+  title: 'ThoughtEcho',
   description: 'The best blog app!',
   viewport: {
     width: 'device-width',
