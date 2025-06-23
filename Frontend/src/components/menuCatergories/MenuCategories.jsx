@@ -5,9 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getCategories } from '@/utils/categoryService';
 
-const MenuCategories = () => {
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
+const MenuCategories = ({ initialData = null }) => {
+    const [categories, setCategories] = useState(initialData || []);
+    const [loading, setLoading] = useState(!initialData);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -21,8 +21,11 @@ const MenuCategories = () => {
             }
         };
 
-        fetchCategories();
-    }, []);
+        // Only fetch data if we don't have initial data
+        if (!initialData) {
+            fetchCategories();
+        }
+    }, [initialData]);
 
     if (loading) {
         return <div className={styles.loadingCategories}>Loading categories...</div>;
