@@ -588,6 +588,74 @@ const getSessionStats = async (req, res) => {
     }
 };
 
+// Batch analytics endpoint for better performance
+const batchAnalytics = async (req, res) => {
+    try {
+        const { events } = req.body;
+
+        if (!events || !Array.isArray(events)) {
+            return res.status(400).json({ error: 'Invalid events data' });
+        }
+
+        // Process events in parallel but with limits
+        const processed = [];
+        const batchSize = 10;
+
+        for (let i = 0; i < events.length; i += batchSize) {
+            const batch = events.slice(i, i + batchSize);
+            const batchPromises = batch.map(async (event) => {
+                try {
+                    if (event.type === 'pageview') {
+                        // Create throttling key
+                        const throttleKey = `${event.sessionId || 'anonymous'}_${event.page}`;
+                        const now = Date.now();
+                        const lastView = recentViews.get(throttleKey);
+
+                        // Skip if same page viewed too recently
+                        if (lastView && (now - lastView) < SAME_PAGE_COOLDOWN) {
+                            return null;
+                        }
+
+                        // Update recent views
+                        recentViews.set(throttleKey, now);
+
+                        // Create analytics record
+                        const analytics = await Analytics.create({
+                            page: event.page,
+                            userAgent: event.userAgent,
+                            referrer: event.referrer,
+                            sessionId: event.sessionId,
+                            ipAddress: req.ip || req.connection.remoteAddress,
+                            timestamp: new Date(event.timestamp)
+                        });
+
+                        return analytics.id;
+                    }
+                    return null;
+                } catch (error) {
+                    console.error('Error processing event:', error);
+                    return null;
+                }
+            });
+
+            const batchResults = await Promise.allSettled(batchPromises);
+            processed.push(...batchResults
+                .filter(result => result.status === 'fulfilled' && result.value)
+                .map(result => result.value)
+            );
+        }
+
+        res.status(200).json({
+            message: 'Batch processed successfully',
+            processed: processed.length,
+            total: events.length
+        });
+    } catch (error) {
+        console.error('Batch analytics error:', error);
+        res.status(500).json({ error: 'Failed to process analytics batch' });
+    }
+};
+
 module.exports = {
     trackPageView,
     getViewerCount,
@@ -596,5 +664,6 @@ module.exports = {
     getRealTimeAnalytics,
     cleanupOldData,
     startAutoCleanup,
-    getSessionStats
+    getSessionStats,
+    batchAnalytics
 };
