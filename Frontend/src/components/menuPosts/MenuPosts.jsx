@@ -51,13 +51,6 @@ const MenuPosts = ({ withImage, type = "popular", limit = 4, initialData = null 
         }; fetchPosts();
     }, [type, limit, initialData]);
 
-    useEffect(() => {
-        // Only fetch data if we don't have initial data
-        if (!initialData) {
-            fetchPosts();
-        }
-    }, [initialData]);
-
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
@@ -111,8 +104,8 @@ const MenuPosts = ({ withImage, type = "popular", limit = 4, initialData = null 
                     </div>
                 )}
                     <div className={styles.textContainer}>
-                        <span className={`${styles.category} ${getCategoryStyle(post.category)}`}>
-                            {post.category || 'Uncategorized'}
+                        <span className={`${styles.category} ${getCategoryStyle(typeof post.category === 'object' ? post.category.name : post.category)}`}>
+                            {typeof post.category === 'object' ? post.category.name : post.category || 'Uncategorized'}
                         </span>
                         <h3 className={styles.postTitle}>
                             {truncateTitle(post.title)}

@@ -50,12 +50,11 @@ const PostDetailsPage = () => {
                     />
                 </div>
             )}
-
             <div className={styles.header}>
                 {post.category && (
-                    <Link href={`/posts?category=${post.category._id || post.category}`} style={{ textDecoration: 'none' }}>
+                    <Link href={`/posts?category=${post.category.id || post.category.slug || post.category}`} style={{ textDecoration: 'none' }}>
                         <span className={styles.category}>
-                            {post.category.name || post.category}
+                            {typeof post.category === 'object' ? post.category.name : post.category}
                         </span>
                     </Link>
                 )}

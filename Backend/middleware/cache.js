@@ -39,12 +39,13 @@ const createCacheMiddleware = (cache, keyGenerator, ttl) => {
 
         // Store original json method
         const originalJson = res.json;
-
         // Override json method to cache the response
         res.json = function (data) {
             // Only cache successful responses
             if (res.statusCode === 200 && data && !data.error) {
-                cache.set(cacheKey, data, ttl);
+                // Convert Sequelize instances to plain objects to avoid cloning issues
+                const cacheableData = JSON.parse(JSON.stringify(data));
+                cache.set(cacheKey, cacheableData, ttl);
             }
 
             // Add cache headers

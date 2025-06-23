@@ -63,7 +63,6 @@ exports.getAllPostsOptimized = async (req, res) => {
             as: 'category',
             attributes: ['id', 'name']
         });
-
         const { count, rows: posts } = await Post.findAndCountAll({
             where,
             include,
@@ -76,7 +75,7 @@ exports.getAllPostsOptimized = async (req, res) => {
             totalPosts: count,
             totalPages: Math.ceil(count / limit),
             currentPage: parseInt(page),
-            posts
+            posts: posts.map(post => post.get({ plain: true }))
         });
     } catch (error) {
         console.error('Error fetching posts:', error);
@@ -97,13 +96,11 @@ exports.getPostBySlug = async (req, res) => {
                     attributes: ['id', 'name', 'email']
                 }
             ]
-        });
-
-        if (!post) {
+        }); if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        res.status(200).json(post);
+        res.status(200).json(post.get({ plain: true }));
     } catch (error) {
         console.error('Error fetching post:', error);
         res.status(500).json({ message: 'Error fetching post', error: error.message });
@@ -122,11 +119,10 @@ exports.getPostById = async (req, res) => {
                     attributes: ['id', 'name', 'email']
                 }
             ]
-        });
-        if (!post) {
+        }); if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        res.status(200).json(post);
+        res.status(200).json(post.get({ plain: true }));
     } catch (error) {
         console.error('Error fetching post by ID:', error);
         res.status(500).json({ message: 'Error fetching post', error: error.message });
@@ -138,7 +134,8 @@ exports.createPost = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' });
-        }        // Extract form data
+        }
+        // Extract form data
         const { title, description, content, categoryId, tags, isFeatured, isPublished } = req.body;
         const parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags;
 
@@ -220,11 +217,9 @@ exports.createPost = async (req, res) => {
             isPublished: isPublished === 'true' || isPublished === true || isPublished === undefined,
             readingTime,
             authorId: req.user.id
-        });
-
-        res.status(201).json({
+        }); res.status(201).json({
             message: 'Post created successfully',
-            post
+            post: post.get({ plain: true })
         });
     } catch (error) {
         console.error('Error creating post:', error);
@@ -332,11 +327,9 @@ exports.updatePost = async (req, res) => {
             isFeatured: isFeatured === 'true' || isFeatured === true || (isFeatured === undefined && post.isFeatured),
             isPublished: isPublished === 'true' || isPublished === true || (isPublished === undefined && post.isPublished),
             readingTime
-        });
-
-        res.status(200).json({
+        }); res.status(200).json({
             message: 'Post updated successfully',
-            post
+            post: post.get({ plain: true })
         });
     } catch (error) {
         console.error('Error updating post:', error);
@@ -395,15 +388,14 @@ exports.getPostsByCategory = async (req, res) => {
                 }
             ],
             limit: parseInt(limit),
-            offset: parseInt(offset),
-            order: [['createdAt', 'DESC']]
+            offset: parseInt(offset), order: [['createdAt', 'DESC']]
         });
 
         res.status(200).json({
             totalPosts: count,
             totalPages: Math.ceil(count / limit),
             currentPage: parseInt(page),
-            posts
+            posts: posts.map(post => post.get({ plain: true }))
         });
     } catch (error) {
         console.error('Error fetching posts by category:', error);
@@ -432,7 +424,7 @@ exports.getFeaturedPosts = async (req, res) => {
             order: [['createdAt', 'DESC']]
         });
 
-        res.status(200).json(posts);
+        res.status(200).json(posts.map(post => post.get({ plain: true })));
     } catch (error) {
         console.error('Error fetching featured posts:', error);
         res.status(500).json({ message: 'Error fetching featured posts', error: error.message });
@@ -460,13 +452,11 @@ exports.getUserPosts = async (req, res) => {
             limit: parseInt(limit),
             offset: parseInt(offset),
             order: [['createdAt', 'DESC']]
-        });
-
-        res.status(200).json({
+        }); res.status(200).json({
             totalPosts: count,
             totalPages: Math.ceil(count / limit),
             currentPage: parseInt(page),
-            posts
+            posts: posts.map(post => post.get({ plain: true }))
         });
     } catch (error) {
         console.error('Error fetching user posts:', error);

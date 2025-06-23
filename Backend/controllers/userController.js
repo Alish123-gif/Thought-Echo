@@ -23,16 +23,15 @@ exports.updateUserAvatar = async (req, res) => {
             file: req.file.buffer.toString('base64'),
             fileName: `avatar_${req.user.id}${path.extname(req.file.originalname)}`,
             folder: '/avatars'
-        });        // Update the user's avatar URL in the database
+        });
+        // Update the user's avatar URL in the database
         const user = await User.findByPk(req.user.id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
         user.image = uploadResponse.url;
-        await user.save();
-
-        res.json({
+        await user.save(); res.json({
             message: 'Avatar updated successfully',
             avatarUrl: uploadResponse.url,
             user: {

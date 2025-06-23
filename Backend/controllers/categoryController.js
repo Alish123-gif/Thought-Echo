@@ -106,7 +106,7 @@ exports.createCategory = async (req, res) => {
             imageUrl
         });
 
-        res.status(201).json(category);
+        res.status(201).json(category.get({ plain: true }));
     } catch (error) {
         console.error('=== Category Creation Error ===');
         console.error('Error message:', error.message);
@@ -190,7 +190,7 @@ exports.updateCategory = async (req, res) => {
             imageUrl
         });
 
-        res.status(200).json(category);
+        res.status(200).json(category.get({ plain: true }));
     } catch (error) {
         console.error('Error updating category:', error);
         if (error.name === 'SequelizeValidationError') {

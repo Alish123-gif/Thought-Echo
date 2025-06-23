@@ -45,7 +45,9 @@ const Card = ({ post }) => {
             <div className={styles.textContainer}>
                 <div className={styles.detail}>
                     <span className={styles.date}>{formatDate(post.createdAt)} - </span>
-                    <span className={styles.category}>{post.category || 'Uncategorized'}</span>
+                    <span className={styles.category}>
+                        {typeof post.category === 'object' ? post.category.name : post.category || 'Uncategorized'}
+                    </span>
                 </div>
                 <Link href={`/post/${post.slug}`}>
                     <h1>{post.title}</h1>

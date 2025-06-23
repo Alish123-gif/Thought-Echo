@@ -373,7 +373,7 @@ const AdminPostsPage = () => {
                                         </td>
                                         <td>
                                             <span className={styles.categoryBadge}>
-                                                {post.category}
+                                                {typeof post.category === 'object' ? post.category.name : post.category || 'Uncategorized'}
                                             </span>
                                         </td>
                                         <td>

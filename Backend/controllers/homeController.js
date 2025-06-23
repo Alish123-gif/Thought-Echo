@@ -88,48 +88,45 @@ exports.getHomePageData = async (req, res) => {
         // Calculate pagination info for recent posts
         const totalRecentPosts = recentPosts.count;
         const totalPages = Math.ceil(totalRecentPosts / parseInt(recentLimit));
-
-        // Structure the response
-        const response = {
-            featured: featuredPosts,
+        featured: featuredPosts.map(post => post.get({ plain: true })),
             recent: {
-                posts: recentPosts.rows,
+            posts: recentPosts.rows.map(post => post.get({ plain: true })),
                 pagination: {
-                    totalPosts: totalRecentPosts,
+                totalPosts: totalRecentPosts,
                     totalPages,
                     currentPage: 1,
-                    limit: parseInt(recentLimit)
-                }
-            },
-            menu: {
-                posts: menuPosts,
-                categories
-            },
-            _metadata: {
-                cached: false,
+                        limit: parseInt(recentLimit)
+            }
+        },
+        menu: {
+            posts: menuPosts.map(post => post.get({ plain: true })),
+                categories: categories.map(category => category.get({ plain: true }))
+        },
+        _metadata: {
+            cached: false,
                 timestamp: new Date().toISOString(),
-                loadTime: Date.now() - req.startTime
-            }
-        };
+                    loadTime: Date.now() - req.startTime
+        }
+    };
 
-        // Set cache headers for better performance
-        res.set({
-            'Cache-Control': 'public, max-age=300, s-maxage=600', // 5 min browser, 10 min CDN
-            'ETag': `"home-${Date.now()}"`,
-            'Last-Modified': new Date().toUTCString()
-        });
+    // Set cache headers for better performance
+    res.set({
+        'Cache-Control': 'public, max-age=300, s-maxage=600', // 5 min browser, 10 min CDN
+        'ETag': `"home-${Date.now()}"`,
+        'Last-Modified': new Date().toUTCString()
+    });
 
-        res.status(200).json(response);
-    } catch (error) {
-        console.error('Error fetching home page data:', error);
-        res.status(500).json({
-            message: 'Error fetching home page data',
-            error: error.message,
-            _metadata: {
-                loadTime: Date.now() - req.startTime
-            }
-        });
-    }
+    res.status(200).json(response);
+} catch (error) {
+    console.error('Error fetching home page data:', error);
+    res.status(500).json({
+        message: 'Error fetching home page data',
+        error: error.message,
+        _metadata: {
+            loadTime: Date.now() - req.startTime
+        }
+    });
+}
 };
 
 // Enhanced featured posts endpoint with caching
@@ -158,14 +155,15 @@ exports.getFeaturedPostsOptimized = async (req, res) => {
             order: [['createdAt', 'DESC']],
             attributes: { exclude: ['content'] } // Exclude heavy content for performance
         });
-
         // Set cache headers
         res.set({
             'Cache-Control': 'public, max-age=300, s-maxage=600',
             'ETag': `"featured-${Date.now()}"`,
         });
 
-        res.status(200).json(posts);
+        // Convert Sequelize instances to plain objects
+        const plainPosts = posts.map(post => post.get({ plain: true }));
+        res.status(200).json(plainPosts);
     } catch (error) {
         console.error('Error fetching featured posts:', error);
         res.status(500).json({ message: 'Error fetching featured posts', error: error.message });
@@ -216,17 +214,19 @@ exports.getAllPostsOptimized = async (req, res) => {
             order: [['createdAt', 'DESC']],
             attributes: { exclude: ['content'] } // Exclude heavy content for list views
         });
-
         // Set cache headers
         res.set({
             'Cache-Control': 'public, max-age=180, s-maxage=300', // 3 min browser, 5 min CDN
         });
 
+        // Convert Sequelize instances to plain objects
+        const plainPosts = posts.map(post => post.get({ plain: true }));
+
         res.status(200).json({
             totalPosts: count,
             totalPages: Math.ceil(count / limit),
             currentPage: parseInt(page),
-            posts
+            posts: plainPosts
         });
     } catch (error) {
         console.error('Error fetching posts:', error);
