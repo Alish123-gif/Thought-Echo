@@ -88,45 +88,47 @@ exports.getHomePageData = async (req, res) => {
         // Calculate pagination info for recent posts
         const totalRecentPosts = recentPosts.count;
         const totalPages = Math.ceil(totalRecentPosts / parseInt(recentLimit));
-        featured: featuredPosts.map(post => post.get({ plain: true })),
+
+        const response = {
+            featured: featuredPosts.map(post => post.get({ plain: true })),
             recent: {
-            posts: recentPosts.rows.map(post => post.get({ plain: true })),
+                posts: recentPosts.rows.map(post => post.get({ plain: true })),
                 pagination: {
-                totalPosts: totalRecentPosts,
+                    totalPosts: totalRecentPosts,
                     totalPages,
                     currentPage: 1,
-                        limit: parseInt(recentLimit)
-            }
-        },
-        menu: {
-            posts: menuPosts.map(post => post.get({ plain: true })),
+                    limit: parseInt(recentLimit)
+                }
+            },
+            menu: {
+                posts: menuPosts.map(post => post.get({ plain: true })),
                 categories: categories.map(category => category.get({ plain: true }))
-        },
-        _metadata: {
-            cached: false,
+            },
+            _metadata: {
+                cached: false,
                 timestamp: new Date().toISOString(),
-                    loadTime: Date.now() - req.startTime
-        }
-    };
+                loadTime: Date.now() - req.startTime
+            }
+        };
 
-    // Set cache headers for better performance
-    res.set({
-        'Cache-Control': 'public, max-age=300, s-maxage=600', // 5 min browser, 10 min CDN
-        'ETag': `"home-${Date.now()}"`,
-        'Last-Modified': new Date().toUTCString()
-    });
+        // Set cache headers for better performance
+        res.set({
+            'Cache-Control': 'public, max-age=300, s-maxage=600', // 5 min browser, 10 min CDN
+            'ETag': `"home-${Date.now()}"`,
+            'Last-Modified': new Date().toUTCString()
+        });
 
-    res.status(200).json(response);
-} catch (error) {
-    console.error('Error fetching home page data:', error);
-    res.status(500).json({
-        message: 'Error fetching home page data',
-        error: error.message,
-        _metadata: {
-            loadTime: Date.now() - req.startTime
-        }
-    });
-}
+        res.status(200).json(response);
+    } catch (error) {
+        console.error('Error fetching home page data:', error);
+        res.status(500).json({
+            message: 'Error fetching home page data',
+            error: error.message,
+            _metadata: {
+                loadTime: Date.now() - req.startTime
+            }
+        });
+    }
 };
 
 // Enhanced featured posts endpoint with caching
