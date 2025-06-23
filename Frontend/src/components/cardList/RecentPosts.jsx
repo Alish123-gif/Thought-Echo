@@ -12,14 +12,15 @@ const RecentPosts = ({
     category = '',
     limit = 6,
     showPagination = true,
-    title = "Recent Posts"
+    title = "Recent Posts",
+    initialData = null
 }) => {
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [posts, setPosts] = useState(initialData?.posts || []);
+    const [loading, setLoading] = useState(!initialData);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [totalPosts, setTotalPosts] = useState(0);    // Extract fetch logic into a separate function for reuse
+    const [totalPages, setTotalPages] = useState(initialData?.pagination?.totalPages || 0);
+    const [totalPosts, setTotalPosts] = useState(initialData?.pagination?.totalPosts || 0);// Extract fetch logic into a separate function for reuse
     const fetchPosts = useCallback(async () => {
         try {
             setLoading(true);
@@ -33,11 +34,21 @@ const RecentPosts = ({
 
             if (category) {
                 params.category = category;
-            }
+            } const data = await getPosts(params);
 
-            const data = await getPosts(params);
-            // Use the utility function to enrich posts with category data
-            const postsWithCategories = await enrichPostsWithCategoriesOptimized(data.posts || []);
+            // Check if posts already have category data (from optimized endpoint)
+            let postsWithCategories;
+            if (data.posts?.[0]?.category?.name) {
+                // Posts already have category data
+                postsWithCategories = data.posts.map(post => ({
+                    ...post,
+                    category: post.category?.name || 'Uncategorized',
+                    image: post.imageUrl || post.image
+                }));
+            } else {
+                // Use the utility function to enrich posts with category data
+                postsWithCategories = await enrichPostsWithCategoriesOptimized(data.posts || []);
+            }
 
             setPosts(postsWithCategories);
             setTotalPages(data.totalPages || 0);
@@ -48,11 +59,14 @@ const RecentPosts = ({
         } finally {
             setLoading(false);
         }
-    }, [currentPage, limit, category]);
+    }, [currentPage, limit, category, initialData]);
 
     useEffect(() => {
-        fetchPosts();
-    }, [fetchPosts]);
+        // Only fetch data if we don't have initial data or if params changed
+        if (!initialData || category) {
+            fetchPosts();
+        }
+    }, [fetchPosts, initialData]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);

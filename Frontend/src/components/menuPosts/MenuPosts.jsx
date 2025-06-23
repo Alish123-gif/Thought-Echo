@@ -2,14 +2,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { getPosts, getFeaturedPosts } from "@/utils/api";
+import { getPosts, getFeaturedPostsOptimized } from "@/utils/api";
 import { enrichPostsWithCategoriesOptimized } from "@/utils/postHelpers";
 import styles from "./menuPosts.module.css";
 import LoadingSpinner from "../ui/LoadingSpinner";
 
-const MenuPosts = ({ withImage, type = "popular", limit = 4 }) => {
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
+const MenuPosts = ({ withImage, type = "popular", limit = 4, initialData = null }) => {
+    const [posts, setPosts] = useState(initialData || []);
+    const [loading, setLoading] = useState(!initialData);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -18,9 +18,8 @@ const MenuPosts = ({ withImage, type = "popular", limit = 4 }) => {
                 setLoading(true);
                 setError(null);
 
-                let data;
-                if (type === "featured") {
-                    data = await getFeaturedPosts(limit);
+                let data; if (type === "featured") {
+                    data = await getFeaturedPostsOptimized(limit);
                 } else {
                     // For popular posts, get recent posts
                     const response = await getPosts({
@@ -29,10 +28,19 @@ const MenuPosts = ({ withImage, type = "popular", limit = 4 }) => {
                         published: 'true'
                     });
                     data = response.posts || [];
+                }                // Check if posts already have category data (from optimized endpoint)
+                let enrichedPosts;
+                if (data?.[0]?.category?.name) {
+                    // Posts already have category data
+                    enrichedPosts = data.map(post => ({
+                        ...post,
+                        category: post.category?.name || 'Uncategorized',
+                        image: post.imageUrl || post.image
+                    }));
+                } else {
+                    // Enrich posts with category data and fix image field inconsistency
+                    enrichedPosts = await enrichPostsWithCategoriesOptimized(data);
                 }
-
-                // Enrich posts with category data and fix image field inconsistency
-                const enrichedPosts = await enrichPostsWithCategoriesOptimized(data);
                 setPosts(enrichedPosts);
             } catch (err) {
                 console.error('Error fetching menu posts:', err);
@@ -40,10 +48,15 @@ const MenuPosts = ({ withImage, type = "popular", limit = 4 }) => {
             } finally {
                 setLoading(false);
             }
-        };
+        }; fetchPosts();
+    }, [type, limit, initialData]);
 
-        fetchPosts();
-    }, [type, limit]);
+    useEffect(() => {
+        // Only fetch data if we don't have initial data
+        if (!initialData) {
+            fetchPosts();
+        }
+    }, [fetchPosts, initialData]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);

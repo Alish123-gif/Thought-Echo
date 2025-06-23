@@ -1,5 +1,6 @@
 const Post = require('../models/Post');
 const User = require('../models/User');
+const Category = require('../models/Category');
 const imagekit = require('../config/imagekit');
 const path = require('path');
 const fs = require('fs');
@@ -23,7 +24,7 @@ function calculateReadingTime(htmlContent) {
 }
 
 // Get all posts with pagination, filtering, and sorting
-exports.getAllPosts = async (req, res) => {
+exports.getAllPostsOptimized = async (req, res) => {
     try {
         const { page = 1, limit = 10, category, tag, featured, author, published } = req.query;
         const offset = (page - 1) * limit;
@@ -55,6 +56,13 @@ exports.getAllPosts = async (req, res) => {
                 attributes: ['id', 'name', 'email']
             });
         }
+
+        // Include category data
+        include.push({
+            model: Category,
+            as: 'category',
+            attributes: ['id', 'name']
+        });
 
         const { count, rows: posts } = await Post.findAndCountAll({
             where,

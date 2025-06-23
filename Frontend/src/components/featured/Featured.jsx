@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from './featured.module.css'
 import Image from 'next/image'
-import { getFeaturedPosts } from "@/utils/api";
+import { getFeaturedPostsOptimized } from "@/utils/api";
 import { enrichPostsWithCategoriesOptimized } from "@/utils/postHelpers";
 import LoadingSpinner from '../ui/LoadingSpinner';
 import DataMessage from '../ui/DataMessage';
 import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
 
-const Featured = () => {
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
+const Featured = ({ initialData = null }) => {
+    const [posts, setPosts] = useState(initialData || []);
+    const [loading, setLoading] = useState(!initialData);
     const [error, setError] = useState(null);
     const [postIndex, setPostIndex] = useState(0);
     const [animationDirection, setAnimationDirection] = useState(null);
@@ -43,18 +43,21 @@ const Featured = () => {
                 }
             });
         }, 10);
-    };
-
-    const fetchFeaturedPosts = async () => {
+    }; const fetchFeaturedPosts = async () => {
         try {
             setLoading(true);
             setError(null);
-            const response = await getFeaturedPosts();
+            const response = await getFeaturedPostsOptimized();
 
             if (response && Array.isArray(response)) {
-                const enrichedPosts = await enrichPostsWithCategoriesOptimized(response);
-                setPosts(enrichedPosts || []);
-                setPostIndex(0); // Reset to first post
+                // Posts from the new API already include category data
+                const postsWithCategories = response.map(post => ({
+                    ...post,
+                    category: post.category?.name || 'Uncategorized',
+                    image: post.imageUrl || post.image
+                }));
+                setPosts(postsWithCategories || []);
+                setPostIndex(0);
             } else {
                 setPosts([]);
             }
@@ -65,11 +68,12 @@ const Featured = () => {
         } finally {
             setLoading(false);
         }
-    };
-
-    useEffect(() => {
-        fetchFeaturedPosts();
-    }, []);
+    }; useEffect(() => {
+        // Only fetch data if we don't have initial data
+        if (!initialData) {
+            fetchFeaturedPosts();
+        }
+    }, [initialData]);
     useEffect(() => {
         // Reset animation after it completes
         if (animationDirection) {

@@ -378,3 +378,59 @@ export const updateUserAvatar = async (avatar) => {
         throw error;
     }
 };
+
+/**
+ * Get all home page data in a single request (featured posts, recent posts, menu data)
+ * @param {Object} options - Configuration options
+ * @param {number} options.featuredLimit - Number of featured posts
+ * @param {number} options.recentLimit - Number of recent posts  
+ * @param {number} options.menuLimit - Number of menu posts
+ * @returns {Promise<Object>} - Complete home page data
+ */
+export const getHomePageData = async (options = {}) => {
+    try {
+        const params = new URLSearchParams();
+
+        if (options.featuredLimit) params.append('featuredLimit', options.featuredLimit);
+        if (options.recentLimit) params.append('recentLimit', options.recentLimit);
+        if (options.menuLimit) params.append('menuLimit', options.menuLimit);
+
+        const queryString = params.toString() ? `?${params.toString()}` : '';
+        const response = await fetch(`${API_BASE_URL}/posts/home-data${queryString}`);
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Failed to fetch home page data';
+            throw new Error(errorMessage);
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error fetching home page data:', error);
+        throw error;
+    }
+};
+
+/**
+ * Get featured blog posts (optimized version)
+ * @param {number} limit - Number of featured posts to fetch
+ * @returns {Promise<Array>} - Array of featured posts
+ */
+export const getFeaturedPostsOptimized = async (limit = 5) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/posts/featured-optimized?limit=${limit}`);
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            const errorMessage = data.error || data.message || 'Failed to fetch featured posts';
+            throw new Error(errorMessage);
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error fetching featured posts:', error);
+        throw error;
+    }
+};
