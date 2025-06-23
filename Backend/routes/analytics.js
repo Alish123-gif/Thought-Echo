@@ -6,12 +6,14 @@ const {
     getAnalytics,
     getPageViewsByDateRange,
     getRealTimeAnalytics,
-    getSessionStats
+    getSessionStats,
+    batchAnalytics
 } = require('../controllers/analyticsController');
 const { authenticateToken, isAdmin } = require('../middleware/auth');
 
 // Public routes
 router.post('/pageview', trackPageView);
+router.post('/batch', batchAnalytics); // New batch endpoint
 router.get('/viewers', getViewerCount);
 
 // Admin only routes
