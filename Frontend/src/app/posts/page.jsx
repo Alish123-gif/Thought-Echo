@@ -340,7 +340,9 @@ const PostsPage = () => {
             </div>
             <div className={viewMode === 'grid' ? styles.postCardContent : styles.postListContent}>
                 <div className={styles.postMeta}>
-                    <span className={styles.postCategory}>{post.category}</span>
+                    <span className={styles.postCategory}>
+                        {typeof post.category === 'object' && post.category?.name ? post.category.name : post.category}
+                    </span>
                     {post.isFeatured && <span className={styles.featuredBadge}>Featured</span>}
                 </div>
                 <h3 className={viewMode === 'grid' ? styles.postCardTitle : styles.postListTitle}>{post.title}</h3>
