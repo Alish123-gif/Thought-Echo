@@ -56,7 +56,7 @@ const MenuPosts = ({ withImage, type = "popular", limit = 4, initialData = null 
         if (!initialData) {
             fetchPosts();
         }
-    }, [fetchPosts, initialData]);
+    }, [initialData]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);

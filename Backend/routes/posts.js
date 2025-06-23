@@ -16,7 +16,7 @@ const { invalidatePostCache } = require('../middleware/cacheInvalidation');
 router.use(requestTimer);
 
 // Public routes with caching
-router.get('/', cachePosts, postController.getAllPosts);
+router.get('/', cachePosts, postController.getAllPostsOptimized);
 router.get('/home-data', cacheHomePage, homeController.getHomePageData); // New consolidated endpoint
 router.get('/featured', cacheFeatured, homeController.getFeaturedPostsOptimized); // Use optimized version
 router.get('/featured-optimized', cacheFeatured, homeController.getFeaturedPostsOptimized); // Optimized version

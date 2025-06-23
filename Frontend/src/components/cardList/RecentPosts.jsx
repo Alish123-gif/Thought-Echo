@@ -59,14 +59,14 @@ const RecentPosts = ({
         } finally {
             setLoading(false);
         }
-    }, [currentPage, limit, category, initialData]);
+    }, [currentPage, limit, category]);
 
     useEffect(() => {
         // Only fetch data if we don't have initial data or if params changed
         if (!initialData || category) {
             fetchPosts();
         }
-    }, [fetchPosts, initialData]);
+    }, [fetchPosts, category]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);

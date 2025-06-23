@@ -38,26 +38,6 @@ export default function ProfilePage() {
         { id: 2, title: 'CSS Grid Tutorial', slug: 'css-grid-tutorial' }
     ]);
 
-    useEffect(() => {
-        if (!isLoading && !isAuthenticated) {
-            router.push('/login');
-        }
-    }, [isAuthenticated, isLoading, router]);
-
-    useEffect(() => {
-        if (user && user.createdAt) {
-            // Format the date
-            const date = new Date(user.createdAt);
-            setJoinDate(date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
-        }
-
-        // Fetch user stats if authenticated
-        if (isAuthenticated && user) {
-            fetchUserStats();
-            calculateProfileCompletion();
-        }
-    }, [user, isAuthenticated]);
-
     const calculateProfileCompletion = () => {
         if (!user) return 0;
 
@@ -74,7 +54,6 @@ export default function ProfilePage() {
 
     const fetchUserStats = async () => {
         if (user && user.isAdmin) {
-
             try {
                 // Get user posts
                 const postsData = await getUserPosts();
@@ -90,6 +69,24 @@ export default function ProfilePage() {
             }
         }
     };
+
+    useEffect(() => {
+        if (!isLoading && !isAuthenticated) {
+            router.push('/login');
+        }
+    }, [isAuthenticated, isLoading, router]);
+
+    useEffect(() => {
+        if (user && user.createdAt) {
+            // Format the date
+            const date = new Date(user.createdAt);
+            setJoinDate(date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+        }        // Fetch user stats if authenticated
+        if (isAuthenticated && user) {
+            fetchUserStats();
+            calculateProfileCompletion();
+        }
+    }, [user, isAuthenticated, calculateProfileCompletion, fetchUserStats]);
 
     const handleImageClick = () => {
         document.getElementById('imageInput').click();

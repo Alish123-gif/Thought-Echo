@@ -473,3 +473,6 @@ exports.getUserPosts = async (req, res) => {
         res.status(500).json({ message: 'Error fetching user posts', error: error.message });
     }
 };
+
+// Alias for getAllPostsOptimized to maintain compatibility with routes
+exports.getAllPosts = exports.getAllPostsOptimized;
