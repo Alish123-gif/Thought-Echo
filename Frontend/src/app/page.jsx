@@ -1,44 +1,34 @@
 
-"use client";
 import { RecentPosts, Featured, Menu } from "@/components";
 import styles from "./homepage.module.css";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { getHomePageData } from "@/utils/api";
+import HomePageClient from "./HomePageClient";
 
-export default function Home() {
-  const searchParams = useSearchParams();
-  const [error, setError] = useState(null);
+// Server-side data fetching
+async function getHomeData() {
+  try {
+    const data = await getHomePageData({
+      featuredLimit: 5,
+      recentLimit: 6,
+      menuLimit: 5
+    });
+    return { data, error: null };
+  } catch (error) {
+    console.error('Error fetching home page data:', error);
+    return { data: null, error: error.message };
+  }
+}
 
-  useEffect(() => {
-    const errorParam = searchParams.get("error");
-    if (errorParam === "adminAccess") {
-      setError("You don't have permission to access the admin area.");
-      // Clear the error parameter after 5 seconds
-      const timer = setTimeout(() => {
-        setError(null);
-        // Remove the error from URL without page refresh
-        if (window.history.replaceState) {
-          const newUrl = window.location.pathname;
-          window.history.replaceState({}, document.title, newUrl);
-        }
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [searchParams]);
+export default async function Home({ searchParams }) {
+  const { data: initialData, error: dataError } = await getHomeData();
 
   return (
     <div className={styles.container}>
-      {error && (
-        <div className={styles.errorMessage}>
-          {error}
-          <button onClick={() => setError(null)} className={styles.closeError}>×</button>
-        </div>
-      )}
-      <Featured />
-      <div className={styles.content}>
-        <RecentPosts />
-        <Menu />
-      </div>
+      <HomePageClient
+        initialData={initialData}
+        dataError={dataError}
+        searchParams={searchParams}
+      />
     </div>
   );
 }
