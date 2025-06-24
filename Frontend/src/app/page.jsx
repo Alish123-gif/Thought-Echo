@@ -1,5 +1,3 @@
-
-import { RecentPosts, Featured, Menu } from "@/components";
 import styles from "./homepage.module.css";
 import { getHomePageData } from "@/utils/api";
 import HomePageClient from "./HomePageClient";
