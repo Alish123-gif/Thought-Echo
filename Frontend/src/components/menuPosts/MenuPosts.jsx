@@ -8,17 +8,44 @@ import styles from "./menuPosts.module.css";
 import LoadingSpinner from "../ui/LoadingSpinner";
 
 const MenuPosts = ({ withImage, type = "popular", limit = 4, initialData = null }) => {
-    const [posts, setPosts] = useState(initialData || []);
-    const [loading, setLoading] = useState(!initialData);
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchPosts = async () => {
+        const loadPosts = async () => {
             try {
                 setLoading(true);
                 setError(null);
 
-                let data; if (type === "featured") {
+                // First check if we have initial data for this type
+                if (initialData) {
+                    let relevantData = null;
+
+                    if (type === "featured" && initialData.featuredPosts) {
+                        relevantData = initialData.featuredPosts;
+                    } else if (type === "popular" && initialData.popularPosts) {
+                        relevantData = initialData.popularPosts;
+                    }
+
+                    if (relevantData && relevantData.length > 0) {
+                        // Use the initial data - no need for additional API calls
+                        const processedPosts = relevantData.slice(0, limit).map(post => ({
+                            ...post,
+                            category: typeof post.category === 'object' && post.category?.name
+                                ? post.category.name
+                                : post.category || 'Uncategorized',
+                            image: post.imageUrl || post.image
+                        }));
+                        setPosts(processedPosts);
+                        setLoading(false);
+                        return;
+                    }
+                }
+
+                // Fallback to API call if no initial data
+                let data;
+                if (type === "featured") {
                     data = await getFeaturedPostsOptimized(limit);
                 } else {
                     // For popular posts, get recent posts
@@ -28,13 +55,17 @@ const MenuPosts = ({ withImage, type = "popular", limit = 4, initialData = null 
                         published: 'true'
                     });
                     data = response.posts || [];
-                }                // Check if posts already have category data (from optimized endpoint)
+                }
+
+                // Check if posts already have category data (from optimized endpoint)
                 let enrichedPosts;
                 if (data?.[0]?.category?.name) {
                     // Posts already have category data
                     enrichedPosts = data.map(post => ({
                         ...post,
-                        category: post.category?.name || 'Uncategorized',
+                        category: typeof post.category === 'object' && post.category?.name
+                            ? post.category.name
+                            : post.category || 'Uncategorized',
                         image: post.imageUrl || post.image
                     }));
                 } else {
@@ -43,12 +74,14 @@ const MenuPosts = ({ withImage, type = "popular", limit = 4, initialData = null 
                 }
                 setPosts(enrichedPosts);
             } catch (err) {
-                console.error('Error fetching menu posts:', err);
+                console.error('Error loading menu posts:', err);
                 setError(err.message);
             } finally {
                 setLoading(false);
             }
-        }; fetchPosts();
+        };
+
+        loadPosts();
     }, [type, limit, initialData]);
 
     const formatDate = (dateString) => {

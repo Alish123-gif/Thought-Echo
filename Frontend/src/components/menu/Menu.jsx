@@ -12,7 +12,7 @@ const Menu = ({ initialData = null }) => {
                     withImage={false}
                     type="popular"
                     limit={4}
-                    initialData={initialData?.posts}
+                    initialData={initialData}
                 />
             </div>
 
@@ -29,7 +29,7 @@ const Menu = ({ initialData = null }) => {
                     withImage={true}
                     type="featured"
                     limit={4}
-                    initialData={initialData?.posts}
+                    initialData={initialData}
                 />
             </div>
         </div>
