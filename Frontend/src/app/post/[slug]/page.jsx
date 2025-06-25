@@ -52,7 +52,7 @@ const PostDetailsPage = () => {
             )}
             <div className={styles.header}>
                 {post.category && (
-                    <Link href={`/posts?category=${post.category.id || post.category.slug || post.category}`} style={{ textDecoration: 'none' }}>
+                    <Link href={`/posts?category=${post.category.slug || post.category.id || post.category}`} style={{ textDecoration: 'none' }}>
                         <span className={styles.category}>
                             {typeof post.category === 'object' ? post.category.name : post.category}
                         </span>
@@ -61,7 +61,7 @@ const PostDetailsPage = () => {
                 <h1 className={styles.title}>{post.title}</h1>
                 <div className={styles.meta}>
                     {post.author && (
-                        <Link href={`/profile/${post.author._id}`} style={{ textDecoration: 'none' }}>
+                        <Link href={`/profile/${post.authorId}`} style={{ textDecoration: 'none' }}>
                             <span className={styles.author}>By {post.author.name || "Unknown"}</span>
                         </Link>
                     )}
