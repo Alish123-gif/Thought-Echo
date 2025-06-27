@@ -51,15 +51,16 @@ app.get('/', (req, res) => {
 const startServer = async () => {
   try {
     // Log the database connection parameters (don't log passwords in production!)
-    console.log('Database connection parameters:', {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      database: process.env.DB_NAME,
-      user: process.env.DB_USER,
-      // Redacting password for security
-    });
-
+    console.log('Database connection parameters:');
+    console.log('- Host:', process.env.DB_HOST);
+    console.log('- Port:', process.env.DB_PORT);
+    console.log('- Database:', process.env.DB_NAME);
+    console.log('- User:', process.env.DB_USER);
+    console.log('- Password:', process.env.DB_PASS ? '[SET]' : '[NOT SET]');
+    
+    console.log('Attempting to authenticate with database...');
     await sequelize.authenticate();
+    console.log('Database connection has been established successfully.');
 
     // Initialize model associations
     const models = {
@@ -75,14 +76,31 @@ const startServer = async () => {
       }
     });
 
+    console.log('Synchronizing database models...');
     await sequelize.sync({ alter: true });
-
+    console.log('Database models synchronized successfully.');
 
     app.listen(PORT, () => {
-
+      console.log(`Server is running on port ${PORT}`);
+      console.log(`Environment: ${process.env.NODE_ENV}`);
     });
   } catch (error) {
     console.error('Unable to connect to the database:', error);
+    console.error('\nTroubleshooting tips:');
+    console.error('1. Check if your database server is running');
+    console.error('2. Verify your database credentials in .env file');
+    console.error('3. Ensure the database host is accessible');
+    console.error('4. Check if the database exists');
+    
+    if (error.code === 'ENOTFOUND') {
+      console.error('\nERELATED ERROR: The hostname could not be resolved.');
+      console.error('This usually means:');
+      console.error('- The database host is incorrect');
+      console.error('- You\'re trying to connect to an external database that\'s not accessible');
+      console.error('- Network connectivity issues');
+    }
+    
+    process.exit(1);
   }
 };
 
