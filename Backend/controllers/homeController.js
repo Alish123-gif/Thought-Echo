@@ -9,7 +9,7 @@ exports.getHomePageData = async (req, res) => {
         const { featuredLimit = 5, recentLimit = 6, menuLimit = 5 } = req.query;
 
         // Use Promise.all to fetch all data in parallel
-        const [featuredPosts, recentPosts, menuPopularPosts, menuFeaturedPosts, categories] = await Promise.all([
+        const [featuredPosts, recentPosts, menuPosts, categories] = await Promise.all([
             // Featured posts
             Post.findAll({
                 where: {
@@ -54,33 +54,12 @@ exports.getHomePageData = async (req, res) => {
                 offset: 0,
                 order: [['createdAt', 'DESC']],
                 attributes: { exclude: ['content'] } // Exclude heavy content field for performance
-            }),            // Menu popular posts (recent posts for sidebar)
+            }),
+
+            // Menu posts (for sidebar)
             Post.findAll({
                 where: {
                     isPublished: true
-                },
-                include: [
-                    {
-                        model: User,
-                        as: 'author',
-                        attributes: ['id', 'name', 'email']
-                    },
-                    {
-                        model: Category,
-                        as: 'category',
-                        attributes: ['id', 'name', 'slug', 'color']
-                    }
-                ],
-                limit: parseInt(menuLimit),
-                order: [['createdAt', 'DESC']],
-                attributes: ['id', 'title', 'slug', 'imageUrl', 'createdAt', 'categoryId', 'authorId']
-            }),
-
-            // Menu featured posts (for editor's pick section)
-            Post.findAll({
-                where: {
-                    isPublished: true,
-                    isFeatured: true
                 },
                 include: [
                     {
@@ -120,9 +99,9 @@ exports.getHomePageData = async (req, res) => {
                     currentPage: 1,
                     limit: parseInt(recentLimit)
                 }
-            }, menu: {
-                popularPosts: menuPopularPosts.map(post => post.get({ plain: true })),
-                featuredPosts: menuFeaturedPosts.map(post => post.get({ plain: true })),
+            },
+            menu: {
+                posts: menuPosts.map(post => post.get({ plain: true })),
                 categories: categories.map(category => category.get({ plain: true }))
             },
             _metadata: {

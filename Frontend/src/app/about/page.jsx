@@ -9,7 +9,7 @@ const AboutPage = () => {
                     <div className={styles.profileSection}>
                         <div className={styles.profileImage}>
                             <Image
-                                src="/p_photo.JPG"
+                                src="/logo.png"
                                 alt="Ali - Full Stack Developer"
                                 width={150}
                                 height={150}

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { RecentPosts, Featured, Menu } from "@/components";
 import styles from "./homepage.module.css";
 

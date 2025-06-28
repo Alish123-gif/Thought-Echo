@@ -1,13 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { config, validateConfig, getDatabaseConnectionInfo } = require('./config/config');
+require('dotenv').config();
 
-// Validate configuration early
-try {
-  validateConfig();
-} catch (error) {
-  console.error('❌ Configuration validation failed:', error.message);
+// Validate required environment variables
+const requiredEnvVars = [
+  'DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASS', 'JWT_SECRET',
+  'IMAGEKIT_PUBLIC_KEY', 'IMAGEKIT_PRIVATE_KEY', 'IMAGEKIT_URL_ENDPOINT'
+];
+
+const missingEnvVars = requiredEnvVars.filter(env => !process.env[env]);
+if (missingEnvVars.length > 0) {
+  console.error(`Error: Missing required environment variables: ${missingEnvVars.join(', ')}`);
   process.exit(1);
 }
 
@@ -19,7 +23,7 @@ const analyticsRoutes = require(path.join(__dirname, 'routes', 'analytics'));
 const userRoutes = require(path.join(__dirname, 'routes', 'users'));
 
 const app = express();
-const PORT = config.server.port;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -33,10 +37,10 @@ app.use('/api/user', userRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error('❌ Global error:', err.stack);
+  console.error(err.stack);
   res.status(err.status || 500).json({
     message: err.message || 'Something went wrong!',
-    error: config.server.nodeEnv === 'development' ? err : {}
+    error: process.env.NODE_ENV === 'development' ? err : {}
   });
 });
 
@@ -46,23 +50,16 @@ app.get('/', (req, res) => {
 
 const startServer = async () => {
   try {
-<<<<<<< HEAD
     // Log the database connection parameters (don't log passwords in production!)
-    console.log('Database connection parameters:');
-    console.log('- Host:', process.env.DB_HOST);
-    console.log('- Port:', process.env.DB_PORT);
-    console.log('- Database:', process.env.DB_NAME);
-    console.log('- User:', process.env.DB_USER);
-    console.log('- Password:', process.env.DB_PASS ? '[SET]' : '[NOT SET]');
-    
-    console.log('Attempting to authenticate with database...');
-=======
-    // Log the database connection parameters for debugging
-    console.log('📊 Database connection info:', getDatabaseConnectionInfo());
+    console.log('Database connection parameters:', {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      // Redacting password for security
+    });
 
->>>>>>> 6253b798ea40686e22818315742bb61248b66d8f
     await sequelize.authenticate();
-    console.log('Database connection has been established successfully.');
 
     // Initialize model associations
     const models = {
@@ -78,31 +75,14 @@ const startServer = async () => {
       }
     });
 
-    console.log('Synchronizing database models...');
     await sequelize.sync({ alter: true });
-    console.log('Database models synchronized successfully.');
+
 
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-      console.log(`Environment: ${process.env.NODE_ENV}`);
+
     });
   } catch (error) {
     console.error('Unable to connect to the database:', error);
-    console.error('\nTroubleshooting tips:');
-    console.error('1. Check if your database server is running');
-    console.error('2. Verify your database credentials in .env file');
-    console.error('3. Ensure the database host is accessible');
-    console.error('4. Check if the database exists');
-    
-    if (error.code === 'ENOTFOUND') {
-      console.error('\nERELATED ERROR: The hostname could not be resolved.');
-      console.error('This usually means:');
-      console.error('- The database host is incorrect');
-      console.error('- You\'re trying to connect to an external database that\'s not accessible');
-      console.error('- Network connectivity issues');
-    }
-    
-    process.exit(1);
   }
 };
 
