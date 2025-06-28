@@ -1,39 +1,24 @@
 const { Sequelize } = require('sequelize');
 const pg = require('pg');
+const { config, isNeonDatabase, getDatabaseConnectionInfo } = require('./config');
 
 // Create the database if it doesn't exist (skip for Neon as it creates the database automatically)
 async function createDatabaseIfNotExists() {
     // Skip database creation for Neon as it provides the database ready to use
-    if (process.env.PGHOST && process.env.PGHOST.includes('neon.tech')) {
+    if (isNeonDatabase()) {
         console.log('✅ Using Neon database - skipping database creation');
         return;
     }
 
-    const connectionParams = {
-        host: process.env.PGHOST || process.env.DB_HOST,
-        port: process.env.PGPORT || process.env.DB_PORT || 5432,
-        database: process.env.PGDATABASE || process.env.DB_NAME,
-        user: process.env.PGUSER || process.env.DB_USER
-    };
-
-    console.log('Database connection parameters:', connectionParams);
-
-    // Check if required parameters are present
-    if (!connectionParams.host || !connectionParams.database || !connectionParams.user) {
-        console.error('❌ Missing required database environment variables');
-        console.error('Required: PGHOST (or DB_HOST), PGDATABASE (or DB_NAME), PGUSER (or DB_USER)');
-        throw new Error('Missing database configuration');
-    }
+    console.log('Database connection parameters:', getDatabaseConnectionInfo());
 
     const client = new pg.Client({
-        host: process.env.PGHOST || process.env.DB_HOST,
-        port: process.env.PGPORT || process.env.DB_PORT || 5432,
-        user: process.env.PGUSER || process.env.DB_USER,
-        password: process.env.PGPASSWORD || process.env.DB_PASS,
+        host: config.database.host,
+        port: config.database.port,
+        user: config.database.user,
+        password: config.database.password,
         database: 'postgres', // Connect to default postgres database first
-        ssl: {
-            rejectUnauthorized: false // Neon requires SSL
-        }
+        ssl: config.database.ssl
     });
 
 
@@ -45,15 +30,14 @@ async function createDatabaseIfNotExists() {
         // Check if our database exists
         const checkResult = await client.query(`
             SELECT 1 FROM pg_database WHERE datname = $1
-        `, [process.env.PGDATABASE || process.env.DB_NAME]);
+        `, [config.database.database]);
 
         if (checkResult.rowCount === 0) {
-
             // Create the database
-            await client.query(`CREATE DATABASE "${process.env.PGDATABASE || process.env.DB_NAME}"`);
-
+            await client.query(`CREATE DATABASE "${config.database.database}"`);
+            console.log(`✅ Database "${config.database.database}" created successfully`);
         } else {
-
+            console.log(`✅ Database "${config.database.database}" already exists`);
         }
     } catch (error) {
         console.error('Error creating database:', error);
@@ -71,20 +55,23 @@ createDatabaseIfNotExists().catch(err => {
 
 // Then create the Sequelize connection
 const sequelize = new Sequelize(
-    process.env.PGDATABASE || process.env.DB_NAME,
-    process.env.PGUSER || process.env.DB_USER,
-    process.env.PGPASSWORD || process.env.DB_PASS,
+    config.database.database,
+    config.database.user,
+    config.database.password,
     {
-        host: process.env.PGHOST || process.env.DB_HOST,
-        port: process.env.PGPORT || process.env.DB_PORT || 5432,
+        host: config.database.host,
+        port: config.database.port,
         dialect: 'postgres',
         dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false // Neon requires SSL
-            }
+            ssl: config.database.ssl
         },
-        logging: false,
+        logging: config.server?.nodeEnv === 'development' ? console.log : false,
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
+        }
     }
 );;
 
