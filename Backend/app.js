@@ -61,12 +61,12 @@ app.get('/', (req, res) => {
 
 const startServer = async () => {
   try {
-    // Log the database connection parameters for debugging
+    // Log the database connection parameters (don't log passwords in production!)
     console.log('Database connection parameters:', {
-      host: process.env.PGHOST || process.env.DB_HOST,
-      port: process.env.PGPORT || process.env.DB_PORT || 5432,
-      database: process.env.PGDATABASE || process.env.DB_NAME,
-      user: process.env.PGUSER || process.env.DB_USER,
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
       // Redacting password for security
     });
 
@@ -76,8 +76,7 @@ const startServer = async () => {
     const models = {
       Post: require('./models/Post'),
       User: require('./models/User'),
-      Category: require('./models/Category'),
-      Analytics: require('./models/Analytics')
+      Category: require('./models/Category')
     };
 
     // Call associate method on each model
@@ -88,19 +87,18 @@ const startServer = async () => {
     });
 
     await sequelize.sync({ alter: true });
-    console.log('✅ Database synchronized successfully');
 
-    // Initialize analytics auto-cleanup AFTER database sync
-    const { startAutoCleanup } = require('./controllers/analyticsController');
-    startAutoCleanup();
 
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
+
     });
   } catch (error) {
-    console.error('❌ Unable to connect to the database:', error);
-    process.exit(1);
+    console.error('Unable to connect to the database:', error);
   }
 };
+
+// Initialize analytics auto-cleanup
+const { startAutoCleanup } = require('./controllers/analyticsController');
+startAutoCleanup();
 
 startServer();
