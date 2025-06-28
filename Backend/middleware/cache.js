@@ -122,6 +122,10 @@ const featuredKeyGenerator = (req) => {
     return `featured:${limit}`;
 };
 
+const categoriesKeyGenerator = () => {
+    return 'categories:all';
+};
+
 const analyticsKeyGenerator = (req) => {
     const { timeframe = 'week', postId, metric = 'views' } = req.query;
     return `analytics:${timeframe}:${postId || 'all'}:${metric}`;
