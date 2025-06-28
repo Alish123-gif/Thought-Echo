@@ -5,9 +5,20 @@ require('dotenv').config();
 
 // Validate required environment variables
 const requiredEnvVars = [
-  'DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASS', 'JWT_SECRET',
+  'JWT_SECRET',
   'IMAGEKIT_PUBLIC_KEY', 'IMAGEKIT_PRIVATE_KEY', 'IMAGEKIT_URL_ENDPOINT'
 ];
+
+// Check for database connection - either Neon format or traditional format
+const hasNeonEnv = process.env.PGHOST && process.env.PGDATABASE && process.env.PGUSER && process.env.PGPASSWORD;
+const hasTraditionalEnv = process.env.DB_HOST && process.env.DB_NAME && process.env.DB_USER && process.env.DB_PASS;
+
+if (!hasNeonEnv && !hasTraditionalEnv) {
+  console.error('Error: Missing database environment variables. Please provide either:');
+  console.error('Neon format: PGHOST, PGDATABASE, PGUSER, PGPASSWORD');
+  console.error('Traditional format: DB_HOST, DB_NAME, DB_USER, DB_PASS');
+  process.exit(1);
+}
 
 const missingEnvVars = requiredEnvVars.filter(env => !process.env[env]);
 if (missingEnvVars.length > 0) {
