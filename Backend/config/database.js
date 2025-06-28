@@ -5,7 +5,7 @@ const pg = require('pg');
 async function createDatabaseIfNotExists() {
     // Skip database creation for Neon as it provides the database ready to use
     if (process.env.PGHOST && process.env.PGHOST.includes('neon.tech')) {
-        console.log('Using Neon database - skipping database creation');
+        console.log('✅ Using Neon database - skipping database creation');
         return;
     }
 
@@ -17,6 +17,13 @@ async function createDatabaseIfNotExists() {
     };
 
     console.log('Database connection parameters:', connectionParams);
+
+    // Check if required parameters are present
+    if (!connectionParams.host || !connectionParams.database || !connectionParams.user) {
+        console.error('❌ Missing required database environment variables');
+        console.error('Required: PGHOST (or DB_HOST), PGDATABASE (or DB_NAME), PGUSER (or DB_USER)');
+        throw new Error('Missing database configuration');
+    }
 
     const client = new pg.Client({
         host: process.env.PGHOST || process.env.DB_HOST,
