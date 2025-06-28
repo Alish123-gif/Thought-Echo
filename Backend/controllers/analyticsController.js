@@ -7,10 +7,11 @@ const recentViews = new Map();
 const THROTTLE_DURATION = 30000; // 30 seconds
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes session timeout
 const SAME_PAGE_COOLDOWN = 5 * 60 * 1000; // 5 minutes cooldown for same page
-const MAX_SESSIONS = 1000; // Prevent memory overflow
-const MAX_RECENT_VIEWS = 500; // Limit recent views cache
+const MAX_SESSIONS = 500; // Reduced to prevent memory issues
+const MAX_RECENT_VIEWS = 200; // Reduced to prevent memory issues
+const CLEANUP_INTERVAL = 5 * 60 * 1000; // Clean up every 5 minutes instead of 10
 
-// Periodic cleanup of memory caches
+// More aggressive memory management
 const cleanupMemoryCaches = () => {
     const now = Date.now();
     const cutoff = now - SESSION_TIMEOUT;
@@ -24,36 +25,40 @@ const cleanupMemoryCaches = () => {
         }
     }
 
-    // If still too many sessions, remove oldest
-    if (userSessions.size > MAX_SESSIONS) {
+    // More aggressive session cleanup if approaching limit
+    if (userSessions.size > MAX_SESSIONS * 0.8) {
         const sessions = Array.from(userSessions.entries())
             .sort((a, b) => a[1].lastActivity - b[1].lastActivity);
-        const toRemove = sessions.slice(0, Math.floor(MAX_SESSIONS * 0.2));
+        const toRemove = sessions.slice(0, Math.floor(userSessions.size * 0.3));
         toRemove.forEach(([key]) => userSessions.delete(key));
+        cleaned += toRemove.length;
     }
 
     // Clean up recent views
+    let viewsCleaned = 0;
     for (const [key, timestamp] of recentViews.entries()) {
         if (now - timestamp > THROTTLE_DURATION) {
             recentViews.delete(key);
+            viewsCleaned++;
         }
     }
 
-    // Limit recent views size
-    if (recentViews.size > MAX_RECENT_VIEWS) {
+    // Aggressive cleanup for recent views
+    if (recentViews.size > MAX_RECENT_VIEWS * 0.8) {
         const views = Array.from(recentViews.entries())
             .sort((a, b) => a[1] - b[1]);
-        const toRemove = views.slice(0, Math.floor(MAX_RECENT_VIEWS * 0.2));
+        const toRemove = views.slice(0, Math.floor(recentViews.size * 0.3));
         toRemove.forEach(([key]) => recentViews.delete(key));
+        viewsCleaned += toRemove.length;
     }
 
-    if (cleaned > 0) {
-
+    if (cleaned > 0 || viewsCleaned > 0) {
+        console.log(`🧹 Memory cleanup: ${cleaned} sessions, ${viewsCleaned} views removed`);
     }
 };
 
-// Run cleanup every 10 minutes
-setInterval(cleanupMemoryCaches, 10 * 60 * 1000);
+// Run cleanup every 5 minutes instead of 10
+setInterval(cleanupMemoryCaches, CLEANUP_INTERVAL);
 
 // Enhanced user fingerprinting to detect same user
 const createUserFingerprint = (userAgent, sessionId) => {
@@ -499,6 +504,10 @@ const getRealTimeAnalytics = async (req, res) => {
 // Cleanup old analytics data (to be called periodically)
 const cleanupOldData = async () => {
     try {
+        // Check if Analytics table exists before attempting cleanup
+        const { sequelize } = require('../models/Analytics');
+        await sequelize.authenticate();
+
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
@@ -510,6 +519,9 @@ const cleanupOldData = async () => {
             }
         });
 
+        if (deletedCount > 0) {
+            console.log(`✅ Cleaned up ${deletedCount} old analytics records`);
+        }
 
         return deletedCount;
     } catch (error) {
@@ -520,8 +532,12 @@ const cleanupOldData = async () => {
 
 // Auto-cleanup on server start (run once per day)
 const startAutoCleanup = () => {
-    // Run cleanup immediately on start
-    cleanupOldData();
+    console.log('📊 Starting analytics auto-cleanup service');
+
+    // Run cleanup after a small delay to ensure database is ready
+    setTimeout(async () => {
+        await cleanupOldData();
+    }, 5000); // 5 second delay
 
     // Then run every 24 hours
     setInterval(cleanupOldData, 24 * 60 * 60 * 1000);

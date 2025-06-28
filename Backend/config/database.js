@@ -1,17 +1,16 @@
 const { Sequelize } = require('sequelize');
 const pg = require('pg');
+const { config, isNeonDatabase, getDatabaseConnectionInfo } = require('./config');
 
 // Create the database if it doesn't exist
 async function createDatabaseIfNotExists() {
     const client = new pg.Client({
-        host: process.env.PGHOST || process.env.DB_HOST,
-        port: process.env.PGPORT || process.env.DB_PORT || 5432,
-        user: process.env.PGUSER || process.env.DB_USER,
-        password: process.env.PGPASSWORD || process.env.DB_PASS,
+        host: config.database.host,
+        port: config.database.port,
+        user: config.database.user,
+        password: config.database.password,
         database: 'postgres', // Connect to default postgres database first
-        ssl: {
-            rejectUnauthorized: false // Neon requires SSL
-        }
+        ssl: config.database.ssl
     });
 
     try {
@@ -22,10 +21,9 @@ async function createDatabaseIfNotExists() {
         // Check if our database exists
         const checkResult = await client.query(`
             SELECT 1 FROM pg_database WHERE datname = $1
-        `, [process.env.PGDATABASE || process.env.DB_NAME]);
+        `, [config.database.database]);
 
         if (checkResult.rowCount === 0) {
-
             // Create the database
             await client.query(`CREATE DATABASE "${process.env.DB_NAME}"`);
 
@@ -66,20 +64,23 @@ setupDatabase();
 
 // Then create the Sequelize connection
 const sequelize = new Sequelize(
-    process.env.PGDATABASE || process.env.DB_NAME,
-    process.env.PGUSER || process.env.DB_USER,
-    process.env.PGPASSWORD || process.env.DB_PASS,
+    config.database.database,
+    config.database.user,
+    config.database.password,
     {
-        host: process.env.PGHOST || process.env.DB_HOST,
-        port: process.env.PGPORT || process.env.DB_PORT || 5432,
+        host: config.database.host,
+        port: config.database.port,
         dialect: 'postgres',
         dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false // Neon requires SSL
-            }
+            ssl: config.database.ssl
         },
-        logging: false,
+        logging: config.server?.nodeEnv === 'development' ? console.log : false,
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
+        }
     }
 );;
 
