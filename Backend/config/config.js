@@ -23,8 +23,9 @@
  * - Supports both legacy environment variables (DB_HOST, etc.) and Neon format (PGHOST, etc.)
  * - Automatic validation of required environment variables
  * - Helper functions for easy access to configuration sections
- * - SSL configuration for database connections
+ * - Smart SSL configuration (disabled for localhost, enabled for cloud databases)
  * - Environment-specific settings (development/production)
+ * - Support for manual SSL override with DB_SSL environment variable
  */
 
 // Centralized configuration for all environment variables
@@ -38,10 +39,19 @@ const config = {
         database: process.env.PGDATABASE || process.env.DB_NAME,
         user: process.env.PGUSER || process.env.DB_USER,
         password: process.env.PGPASSWORD || process.env.DB_PASS,
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        }
+        // SSL configuration - only enable for production/cloud databases
+        ssl: (() => {
+            const isLocalhost = process.env.DB_HOST === 'localhost';
+            // Only use SSL for cloud databases, not for localhost
+            if (isLocalhost) {
+                return false;
+            } else {
+                return process.env.DB_SSL === 'false' ? false : {
+                    require: true,
+                    rejectUnauthorized: false
+                };
+            }
+        })()
     },
 
     // Server Configuration
@@ -118,7 +128,8 @@ const getDatabaseConnectionInfo = () => ({
     port: config.database.port,
     database: config.database.database,
     user: config.database.user,
-    isNeon: isNeonDatabase()
+    isNeon: isNeonDatabase(),
+    sslEnabled: !!config.database.ssl
 });
 
 // Helper functions for easy access to specific configurations

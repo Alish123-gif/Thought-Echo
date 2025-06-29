@@ -13,7 +13,7 @@ async function createDatabaseIfNotExists() {
         user: config.database.user,
         password: config.database.password,
         database: 'postgres', // Connect to default postgres database first
-        ssl: config.database.ssl
+        ...(config.database.ssl && { ssl: config.database.ssl })
     });
 
 
@@ -31,8 +31,6 @@ async function createDatabaseIfNotExists() {
 
             // Create the database
             await client.query(`CREATE DATABASE "${config.database.database}"`);
-
-        } else {
 
         }
     } catch (error) {
@@ -59,10 +57,12 @@ const sequelize = new Sequelize(
         port: config.database.port,
         dialect: 'postgres',
         logging: false,
-        dialectOptions: {
-            ssl: config.database.ssl
-        }
+        ...(config.database.ssl && {
+            dialectOptions: {
+                ssl: config.database.ssl
+            }
+        })
     }
-);;
+);
 
 module.exports = sequelize;
