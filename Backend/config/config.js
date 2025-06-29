@@ -1,3 +1,32 @@
+/**
+ * Centralized Configuration Module
+ * 
+ * This module serves as the single source of truth for all application configuration.
+ * It consolidates environment variables and provides validation and helper functions.
+ * 
+ * Usage Examples:
+ * 
+ * // Import the full config object
+ * const { config } = require('./config/config');
+ * console.log(config.database.host);
+ * 
+ * // Import specific config sections
+ * const { getDatabaseConfig, getAuthConfig } = require('./config/config');
+ * const dbConfig = getDatabaseConfig();
+ * const authConfig = getAuthConfig();
+ * 
+ * // Validate configuration (automatically done in dependent modules)
+ * const { validateConfig } = require('./config/config');
+ * validateConfig();
+ * 
+ * Features:
+ * - Supports both legacy environment variables (DB_HOST, etc.) and Neon format (PGHOST, etc.)
+ * - Automatic validation of required environment variables
+ * - Helper functions for easy access to configuration sections
+ * - SSL configuration for database connections
+ * - Environment-specific settings (development/production)
+ */
+
 // Centralized configuration for all environment variables
 require('dotenv').config();
 
@@ -92,9 +121,19 @@ const getDatabaseConnectionInfo = () => ({
     isNeon: isNeonDatabase()
 });
 
+// Helper functions for easy access to specific configurations
+const getServerConfig = () => config.server;
+const getDatabaseConfig = () => config.database;
+const getAuthConfig = () => config.auth;
+const getImageKitConfig = () => config.imagekit;
+
 module.exports = {
     config,
     validateConfig,
     isNeonDatabase,
-    getDatabaseConnectionInfo
+    getDatabaseConnectionInfo,
+    getServerConfig,
+    getDatabaseConfig,
+    getAuthConfig,
+    getImageKitConfig
 };

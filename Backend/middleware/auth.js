@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { config } = require('../config/config');
 
 exports.isAuthenticated = async (req, res, next) => {
     try {
@@ -13,7 +14,9 @@ exports.isAuthenticated = async (req, res, next) => {
 
         if (!token) {
             return res.status(401).json({ message: 'Authentication token required' });
-        } const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        }
+
+        const decoded = jwt.verify(token, config.auth.jwtSecret);
         const user = await User.findByPk(decoded.id);
 
         if (!user) {

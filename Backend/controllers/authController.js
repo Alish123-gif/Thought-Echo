@@ -1,6 +1,7 @@
 const path = require('path');
 const User = require(path.join(__dirname, '..', 'models', 'User'));
 const jwt = require('jsonwebtoken');
+const { config } = require('../config/config');
 require('dotenv').config();
 
 exports.register = async (req, res) => {
@@ -32,7 +33,7 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         } const token = jwt.sign(
             { id: user.id, email: user.email, isAdmin: user.isAdmin, name: user.name, avatar: user.image },
-            process.env.JWT_SECRET,
+            config.auth.jwtSecret,
             { expiresIn: '1d' }
         );
 

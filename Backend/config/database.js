@@ -1,14 +1,19 @@
 const { Sequelize } = require('sequelize');
 const pg = require('pg');
+const { config, validateConfig } = require('./config');
+
+// Validate configuration before proceeding
+validateConfig();
 
 // Create the database if it doesn't exist
 async function createDatabaseIfNotExists() {
     const client = new pg.Client({
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        database: 'postgres' // Connect to default postgres database first
+        host: config.database.host,
+        port: config.database.port,
+        user: config.database.user,
+        password: config.database.password,
+        database: 'postgres', // Connect to default postgres database first
+        ssl: config.database.ssl
     });
 
 
@@ -20,12 +25,12 @@ async function createDatabaseIfNotExists() {
         // Check if our database exists
         const checkResult = await client.query(`
             SELECT 1 FROM pg_database WHERE datname = $1
-        `, [process.env.DB_NAME]);
+        `, [config.database.database]);
 
         if (checkResult.rowCount === 0) {
 
             // Create the database
-            await client.query(`CREATE DATABASE "${process.env.DB_NAME}"`);
+            await client.query(`CREATE DATABASE "${config.database.database}"`);
 
         } else {
 
@@ -46,14 +51,17 @@ createDatabaseIfNotExists().catch(err => {
 
 // Then create the Sequelize connection
 const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASS,
+    config.database.database,
+    config.database.user,
+    config.database.password,
     {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
+        host: config.database.host,
+        port: config.database.port,
         dialect: 'postgres',
         logging: false,
+        dialectOptions: {
+            ssl: config.database.ssl
+        }
     }
 );;
 

@@ -2,6 +2,7 @@ const Post = require('../models/Post');
 const User = require('../models/User');
 const Category = require('../models/Category');
 const imagekit = require('../config/imagekit');
+const { config } = require('../config/config');
 const path = require('path');
 const fs = require('fs');
 const { promisify } = require('util');
@@ -166,9 +167,9 @@ exports.createPost = async (req, res) => {
 
 
             console.log('ImageKit config exists:', {
-                publicKey: !!process.env.IMAGEKIT_PUBLIC_KEY,
-                privateKey: !!process.env.IMAGEKIT_PRIVATE_KEY,
-                urlEndpoint: !!process.env.IMAGEKIT_URL_ENDPOINT
+                publicKey: !!config.imagekit.publicKey,
+                privateKey: !!config.imagekit.privateKey,
+                urlEndpoint: !!config.imagekit.urlEndpoint
             });
 
             // Test authentication before upload
@@ -274,9 +275,9 @@ exports.updatePost = async (req, res) => {
 
 
                 console.log('ImageKit config exists:', {
-                    publicKey: !!process.env.IMAGEKIT_PUBLIC_KEY,
-                    privateKey: !!process.env.IMAGEKIT_PRIVATE_KEY,
-                    urlEndpoint: !!process.env.IMAGEKIT_URL_ENDPOINT
+                    publicKey: !!config.imagekit.publicKey,
+                    privateKey: !!config.imagekit.privateKey,
+                    urlEndpoint: !!config.imagekit.urlEndpoint
                 });
 
                 // Test authentication before upload

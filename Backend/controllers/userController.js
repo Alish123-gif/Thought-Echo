@@ -2,6 +2,7 @@ const path = require('path');
 const User = require(path.join(__dirname, '..', 'models', 'User'));
 const jwt = require('jsonwebtoken');
 const ImageKit = require(path.join(__dirname, '..', 'config', 'imagekit'));
+const { config } = require('../config/config');
 require('dotenv').config();
 
 exports.updateUserAvatar = async (req, res) => {
