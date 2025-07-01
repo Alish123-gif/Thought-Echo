@@ -59,8 +59,9 @@ const SitemapPage = () => {
         <div className={styles.container}>
             <div className={styles.hero}>
                 <HiMap className={styles.heroIcon} />
-                <h1 className={styles.title}>Sitemap</h1>                <p className={styles.subtitle}>
-                    Navigate through all pages and sections of ThoughtEcho. 
+                <h1 className={styles.title}>Sitemap</h1>
+                <p className={styles.subtitle}>
+                    Navigate through all pages and sections of ThoughtEcho.
                     Find exactly what you&apos;re looking for with our comprehensive site structure.
                 </p>
             </div>
@@ -74,12 +75,12 @@ const SitemapPage = () => {
                             </div>
                             <h2 className={styles.sectionTitle}>{section.title}</h2>
                         </div>
-                        
+
                         <div className={styles.linksGrid}>
                             {section.links.map((link, linkIndex) => (
-                                <Link 
-                                    key={linkIndex} 
-                                    href={link.url} 
+                                <Link
+                                    key={linkIndex}
+                                    href={link.url}
                                     className={styles.linkCard}
                                 >
                                     <div className={styles.linkContent}>
